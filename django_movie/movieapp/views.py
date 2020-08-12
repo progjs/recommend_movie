@@ -1,5 +1,5 @@
 from django.shortcuts import render
-# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -23,6 +23,7 @@ def works(request):
     name = '영화'
     return render(request, 'movieapp/works.html')
 
+@login_required
 def work_single(request):
     name = '영화'
     return render(request, 'movieapp/work-single.html')
