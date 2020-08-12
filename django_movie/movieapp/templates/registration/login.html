@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'movieapp/base.html' %}
+{% block contents %}
+{% load static %}
+
 {% if form.errors %}
     <p>이름과 비밀번호가 일치하지 않습니다. 다시 시도해주세요.</p>
 {% endif %}
@@ -21,6 +18,5 @@
     <input type="submit" value="login" class="btn btn-primary btn-lg" />
     <input type="hidden" name="next" value="{{ next }}" />
 </form>
-
-</body>
-</html>
+<a href="{% url 'signup' %}" class="item-wrap fancybox btn">회원가입</a>
+{% endblock %}

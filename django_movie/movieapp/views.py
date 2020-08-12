@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
-def base(request):
+def index(request):
     name = '영화'
     return render(request, 'movieapp/index.html')
 
@@ -27,3 +27,6 @@ def works(request):
 def work_single(request):
     name = '영화'
     return render(request, 'movieapp/work-single.html')
+
+def signup(request):
+    return render(request, 'registration/signup.html')
