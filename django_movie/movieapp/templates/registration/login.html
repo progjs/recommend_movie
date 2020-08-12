@@ -9,7 +9,7 @@
     <p>이름과 비밀번호가 일치하지 않습니다. 다시 시도해주세요.</p>
 {% endif %}
 <form method="post" action="{% url 'login' %}">
-{% csrf_token %}
+{% csrf_token %} # form에서 반드시 필요
     <table class="table table-bordered table-hover">
         <tr>
             <td>{{ form.username.label_tag }}</td><td>{{ form.username }}</td>
