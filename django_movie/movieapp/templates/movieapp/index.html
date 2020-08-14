@@ -1,6 +1,6 @@
 {% extends 'movieapp/base.html' %}
 {% block contents %}
-{% load staticfiles %}
+{% load static %}
 
 <head>
   <meta charset="utf-8">
@@ -10,11 +10,6 @@
   <meta content="" name="description">
 </head>
   <main id="main">
-
-
-
-
-
 
     <div class="site-section site-portfolio">
       <div class="container">
@@ -35,7 +30,7 @@
         </div>
         <div id="portfolio-grid" class="row no-gutter" data-aos="fade-up" data-aos-delay="200">
           <div class="item web col-sm-6 col-md-4 col-lg-4 mb-4">
-            <a href="{% url 'movie_detail' pk=movie.pk %}" class="item-wrap fancybox">
+            <a href="{% url 'movie_detail' pk=1 %}" class="item-wrap fancybox">
               <div class="work-info">
                 <h3>Boxed Water</h3>
                 <span>Web</span>
