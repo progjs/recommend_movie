@@ -1,104 +1,14 @@
-<!DOCTYPE html>
+{% extends 'movieapp/base.html' %}
+{% block contents %}
 {% load static %}
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <title>Portfolio Item - MyPortfolio</title>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <meta content="" name="keywords">
-  <meta content="" name="description">
-
-  <!-- Favicons -->
-  <link href="{% static 'movieapp/img/favicon.png' %}" rel="icon">
-  <link href="{% static 'movieapp/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700|Raleway:400,700&display=swap"
-    rel="stylesheet">
-
-  <!-- Bootstrap CSS File -->
-  <link href="{% static 'movieapp/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-
-  <!-- Vendor CSS Files -->
-
-  <link href="{% static 'movieapp/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
-  <link href="{% static 'movieapp/vendor/line-awesome/css/line-awesome.min.css' %}" rel="stylesheet">
-  <link href="{% static 'movieapp/vendor/aos/aos.css' %}" rel="stylesheet">
-  <link href="{% static 'movieapp/vendor/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="{% static 'movieapp/css/style.css' %}" rel="stylesheet">
-
-  <!-- =======================================================
-    Template Name: MyPortfolio
-    Template URL: https://bootstrapmade.com/myportfolio-bootstrap-portfolio-website-template/
-    Author: BootstrapMade.com
-    Author URL: https://bootstrapmade.com/
-  ======================================================= -->
-</head>
-
-<body>
-
-
-  <div class="collapse navbar-collapse custom-navmenu" id="main-navbar">
-    <div class="container py-2 py-md-5">
-      <div class="row align-items-start">
-        <div class="col-md-2">
-          <ul class="custom-menu">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About Me</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li class="active"><a href="works.html">Works</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="col-md-6 d-none d-md-block  mr-auto">
-          <div class="tweet d-flex">
-            <span class="icofont-twitter text-white mt-2 mr-3"></span>
-            <div>
-              <p><em>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam necessitatibus incidunt ut
-                  officiis explicabo inventore. <br> <a href="#">t.co/v82jsk</a></em></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 d-none d-md-block">
-          <h3>Hire Me</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam necessitatibus incidunt ut officiis
-            explicabo inventore. <br> <a href="#">myemail@gmail.com</a></p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <nav class="navbar navbar-light custom-navbar">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">MyPortfolio.</a>
-
-      <a href="#" class="burger" data-toggle="collapse" data-target="#main-navbar">
-        <span></span>
-      </a>
-
-    </div>
-  </nav>
-
-
-
   <main id="main">
 
     <div class="site-section">
       <div class="container">
         <div class="row mb-4 align-items-center">
           <div class="col-md-6" data-aos="fade-up">
-
-            <h2>{{ movie.title }}</h2>
-<!--            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam necessitatibus incidunt ut officiis-->
-<!--              explicabo inventore.</p>-->
-
+            <h2>{{ movie.title }}</h2>평점 {{ movie.score }}
           </div>
-
-
         </div>
       </div>
 
@@ -109,34 +19,29 @@
               <img src="{% static 'movieapp/img/img_1.jpg' %}" alt="Image" class="img-fluid">
             </div>
             <div class="col-md-6 ml-auto" data-aos="fade-up" data-aos-delay="100">
-              <div class="sticky-content">
-                <h3 class="h3">{{ movie.title }}</h3>
-                <p class="mb-4"><span class="text-muted">평점 {{ movie.score }}</span></p>
-
-                <div class="mb-5">
-                  <p>{{ movie.plot }}</p>
-
-                </div>
-
-
-                <h4 class="h4 mb-3">상세정보</h4>
+                  <h4 class="h4 mb-3"><b>상세정보</b></h4>
                 <ul class="list-unstyled list-line mb-5">
-                    <li>{{ movie.director }}</li>
-
-                    <li>
-                      {% for actor in movie.actors.all %}
-                        {{ actor.actor }}
-                      {% endfor %}
-                    </li>
-
-                  <li>{{ movie.release_year }}</li>
-                  <li>
+                    <li>{{ movie.release_year }} 년 개봉</li>
+                  <li><b>장르 </b>
                       {% for genre in movie.genres.all %}
                         {{ genre.genre }}
                       {% endfor %}
                     </li>
-                  <li>{{ movie.nation }}</li>
+                    <li><b>감독</b> {{ movie.director }} | {{ movie.nation }}</li>
+
+                    <li><b>출연 </b>
+                      {% for actor in movie.actors.all %}
+                        {{ actor.actor }}
+                      {% endfor %}
+                    </li>
                 </ul>
+
+                <div class="sticky-content">
+                <p class="mb-4"><span class="text-muted"></span></p>
+
+                <div class="mb-5">
+                  <p>{{ movie.plot }}</p>
+                </div>
 
                 <p><a href="#" class="readmore">이 영화 찜하기</a></p>
               </div>
@@ -144,6 +49,17 @@
           </div>
         </div>
       </div>
+<table>
+        <h2>New Comment</h2>
+        <form action="{% url 'add_comment' pk=1 %}" name="commentform" method="post" class="post-form">
+            {% csrf_token %}
+            {{ commentform.as_p }}
+<!--            <input type="name" class="form-control" name="comment" id="name"  />-->
+
+<!--              <input type="submit" value="Submit">-->
+            <button type="submit" class="save btn btn-info">Send</button>
+        </form>
+    </table>
 
 {% for comment in movie.comments.all %}
     <div class="comment">
@@ -195,19 +111,4 @@
     </div>
   </footer>
 
-  <!-- Vendor JS Files -->
-  <script src="{% static 'movieapp/vendor/jquery/jquery.min.js' %}"></script>
-  <script src="{% static 'movieapp/vendor/jquery/jquery-migrate.min.js' %}"></script>
-  <script src="{% static 'movieapp/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-  <script src="{% static 'movieapp/vendor/easing/easing.min.js' %}"></script>
-  <script src="{% static 'movieapp/vendor/php-email-form/validate.js' %}"></script>
-  <script src="{% static 'movieapp/vendor/isotope/isotope.pkgd.min.js' %}"></script>
-  <script src="{% static 'movieapp/vendor/aos/aos.js' %}"></script>
-  <script src="{% static 'movieapp/vendor/owlcarousel/owl.carousel.min.js' %}"></script>
-
-  <!-- Template Main JS File -->
-  <script src="{% static 'movieapp/js/main.js' %}"></script>
-
-</body>
-
-</html>
+{% endblock contents %}
