@@ -36,10 +36,12 @@ class Actor(models.Model):
 
 class Comment(models.Model):
     movie = models.ForeignKey('movieapp.Movie', on_delete=models.CASCADE, related_name='comments')
+    author = models.CharField(max_length=100)
     comment = models.TextField()
     published_date = models.DateTimeField(default=timezone.now)
-    author = models.CharField(max_length=100)
 
+    class Meta:
+        ordering = ['published_date']
 
     def __str__(self):
         return self.comment

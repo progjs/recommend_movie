@@ -15,7 +15,7 @@ def check_password(pw1, pw2):
 #     email = forms.CharField(50)
 
 # 댓글 생성
-class CommentModelForm(forms.ModelForm):
+class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('author', 'comment',)
+        fields = ('comment', )
