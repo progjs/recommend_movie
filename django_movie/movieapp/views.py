@@ -6,27 +6,33 @@ from django.utils import timezone
 from .models import Movie, Actor, Genre, Comment
 from .forms import CommentForm
 
+
 # Create your views here.
 def index(request):
     # 평점, 좋아요 순으로 정렬
     movie_list = Movie.objects.order_by('score', 'like').reverse()[:6]
     return render(request, 'movieapp/index.html', {'movie_list': movie_list})
 
+
 def contact(request):
     name = '영화'
     return render(request, 'movieapp/contact.html')
+
 
 def about(request):
     name = '영화'
     return render(request, 'movieapp/about.html')
 
+
 def services(request):
     name = '영화'
     return render(request, 'movieapp/services.html')
 
+
 def works(request):
     name = '영화'
     return render(request, 'movieapp/works.html')
+
 
 @login_required
 def add_comment(request, pk):
@@ -46,10 +52,12 @@ def add_comment(request, pk):
             return redirect('movie_detail', pk=movie.pk)
     return render(request, 'movieapp/movie_detail.html', {'commentform': form})
 
+
 def movie_detail(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
     form = CommentForm(instance=movie)
-    return render(request, 'movieapp/movie_detail.html', {'movie':movie, 'commentform':form })
+    return render(request, 'movieapp/movie_detail.html', {'movie': movie, 'commentform': form})
+
 
 def signup(request):
     return render(request, 'registration/signup.html')
