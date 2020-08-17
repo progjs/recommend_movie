@@ -10,12 +10,15 @@ class Movie(models.Model):
     director = models.CharField(max_length=200)
     audience = models.IntegerField()
     plot = models.TextField()
-    like = models.IntegerField()
-    dislike = models.IntegerField()
+    comment_count = models.IntegerField()
+    score_sum = models.IntegerField()
     release_year = models.IntegerField()
 
     def __str__(self):
         return self.title
+
+    def calcul_score(self):
+        self.score = self.score_sum / self.comment_count
 
 
 class Genre(models.Model):

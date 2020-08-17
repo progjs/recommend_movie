@@ -81,11 +81,11 @@ DATABASES = {
     # }
     'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'movies_db',
+            'NAME': 'project_db',
             'USER': 'hoyun',  # 데이터베이스 계정
             'PASSWORD': 'hoyun',  # 계정 비밀번호
             'HOST': '192.168.0.10',  # 데이테베이스 주소(IP)
-            'PORT': '27017',  # 데이터베이스 포트(보통은 27017)
+            'PORT': '3306',  # 데이터베이스 포트
         }
 }
 
