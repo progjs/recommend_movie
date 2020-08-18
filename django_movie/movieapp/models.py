@@ -14,6 +14,7 @@ class Movie(models.Model):
     score_sum = models.IntegerField()
     release_year = models.IntegerField()
 
+
     def __str__(self):
         return self.title
 
