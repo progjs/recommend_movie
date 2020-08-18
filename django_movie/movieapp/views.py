@@ -89,6 +89,7 @@ def create_user(request):
             # user_detail.user = user
             # user_detail.save()
 
+
             user = User.objects.create(username=user_form.cleaned_data['username'],
                                        password=user_form.cleaned_data['password'],
                                        first_name=user_form.cleaned_data['first_name'],
