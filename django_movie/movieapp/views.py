@@ -3,13 +3,8 @@ from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 from django.utils import timezone
 
-<<<<<<< HEAD
-from .models import Movie, Actor, Genre, Comment, User
-from .forms import CommentForm
-=======
-from .models import Movie, Actor, Genre, Comment, UserDetail
+from .models import Movie, Actor, Genre, Comment, User, UserDetail
 from .forms import CommentForm, UserForm, UserDetailForm
->>>>>>> origin/jinsil
 
 
 # Create your views here.
@@ -71,7 +66,6 @@ def movie_detail(request, pk):
 
 
 def signup(request):
-<<<<<<< HEAD
     return render(request, 'registration/signup.html')
 
 def check_password(pw1, pw2):
@@ -111,11 +105,6 @@ def logout(request):
     # if request.method == 'POST':
         # form =
 
-=======
-    user_form = UserForm()
-    userdetail_form = UserDetailForm()
-    return render(request, 'registration/signup.html', {'user_form': user_form, 'userdetail_form': userdetail_form})
->>>>>>> origin/jinsil
 
 
 #             post = Post.objects.create(author=User.objects.get(username=request.user.username),
