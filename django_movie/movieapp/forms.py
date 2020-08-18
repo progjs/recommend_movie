@@ -1,4 +1,5 @@
 from django import forms
+from .models import Comment
 
 def check_password(pw1, pw2):
     if pw1 != pw2:
@@ -12,3 +13,9 @@ def check_password(pw1, pw2):
 #     sex = forms.BooleanField()
 #     birth = forms.DateTimeField()
 #     email = forms.CharField(50)
+
+# 댓글 생성
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('comment', )
