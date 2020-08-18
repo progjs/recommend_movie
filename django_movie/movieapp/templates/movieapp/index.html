@@ -13,7 +13,9 @@
   <nav class="navbar navbar-light custom-navbar">
     <div class="container">
       {% if user.is_authenticated %}
-        <a class="navbar-brand" href="{% url 'logout' %}?next={{request.path}}">{{ user.username }} 님 환영합니다.</a>
+      <a class="navbar-brand" href="{% url 'logout' %}">{{ user.username }} 님 환영합니다.</a>
+
+<!--        <a class="navbar-brand" href="{% url 'logout' %}?next={{request.path}}">{{ user.username }} 님 환영합니다.</a>-->
       {% endif %}
       <a href="#" class="burger" data-toggle="collapse" data-target="#main-navbar">
         <span></span>

@@ -9,14 +9,14 @@ from .forms import CommentForm
 
 # Create your views here.
 def index(request):
-    user_pk = request.session.get('user')
-    if user_pk:
-        user = User.objects.get(pk=user_pk)
-    # 평점, 좋아요 순으로 정렬
     movie_list = Movie.objects.order_by('score').reverse()[:6]
-    return render(request, 'movieapp/index.html', {'movie_list': movie_list, 'user':user})
-    return render(request, 'movieapp/index.html', {'user':user})
-
+    if request.session._session:
+        user_pk = request.session.get('user')
+        if user_pk:
+            user = User.objects.get(pk=user_pk)
+        # 평점, 좋아요 순으로 정렬
+        return render(request, 'movieapp/index.html', {'movie_list': movie_list, 'user':user})
+    return render(request, 'movieapp/index.html', {'movie_list': movie_list})
 
 
 def contact(request):
@@ -96,7 +96,10 @@ def login(request):
                     res_data['error'] = '비밀번호가 틀렸습니다.'
         return render(request, 'registration/login.html', res_data)
 
-
+def logout(request):
+    if request.session['user']:
+        del(request.session['user'])
+    return redirect('/')
 
 # def create_user(request):
     # if request.method == 'POST':
