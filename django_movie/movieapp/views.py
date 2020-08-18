@@ -55,9 +55,17 @@ def add_comment(request, pk):
 
 def movie_detail(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
+    movie.calcul_score()
     form = CommentForm(instance=movie)
     return render(request, 'movieapp/movie_detail.html', {'movie': movie, 'commentform': form})
 
 
 def signup(request):
     return render(request, 'registration/signup.html')
+
+# def create_user(request):
+    # if request.method == 'POST':
+        # form =
+
+
+

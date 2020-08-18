@@ -1,5 +1,26 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+
+
+class UserDetail(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    sex = models.BooleanField()
+    birth = models.DateTimeField()
+    favorite_genre = models.CharField(max_length=400)
+
+
+@receiver(post_save, sender=User)
+def create_user_detail(sender, instance, created, **kwargs):
+    if created:
+        UserDetail.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_detail(sender, instance, **kwargs):
+    instance.userdetail.save()
 
 
 # Create your models here.
@@ -13,7 +34,6 @@ class Movie(models.Model):
     comment_count = models.IntegerField()
     score_sum = models.IntegerField()
     release_year = models.IntegerField()
-
 
     def __str__(self):
         return self.title
