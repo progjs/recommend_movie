@@ -3,8 +3,13 @@ from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 from django.utils import timezone
 
+<<<<<<< HEAD
 from .models import Movie, Actor, Genre, Comment, User
 from .forms import CommentForm
+=======
+from .models import Movie, Actor, Genre, Comment, UserDetail
+from .forms import CommentForm, UserForm, UserDetailForm
+>>>>>>> origin/jinsil
 
 
 # Create your views here.
@@ -66,6 +71,7 @@ def movie_detail(request, pk):
 
 
 def signup(request):
+<<<<<<< HEAD
     return render(request, 'registration/signup.html')
 
 def check_password(pw1, pw2):
@@ -105,5 +111,50 @@ def logout(request):
     # if request.method == 'POST':
         # form =
 
+=======
+    user_form = UserForm()
+    userdetail_form = UserDetailForm()
+    return render(request, 'registration/signup.html', {'user_form': user_form, 'userdetail_form': userdetail_form})
+>>>>>>> origin/jinsil
 
 
+#             post = Post.objects.create(author=User.objects.get(username=request.user.username),
+#                                        published_date=timezone.now(), title=form.cleaned_data['title'],
+#                                        text=form.cleaned_data['text'])
+def create_user(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST)
+        userdetail_form = UserDetailForm(request.POST)
+        print(request.method)
+
+        if not (user_form.is_valid() and userdetail_form.is_valid()):
+            print("Valid NOOOOOOOOOOOOOOOOOOOOOOOO")
+
+        if user_form.is_valid() and userdetail_form.is_valid():
+            # if user_form.password == user
+
+            print('VALID OK~~~~~~~~~~~~~~~~~~~~~~~')
+            print("UserForm data : ", user_form.cleaned_data)
+            print("UserDetailForm data : ", userdetail_form.cleaned_data)
+            # user = user_form.save()
+            # user_detail = userdetail_form.save(commit=False)
+            # user_detail.user = user
+            # user_detail.save()
+
+
+            user = User.objects.create(username=user_form.cleaned_data['username'],
+                                       password=user_form.cleaned_data['password'],
+                                       first_name=user_form.cleaned_data['first_name'],
+                                       email=user_form.cleaned_data['email'],
+                                       )
+
+            user.userdetail.sex = userdetail_form.cleaned_data['sex']
+            user.userdetail.birth = userdetail_form.cleaned_data['birth']
+            user.userdetail.favorite_genre = userdetail_form.cleaned_data['favorite_genre']
+            user.save()
+
+            return render(request, 'registration/login.html')
+        else:
+            user_form = UserForm()
+            userdetail_form = UserDetailForm()
+        return render(request, 'registration/signup.html', {'user_form': user_form, 'userdetail_form': userdetail_form})

@@ -7,9 +7,10 @@ from django.db.models.signals import post_save
 
 class UserDetail(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    sex = models.BooleanField()
-    birth = models.DateTimeField()
-    favorite_genre = models.CharField(max_length=400)
+    sex = models.CharField(max_length=100, null=True)
+    birth = models.DateTimeField(null=True)
+    favorite_genre = models.CharField(max_length=500, null=True)
+    password2 = models.CharField(max_length=128)
 
 
 @receiver(post_save, sender=User)

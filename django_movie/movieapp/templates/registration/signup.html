@@ -6,6 +6,16 @@
     <div class="site-section pb-0 site-portfolio">
       <div class="container">
 
+            <table>
+        <h3>회원가입</h3>
+        <form action="{% url 'create_user' %}" method="post">
+            {% csrf_token %}
+            {{ user_form }}
+            {{ userdetail_form }}
+            <button type="submit" class="save readmore d-block w-10">Send</button>
+        </form>
+    </table>
+
         <div class="row mb-5 align-items-end">
           <div class="col-md-6" data-aos="fade-up">
             <h2>회원가입</h2>
