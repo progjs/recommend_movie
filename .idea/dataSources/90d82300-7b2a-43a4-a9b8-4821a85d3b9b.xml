@@ -1080,693 +1080,749 @@
     <table id="346" parent="6" name="django_migrations"/>
     <table id="347" parent="6" name="django_session"/>
     <table id="348" parent="6" name="movie"/>
-    <table id="349" parent="6" name="movieapp_actor"/>
-    <table id="350" parent="6" name="movieapp_comment"/>
-    <table id="351" parent="6" name="movieapp_genre"/>
-    <table id="352" parent="6" name="movieapp_movie"/>
-    <table id="353" parent="6" name="movies"/>
-    <column id="354" parent="338" name="id">
+    <table id="349" parent="6" name="movie_genre"/>
+    <table id="350" parent="6" name="movieapp_actor"/>
+    <table id="351" parent="6" name="movieapp_comment"/>
+    <table id="352" parent="6" name="movieapp_genre"/>
+    <table id="353" parent="6" name="movieapp_movie"/>
+    <table id="354" parent="6" name="movieapp_userdetail"/>
+    <table id="355" parent="6" name="movies"/>
+    <column id="356" parent="338" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="355" parent="338" name="name">
+    <column id="357" parent="338" name="name">
       <Position>2</Position>
       <DataType>varchar(150)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="356" parent="338" name="name">
+    <index id="358" parent="338" name="name">
       <ColNames>name</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="357" parent="338" name="PRIMARY">
+    <key id="359" parent="338" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="358" parent="338" name="name">
+    <key id="360" parent="338" name="name">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>name</UnderlyingIndexName>
     </key>
-    <column id="359" parent="339" name="id">
+    <column id="361" parent="339" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="360" parent="339" name="group_id">
+    <column id="362" parent="339" name="group_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="361" parent="339" name="permission_id">
+    <column id="363" parent="339" name="permission_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="362" parent="339" name="auth_group_permissions_group_id_permission_id_0cd325b0_uniq">
+    <index id="364" parent="339" name="auth_group_permissions_group_id_permission_id_0cd325b0_uniq">
       <ColNames>group_id
 permission_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="363" parent="339" name="auth_group_permissio_permission_id_84c5c92e_fk_auth_perm">
+    <index id="365" parent="339" name="auth_group_permissio_permission_id_84c5c92e_fk_auth_perm">
       <ColNames>permission_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="364" parent="339" name="PRIMARY">
+    <key id="366" parent="339" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="365" parent="339" name="auth_group_permissions_group_id_permission_id_0cd325b0_uniq">
+    <key id="367" parent="339" name="auth_group_permissions_group_id_permission_id_0cd325b0_uniq">
       <ColNames>group_id
 permission_id</ColNames>
       <UnderlyingIndexName>auth_group_permissions_group_id_permission_id_0cd325b0_uniq</UnderlyingIndexName>
     </key>
-    <foreign-key id="366" parent="339" name="auth_group_permissions_group_id_b120cbf9_fk_auth_group_id">
+    <foreign-key id="368" parent="339" name="auth_group_permissions_group_id_b120cbf9_fk_auth_group_id">
       <ColNames>group_id</ColNames>
       <RefTableName>auth_group</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="367" parent="339" name="auth_group_permissio_permission_id_84c5c92e_fk_auth_perm">
+    <foreign-key id="369" parent="339" name="auth_group_permissio_permission_id_84c5c92e_fk_auth_perm">
       <ColNames>permission_id</ColNames>
       <RefTableName>auth_permission</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="368" parent="340" name="id">
+    <column id="370" parent="340" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="369" parent="340" name="name">
+    <column id="371" parent="340" name="name">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="370" parent="340" name="content_type_id">
+    <column id="372" parent="340" name="content_type_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="371" parent="340" name="codename">
+    <column id="373" parent="340" name="codename">
       <Position>4</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="372" parent="340" name="auth_permission_content_type_id_codename_01ab375a_uniq">
+    <index id="374" parent="340" name="auth_permission_content_type_id_codename_01ab375a_uniq">
       <ColNames>content_type_id
 codename</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="373" parent="340" name="PRIMARY">
+    <key id="375" parent="340" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="374" parent="340" name="auth_permission_content_type_id_codename_01ab375a_uniq">
+    <key id="376" parent="340" name="auth_permission_content_type_id_codename_01ab375a_uniq">
       <ColNames>content_type_id
 codename</ColNames>
       <UnderlyingIndexName>auth_permission_content_type_id_codename_01ab375a_uniq</UnderlyingIndexName>
     </key>
-    <foreign-key id="375" parent="340" name="auth_permission_content_type_id_2f476e4b_fk_django_co">
+    <foreign-key id="377" parent="340" name="auth_permission_content_type_id_2f476e4b_fk_django_co">
       <ColNames>content_type_id</ColNames>
       <RefTableName>django_content_type</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="376" parent="341" name="id">
+    <column id="378" parent="341" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="377" parent="341" name="password">
+    <column id="379" parent="341" name="password">
       <Position>2</Position>
       <DataType>varchar(128)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="378" parent="341" name="last_login">
+    <column id="380" parent="341" name="last_login">
       <Position>3</Position>
       <DataType>datetime(6)|0s</DataType>
     </column>
-    <column id="379" parent="341" name="is_superuser">
+    <column id="381" parent="341" name="is_superuser">
       <Position>4</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="380" parent="341" name="username">
+    <column id="382" parent="341" name="username">
       <Position>5</Position>
       <DataType>varchar(150)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="381" parent="341" name="first_name">
+    <column id="383" parent="341" name="first_name">
       <Position>6</Position>
       <DataType>varchar(150)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="382" parent="341" name="last_name">
+    <column id="384" parent="341" name="last_name">
       <Position>7</Position>
       <DataType>varchar(150)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="383" parent="341" name="email">
+    <column id="385" parent="341" name="email">
       <Position>8</Position>
       <DataType>varchar(254)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="384" parent="341" name="is_staff">
+    <column id="386" parent="341" name="is_staff">
       <Position>9</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="385" parent="341" name="is_active">
+    <column id="387" parent="341" name="is_active">
       <Position>10</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="386" parent="341" name="date_joined">
+    <column id="388" parent="341" name="date_joined">
       <Position>11</Position>
       <DataType>datetime(6)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="387" parent="341" name="username">
+    <index id="389" parent="341" name="username">
       <ColNames>username</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="388" parent="341" name="PRIMARY">
+    <key id="390" parent="341" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="389" parent="341" name="username">
+    <key id="391" parent="341" name="username">
       <ColNames>username</ColNames>
       <UnderlyingIndexName>username</UnderlyingIndexName>
     </key>
-    <column id="390" parent="342" name="id">
+    <column id="392" parent="342" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="391" parent="342" name="user_id">
+    <column id="393" parent="342" name="user_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="392" parent="342" name="group_id">
+    <column id="394" parent="342" name="group_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="393" parent="342" name="auth_user_groups_user_id_group_id_94350c0c_uniq">
+    <index id="395" parent="342" name="auth_user_groups_user_id_group_id_94350c0c_uniq">
       <ColNames>user_id
 group_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="394" parent="342" name="auth_user_groups_group_id_97559544_fk_auth_group_id">
+    <index id="396" parent="342" name="auth_user_groups_group_id_97559544_fk_auth_group_id">
       <ColNames>group_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="395" parent="342" name="PRIMARY">
+    <key id="397" parent="342" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="396" parent="342" name="auth_user_groups_user_id_group_id_94350c0c_uniq">
+    <key id="398" parent="342" name="auth_user_groups_user_id_group_id_94350c0c_uniq">
       <ColNames>user_id
 group_id</ColNames>
       <UnderlyingIndexName>auth_user_groups_user_id_group_id_94350c0c_uniq</UnderlyingIndexName>
     </key>
-    <foreign-key id="397" parent="342" name="auth_user_groups_user_id_6a12ed8b_fk_auth_user_id">
+    <foreign-key id="399" parent="342" name="auth_user_groups_user_id_6a12ed8b_fk_auth_user_id">
       <ColNames>user_id</ColNames>
       <RefTableName>auth_user</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="398" parent="342" name="auth_user_groups_group_id_97559544_fk_auth_group_id">
+    <foreign-key id="400" parent="342" name="auth_user_groups_group_id_97559544_fk_auth_group_id">
       <ColNames>group_id</ColNames>
       <RefTableName>auth_group</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="399" parent="343" name="id">
+    <column id="401" parent="343" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="400" parent="343" name="user_id">
+    <column id="402" parent="343" name="user_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="401" parent="343" name="permission_id">
+    <column id="403" parent="343" name="permission_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="402" parent="343" name="auth_user_user_permissions_user_id_permission_id_14a6b632_uniq">
+    <index id="404" parent="343" name="auth_user_user_permissions_user_id_permission_id_14a6b632_uniq">
       <ColNames>user_id
 permission_id</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="403" parent="343" name="auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm">
+    <index id="405" parent="343" name="auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm">
       <ColNames>permission_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="404" parent="343" name="PRIMARY">
+    <key id="406" parent="343" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="405" parent="343" name="auth_user_user_permissions_user_id_permission_id_14a6b632_uniq">
+    <key id="407" parent="343" name="auth_user_user_permissions_user_id_permission_id_14a6b632_uniq">
       <ColNames>user_id
 permission_id</ColNames>
       <UnderlyingIndexName>auth_user_user_permissions_user_id_permission_id_14a6b632_uniq</UnderlyingIndexName>
     </key>
-    <foreign-key id="406" parent="343" name="auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id">
+    <foreign-key id="408" parent="343" name="auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id">
       <ColNames>user_id</ColNames>
       <RefTableName>auth_user</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="407" parent="343" name="auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm">
+    <foreign-key id="409" parent="343" name="auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm">
       <ColNames>permission_id</ColNames>
       <RefTableName>auth_permission</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <check id="408" parent="344" name="action_flag">
+    <check id="410" parent="344" name="action_flag">
       <Predicate>`action_flag` &gt;= 0</Predicate>
     </check>
-    <column id="409" parent="344" name="id">
+    <column id="411" parent="344" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="410" parent="344" name="action_time">
+    <column id="412" parent="344" name="action_time">
       <Position>2</Position>
       <DataType>datetime(6)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="411" parent="344" name="object_id">
+    <column id="413" parent="344" name="object_id">
       <Position>3</Position>
       <DataType>longtext|0s</DataType>
     </column>
-    <column id="412" parent="344" name="object_repr">
+    <column id="414" parent="344" name="object_repr">
       <Position>4</Position>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="413" parent="344" name="action_flag">
+    <column id="415" parent="344" name="action_flag">
       <Position>5</Position>
       <DataType>smallint(5) unsigned|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="414" parent="344" name="change_message">
+    <column id="416" parent="344" name="change_message">
       <Position>6</Position>
       <DataType>longtext|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="415" parent="344" name="content_type_id">
+    <column id="417" parent="344" name="content_type_id">
       <Position>7</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="416" parent="344" name="user_id">
+    <column id="418" parent="344" name="user_id">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="417" parent="344" name="django_admin_log_content_type_id_c4bce8eb_fk_django_co">
+    <index id="419" parent="344" name="django_admin_log_content_type_id_c4bce8eb_fk_django_co">
       <ColNames>content_type_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="418" parent="344" name="django_admin_log_user_id_c564eba6_fk_auth_user_id">
+    <index id="420" parent="344" name="django_admin_log_user_id_c564eba6_fk_auth_user_id">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="419" parent="344" name="PRIMARY">
+    <key id="421" parent="344" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="420" parent="344" name="django_admin_log_content_type_id_c4bce8eb_fk_django_co">
+    <foreign-key id="422" parent="344" name="django_admin_log_content_type_id_c4bce8eb_fk_django_co">
       <ColNames>content_type_id</ColNames>
       <RefTableName>django_content_type</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="421" parent="344" name="django_admin_log_user_id_c564eba6_fk_auth_user_id">
+    <foreign-key id="423" parent="344" name="django_admin_log_user_id_c564eba6_fk_auth_user_id">
       <ColNames>user_id</ColNames>
       <RefTableName>auth_user</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="422" parent="345" name="id">
+    <column id="424" parent="345" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="423" parent="345" name="app_label">
+    <column id="425" parent="345" name="app_label">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="424" parent="345" name="model">
+    <column id="426" parent="345" name="model">
       <Position>3</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="425" parent="345" name="django_content_type_app_label_model_76bd3d3b_uniq">
+    <index id="427" parent="345" name="django_content_type_app_label_model_76bd3d3b_uniq">
       <ColNames>app_label
 model</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="426" parent="345" name="PRIMARY">
+    <key id="428" parent="345" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="427" parent="345" name="django_content_type_app_label_model_76bd3d3b_uniq">
+    <key id="429" parent="345" name="django_content_type_app_label_model_76bd3d3b_uniq">
       <ColNames>app_label
 model</ColNames>
       <UnderlyingIndexName>django_content_type_app_label_model_76bd3d3b_uniq</UnderlyingIndexName>
     </key>
-    <column id="428" parent="346" name="id">
+    <column id="430" parent="346" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="429" parent="346" name="app">
+    <column id="431" parent="346" name="app">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="430" parent="346" name="name">
+    <column id="432" parent="346" name="name">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="431" parent="346" name="applied">
+    <column id="433" parent="346" name="applied">
       <Position>4</Position>
       <DataType>datetime(6)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="432" parent="346" name="PRIMARY">
+    <key id="434" parent="346" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="433" parent="347" name="session_key">
+    <column id="435" parent="347" name="session_key">
       <Position>1</Position>
       <DataType>varchar(40)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="434" parent="347" name="session_data">
+    <column id="436" parent="347" name="session_data">
       <Position>2</Position>
       <DataType>longtext|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="435" parent="347" name="expire_date">
+    <column id="437" parent="347" name="expire_date">
       <Position>3</Position>
       <DataType>datetime(6)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="436" parent="347" name="django_session_expire_date_a5c62663">
+    <index id="438" parent="347" name="django_session_expire_date_a5c62663">
       <ColNames>expire_date</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="437" parent="347" name="PRIMARY">
+    <key id="439" parent="347" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>session_key</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="438" parent="348" name="id">
+    <column id="440" parent="348" name="id">
       <Position>1</Position>
       <DataType>bigint(20)|0s</DataType>
     </column>
-    <column id="439" parent="348" name="정당">
+    <column id="441" parent="348" name="정당">
       <Position>2</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="440" parent="348" name="선거구">
+    <column id="442" parent="348" name="선거구">
       <Position>3</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="441" parent="348" name="소속위원회">
+    <column id="443" parent="348" name="소속위원회">
       <Position>4</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="442" parent="348" name="당선횟수">
+    <column id="444" parent="348" name="당선횟수">
       <Position>5</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="443" parent="348" name="사무실전화">
+    <column id="445" parent="348" name="사무실전화">
       <Position>6</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="444" parent="348" name="홈페이지">
+    <column id="446" parent="348" name="홈페이지">
       <Position>7</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="445" parent="348" name="이메일">
+    <column id="447" parent="348" name="이메일">
       <Position>8</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="446" parent="348" name="보좌관">
+    <column id="448" parent="348" name="보좌관">
       <Position>9</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="447" parent="348" name="비서관">
+    <column id="449" parent="348" name="비서관">
       <Position>10</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="448" parent="348" name="비서">
+    <column id="450" parent="348" name="비서">
       <Position>11</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="449" parent="348" name="취미, 특기">
+    <column id="451" parent="348" name="취미, 특기">
       <Position>12</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="450" parent="348" name="의원실안내">
+    <column id="452" parent="348" name="의원실안내">
       <Position>13</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="451" parent="348" name="이름">
+    <column id="453" parent="348" name="이름">
       <Position>14</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="452" parent="348" name="이미지">
+    <column id="454" parent="348" name="이미지">
       <Position>15</Position>
       <DataType>text|0s</DataType>
     </column>
-    <column id="453" parent="348" name="생년월일">
+    <column id="455" parent="348" name="생년월일">
       <Position>16</Position>
       <DataType>text|0s</DataType>
     </column>
-    <index id="454" parent="348" name="ix_movie_id">
+    <index id="456" parent="348" name="ix_movie_id">
       <ColNames>id</ColNames>
       <Type>btree</Type>
     </index>
-    <column id="455" parent="349" name="id">
+    <column id="457" parent="349" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0s</DataType>
+    </column>
+    <column id="458" parent="349" name="title">
+      <Position>2</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="459" parent="349" name="genre">
+      <Position>3</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="460" parent="350" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="456" parent="349" name="actor">
+    <column id="461" parent="350" name="actor">
       <Position>2</Position>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="457" parent="349" name="movie_id">
+    <column id="462" parent="350" name="movie_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="458" parent="349" name="movieapp_actor_movie_id_175e55be_fk_movieapp_movie_id">
+    <index id="463" parent="350" name="movieapp_actor_movie_id_175e55be_fk_movieapp_movie_id">
       <ColNames>movie_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="459" parent="349" name="PRIMARY">
+    <key id="464" parent="350" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="460" parent="349" name="movieapp_actor_movie_id_175e55be_fk_movieapp_movie_id">
+    <foreign-key id="465" parent="350" name="movieapp_actor_movie_id_175e55be_fk_movieapp_movie_id">
       <ColNames>movie_id</ColNames>
       <RefTableName>movieapp_movie</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="461" parent="350" name="id">
+    <column id="466" parent="351" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="462" parent="350" name="comment">
+    <column id="467" parent="351" name="comment">
       <Position>2</Position>
       <DataType>longtext|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="463" parent="350" name="published_date">
+    <column id="468" parent="351" name="published_date">
       <Position>3</Position>
       <DataType>datetime(6)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="464" parent="350" name="author">
+    <column id="469" parent="351" name="author">
       <Position>4</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="465" parent="350" name="movie_id">
+    <column id="470" parent="351" name="movie_id">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="466" parent="350" name="movieapp_comment_movie_id_25772486_fk_movieapp_movie_id">
+    <index id="471" parent="351" name="movieapp_comment_movie_id_25772486_fk_movieapp_movie_id">
       <ColNames>movie_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="467" parent="350" name="PRIMARY">
+    <key id="472" parent="351" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="468" parent="350" name="movieapp_comment_movie_id_25772486_fk_movieapp_movie_id">
+    <foreign-key id="473" parent="351" name="movieapp_comment_movie_id_25772486_fk_movieapp_movie_id">
       <ColNames>movie_id</ColNames>
       <RefTableName>movieapp_movie</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="469" parent="351" name="id">
+    <column id="474" parent="352" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="470" parent="351" name="genre">
+    <column id="475" parent="352" name="genre">
       <Position>2</Position>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="471" parent="351" name="movie_id">
+    <column id="476" parent="352" name="movie_id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="472" parent="351" name="movieapp_genre_movie_id_0598b59c_fk_movieapp_movie_id">
+    <index id="477" parent="352" name="movieapp_genre_movie_id_0598b59c_fk_movieapp_movie_id">
       <ColNames>movie_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="473" parent="351" name="PRIMARY">
+    <key id="478" parent="352" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="474" parent="351" name="movieapp_genre_movie_id_0598b59c_fk_movieapp_movie_id">
+    <foreign-key id="479" parent="352" name="movieapp_genre_movie_id_0598b59c_fk_movieapp_movie_id">
       <ColNames>movie_id</ColNames>
       <RefTableName>movieapp_movie</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="475" parent="352" name="id">
+    <column id="480" parent="353" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="476" parent="352" name="title">
+    <column id="481" parent="353" name="title">
       <Position>2</Position>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="477" parent="352" name="score">
+    <column id="482" parent="353" name="score">
       <Position>3</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="478" parent="352" name="nation">
+    <column id="483" parent="353" name="nation">
       <Position>4</Position>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="479" parent="352" name="director">
+    <column id="484" parent="353" name="director">
       <Position>5</Position>
       <DataType>varchar(200)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="480" parent="352" name="audience">
+    <column id="485" parent="353" name="audience">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="481" parent="352" name="plot">
+    <column id="486" parent="353" name="plot">
       <Position>7</Position>
       <DataType>longtext|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="482" parent="352" name="score_sum">
+    <column id="487" parent="353" name="score_sum">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="483" parent="352" name="comment_count">
+    <column id="488" parent="353" name="comment_count">
       <Position>9</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="484" parent="352" name="release_year">
+    <column id="489" parent="353" name="release_year">
       <Position>10</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="485" parent="352" name="PRIMARY">
+    <key id="490" parent="353" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="486" parent="353" name="id">
+    <column id="491" parent="354" name="id">
       <Position>1</Position>
-      <DataType>bigint(20)|0s</DataType>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="487" parent="353" name="title">
+    <column id="492" parent="354" name="sex">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
     </column>
-    <column id="488" parent="353" name="score">
+    <column id="493" parent="354" name="birth">
+      <Position>3</Position>
+      <DataType>datetime(6)|0s</DataType>
+    </column>
+    <column id="494" parent="354" name="favorite_genre">
+      <Position>4</Position>
+      <DataType>varchar(400)|0s</DataType>
+    </column>
+    <column id="495" parent="354" name="user_id">
+      <Position>5</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="496" parent="354" name="user_id">
+      <ColNames>user_id</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="497" parent="354" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="498" parent="354" name="user_id">
+      <ColNames>user_id</ColNames>
+      <UnderlyingIndexName>user_id</UnderlyingIndexName>
+    </key>
+    <foreign-key id="499" parent="354" name="movieapp_userdetail_user_id_0abb67cb_fk_auth_user_id">
+      <ColNames>user_id</ColNames>
+      <RefTableName>auth_user</RefTableName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="500" parent="355" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0s</DataType>
+    </column>
+    <column id="501" parent="355" name="title">
+      <Position>2</Position>
+      <DataType>varchar(100)|0s</DataType>
+    </column>
+    <column id="502" parent="355" name="score">
       <Position>3</Position>
       <DataType>float|0s</DataType>
     </column>
-    <column id="489" parent="353" name="genre">
+    <column id="503" parent="355" name="nation">
       <Position>4</Position>
       <DataType>varchar(100)|0s</DataType>
     </column>
-    <column id="490" parent="353" name="nation">
+    <column id="504" parent="355" name="director">
       <Position>5</Position>
       <DataType>varchar(100)|0s</DataType>
     </column>
-    <column id="491" parent="353" name="director">
+    <column id="505" parent="355" name="audience">
       <Position>6</Position>
-      <DataType>varchar(100)|0s</DataType>
+      <DataType>int(11)|0s</DataType>
     </column>
-    <column id="492" parent="353" name="actor">
+    <column id="506" parent="355" name="plot">
       <Position>7</Position>
-      <DataType>varchar(100)|0s</DataType>
+      <DataType>text|0s</DataType>
     </column>
-    <column id="493" parent="353" name="audience">
+    <column id="507" parent="355" name="comment_count">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
     </column>
-    <column id="494" parent="353" name="plot">
+    <column id="508" parent="355" name="release_year">
       <Position>9</Position>
-      <DataType>text|0s</DataType>
+      <DataType>int(11)|0s</DataType>
     </column>
-    <index id="495" parent="353" name="ix_movies_id">
+    <index id="509" parent="355" name="ix_movies_id">
       <ColNames>id</ColNames>
       <Type>btree</Type>
     </index>
