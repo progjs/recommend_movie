@@ -10,7 +10,7 @@ from .forms import CommentForm
 # Create your views here.
 def index(request):
     # 평점, 좋아요 순으로 정렬
-    movie_list = Movie.objects.order_by('score', 'like').reverse()[:6]
+    movie_list = Movie.objects.order_by('score').reverse()[:6]
     return render(request, 'movieapp/index.html', {'movie_list': movie_list})
 
 
