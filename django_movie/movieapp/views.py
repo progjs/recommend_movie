@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 from django.utils import timezone
@@ -10,11 +11,6 @@ from .forms import CommentForm, UserForm, UserDetailForm
 # Create your views here.
 def index(request):
     movie_list = Movie.objects.order_by('score').reverse()[:6]
-    # if request.session._session:
-    #     user_pk = request.session.get('user')
-    #     if user_pk:
-    #         user = User.objects.get(pk=user_pk)
-    #     return render(request, 'movieapp/index.html', {'movie_list': movie_list, 'user': user})
     return render(request, 'movieapp/index.html', {'movie_list': movie_list})
 
 
@@ -58,7 +54,9 @@ def add_comment(request, pk):
 
 def movie_detail(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
+    print(movie.score, movie.score_sum, movie.comment_count)
     movie.calcul_score()
+    print(movie.score, movie.score_sum, movie.comment_count)
     form = CommentForm(instance=movie)
     return render(request, 'movieapp/movie_detail.html', {'movie': movie, 'commentform': form})
 
@@ -83,8 +81,9 @@ def save_session(request, user_id, user_pw):
 
 
 def login(request):
-    if request.method == 'GET':
-        return render(request, 'registration/login.html')
+    redirect_to = request.REQUEST.get('next', '')
+    # if request.method == 'GET':
+    #     return render(request, 'registration/login.html')
     if request.method == 'POST':
         user_id = request.POST['username']
         password = request.POST['password']
@@ -101,11 +100,12 @@ def login(request):
                 if check_password(password, user.password):
                     request.session['user'] = user.id
                     save_session(request, user_id, password)
-                    return redirect('/')
+                    return HttpResponseRedirect(redirect_to)
+                    # return redirect('/')
                 else:
                     res_data['error'] = '비밀번호가 틀렸습니다.'
-
-        return render(request, 'registration/login.html', res_data)
+    return render('registration/login.html', locals())
+        # return render(request, 'registration/login.html', res_data)
 
 
 def logout(request):

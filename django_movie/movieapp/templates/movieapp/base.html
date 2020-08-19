@@ -78,13 +78,12 @@
       <p>{{ request.session.user_id }} 님</p>
       <a class="mb-0" href="{% url 'logout' %}">로그아웃</a>
       {% else %}
-      <a class="mb-0" href="{% url 'login' %}">로그인</a>
+        <a class="mb-0" href="/login/?next={{ request.path }}">로그인</a>
+        <!--      <a class="mb-0" href="{% url 'login' %}">로그인</a>-->
       {% endif %}
         </div>
     </div>
   </nav>
-
-
 
         {% block contents %}
         {% endblock %}
