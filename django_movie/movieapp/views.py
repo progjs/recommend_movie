@@ -134,3 +134,27 @@ def create_user(request):
         userdetail_form = UserDetailForm()
         return render(request, 'registration/signup.html', {'user_form': user_form, 'userdetail_form': userdetail_form})
 
+
+
+@login_required
+def add_comment(request, pk):
+    movie = get_object_or_404(Movie, pk=pk)
+    print("댓글 작성 ", movie.title)
+    print(request.method)
+    if request.method == 'POST':
+        # form 객체생성
+        form = CommentForm(request.POST)
+        # form valid check
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = User.objects.get(username=request.user.username)
+            comment.published_date = timezone.now()
+            comment.movie = movie
+            comment.save()
+            return redirect('movie_detail', pk=movie.pk)
+    return render(request, 'movieapp/movie_detail.html', {'commentform': form})
+
+
+def add_wishlist(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    movie = get_object_or_404(Movie, pk=pk)
