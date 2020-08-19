@@ -1,7 +1,9 @@
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 from django.utils import timezone
+import json
 
 from .models import Movie, Actor, Genre, Comment, User, UserDetail, WishList
 from .forms import CommentForm, UserForm, UserDetailForm
@@ -142,6 +144,18 @@ def create_user(request):
 def add_wishlist(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
     user = get_object_or_404(User, username=request.session['user_id'])
-    wish = WishList.objects.create(movie=movie, user=user)
-    return redirect('movie_detail', pk=movie.pk)
 
+    if movie.likes_user.filter(id=user.id):
+        movie.likes_user.remove(user)
+        message = "좋아요 취소"
+    else:
+        print("오니?2222")
+        movie.likes_user.add(user)
+        message = "좋아요"
+
+    context = {'like_count': movie.count_likes_user,
+               'message': message,
+               'username': request.session['user_id']
+               }
+    return HttpResponse(json.dumps(context), content_type="application/json")
+    # return redirect('movie_detail', pk=movie.pk)
