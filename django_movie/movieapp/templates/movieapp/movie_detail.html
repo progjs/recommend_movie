@@ -43,7 +43,11 @@
                   <p>{{ movie.plot|linebreaksbr }}</p>
                 </div>
 
-                <p><a href="#" class="readmore">이 영화 찜하기</a></p>
+                <p><form action="{% url 'add_wishlist' pk=movie.pk %}" method="get" >
+                        {% csrf_token %}
+                        <button type="submit" class="save readmore d-block w-10">이 영화 찜하기</button>
+                    </form>
+            <!-- <a action="{% url 'add_wishlist' pk=movie.pk %}" class="readmore">이 영화 찜하기</a></p>--></p>
               </div>
             </div>
           </div>
@@ -70,8 +74,8 @@
         <div class="date">
             {{comment.published_date}}
         </div>
-        <strong>{{comment.author}}</strong>
-        <p>{{comment.comment|linebreaksbr}}</p>
+        <strong>{{comment.user.username}}</strong>
+        <p>{{comment.comment_score}}점! {{comment.comment|linebreaksbr}}</p>
     </div>
 {% empty %}
     <p>No comments here yet:(</p>
