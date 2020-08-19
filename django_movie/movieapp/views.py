@@ -39,16 +39,17 @@ def works(request):
 
 
 def add_comment(request, pk):
+    print(request.session)
     movie = get_object_or_404(Movie, pk=pk)
-    print("댓글 작성 ", movie.title)
-    print(request.method)
+
     if request.method == 'POST':
         # form 객체생성
         form = CommentForm(request.POST)
         # form valid check
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.author = User.objects.get(username=request.user.username)
+            # comment.author = request.session['user_id']
+            comment.author = User.objects.get(username=request.session['user_id'])
             comment.published_date = timezone.now()
             comment.movie = movie
             comment.save()
@@ -80,6 +81,7 @@ def check_password(pw1, pw2):
 def save_session(request, user_id, user_pw):
     request.session['user_id'] = user_id
     request.session['user_pw'] = user_pw
+
 
 def login(request):
     if request.method == 'GET':
