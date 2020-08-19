@@ -55,7 +55,7 @@
                 </span><br>
                 <span>{{ movie.score }}</span>
               </div>
-              <img class="img-fluid" src="{% static 'movieapp/img/img_1.jpg' %}">
+              <img class="img-fluid" src="{% static 'movieapp/img/m_'%}{{movie.pk}}.jpg">
             </a>
           </div>
           {% endfor %}
