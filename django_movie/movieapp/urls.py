@@ -13,4 +13,5 @@ urlpatterns = [
     path('accounts/login/', views.login, name='login'),
     path('accounts/logout/', views.logout, name='logout'),
     path('accounts/signup/', views.create_user, name='create_user'),
+    path('wishlist/<int:pk>/', views.add_wishlist, name='add_wishlist'),
 ]

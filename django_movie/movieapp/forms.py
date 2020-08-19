@@ -20,7 +20,7 @@ def check_password(pw1, pw2):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('comment',)
+        fields = ('comment_score', 'comment')
 
 
 class UserForm(forms.ModelForm):

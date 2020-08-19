@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 from django.utils import timezone
 
-from .models import Movie, Actor, Genre, Comment, User, UserDetail
+from .models import Movie, Actor, Genre, Comment, User, UserDetail, WishList
 from .forms import CommentForm, UserForm, UserDetailForm
 
 
@@ -41,6 +41,7 @@ def works(request):
 def add_comment(request, pk):
     print(request.session)
     movie = get_object_or_404(Movie, pk=pk)
+    user = get_object_or_404(User, username=request.session['user_id'])
 
     if request.method == 'POST':
         # form 객체생성
@@ -48,8 +49,7 @@ def add_comment(request, pk):
         # form valid check
         if form.is_valid():
             comment = form.save(commit=False)
-            # comment.author = request.session['user_id']
-            comment.author = User.objects.get(username=request.session['user_id'])
+            comment.user = user
             comment.published_date = timezone.now()
             comment.movie = movie
             comment.save()
@@ -69,7 +69,6 @@ def signup(request):
     userdetail_form = UserDetailForm()
     # return render(request, 'registration/signup.html', {'user_form': user_form, 'userdetail_form': userdetail_form})
     return render(request, 'registration/signup.html')
-
 
 
 def check_password(pw1, pw2):
@@ -122,7 +121,6 @@ def create_user(request):
         print(request.method)
 
         if user_form.is_valid() and userdetail_form.is_valid():
-
             user = User.objects.create(username=user_form.cleaned_data['username'],
                                        password=user_form.cleaned_data['password'],
                                        first_name=user_form.cleaned_data['first_name'],
@@ -141,26 +139,9 @@ def create_user(request):
         return render(request, 'registration/signup.html', {'user_form': user_form, 'userdetail_form': userdetail_form})
 
 
-
-@login_required
-def add_comment(request, pk):
-    movie = get_object_or_404(Movie, pk=pk)
-    print("댓글 작성 ", movie.title)
-    print(request.method)
-    if request.method == 'POST':
-        # form 객체생성
-        form = CommentForm(request.POST)
-        # form valid check
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.author = User.objects.get(username=request.user.username)
-            comment.published_date = timezone.now()
-            comment.movie = movie
-            comment.save()
-            return redirect('movie_detail', pk=movie.pk)
-    return render(request, 'movieapp/movie_detail.html', {'commentform': form})
-
-
 def add_wishlist(request, pk):
-    user = get_object_or_404(User, pk=pk)
     movie = get_object_or_404(Movie, pk=pk)
+    user = get_object_or_404(User, username=request.session['user_id'])
+    wish = WishList.objects.create(movie=movie, user=user)
+    return redirect('movie_detail', pk=movie.pk)
+
