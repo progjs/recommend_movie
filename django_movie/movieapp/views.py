@@ -10,12 +10,11 @@ from .forms import CommentForm, UserForm, UserDetailForm
 # Create your views here.
 def index(request):
     movie_list = Movie.objects.order_by('score').reverse()[:6]
-    if request.session._session:
-        user_pk = request.session.get('user')
-        if user_pk:
-            user = User.objects.get(pk=user_pk)
-        # 평점, 좋아요 순으로 정렬
-        return render(request, 'movieapp/index.html', {'movie_list': movie_list, 'user': user})
+    # if request.session._session:
+    #     user_pk = request.session.get('user')
+    #     if user_pk:
+    #         user = User.objects.get(pk=user_pk)
+    #     return render(request, 'movieapp/index.html', {'movie_list': movie_list, 'user': user})
     return render(request, 'movieapp/index.html', {'movie_list': movie_list})
 
 
@@ -39,7 +38,6 @@ def works(request):
     return render(request, 'movieapp/works.html')
 
 
-@login_required
 def add_comment(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
     print("댓글 작성 ", movie.title)
@@ -79,12 +77,16 @@ def check_password(pw1, pw2):
     return False
 
 
+def save_session(request, user_id, user_pw):
+    request.session['user_id'] = user_id
+    request.session['user_pw'] = user_pw
+
 def login(request):
     if request.method == 'GET':
         return render(request, 'registration/login.html')
     if request.method == 'POST':
-        user_id = request.POST.get('username')
-        password = request.POST.get('password')
+        user_id = request.POST['username']
+        password = request.POST['password']
         print(user_id, password)
         res_data = {}
         if not (user_id and password):
@@ -97,15 +99,17 @@ def login(request):
             else:
                 if check_password(password, user.password):
                     request.session['user'] = user.id
+                    save_session(request, user_id, password)
                     return redirect('/')
                 else:
                     res_data['error'] = '비밀번호가 틀렸습니다.'
+
         return render(request, 'registration/login.html', res_data)
 
 
 def logout(request):
-    if request.session['user']:
-        del (request.session['user'])
+    if request.session['user_id']:
+        del (request.session['user_id'])
     return redirect('/')
 
 
