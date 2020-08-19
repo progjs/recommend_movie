@@ -72,13 +72,10 @@
 
   <nav class="navbar navbar-light custom-navbar">
     <div class="container">
-      {% if user.is_authenticated %}
-        <a class="navbar-brand" href="{% url 'logout' %}?next={{request.path}}">{{ user.username }} 님 환영합니다.</a>
+      <a href="#" class="burger" data-toggle="collapse" data-target="#main-navbar"><span></span></a>
+      {% if request.session.user_id %}
+      <a class="mb-0" href="{% url 'logout' %}">{{ request.session.user_id }} 님 환영합니다.</a>
       {% endif %}
-      <a href="#" class="burger" data-toggle="collapse" data-target="#main-navbar">
-        <span></span>
-      </a>
-
     </div>
   </nav>
 
