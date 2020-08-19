@@ -54,11 +54,15 @@
       <div class="container">
     <table>
         <h3>New Comment</h3>
-        <form action="{% url 'add_comment' pk=movie.pk %}" method="post" class="post-form">
-            {% csrf_token %}
-            {{ commentform.as_p }}
-            <button type="submit" class="save readmore d-block w-10">Send</button>
-        </form>
+        {% if request.session.user_id %}
+            <form action="{% url 'add_comment' pk=movie.pk %}" method="post" class="post-form">
+                {% csrf_token %}
+                {{ commentform.as_p }}
+                <button type="submit" class="save readmore d-block w-10">Send</button>
+            </form>
+        {% else %}
+            <p><a href="{% url 'login' %}">로그인</a>을 먼저 해주세요.</p>
+        {% endif %}
     </table>
 
 {% for comment in movie.comments.all %}

@@ -39,7 +39,6 @@ def works(request):
 
 
 def add_comment(request, pk):
-    print(request.session)
     movie = get_object_or_404(Movie, pk=pk)
 
     if request.method == 'POST':
