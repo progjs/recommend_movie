@@ -2,6 +2,24 @@
 {% block contents %}
 {% load static %} {% load humanize %}
 
+<head>
+    <style>
+        .starR{
+          /*
+          background-image: url('/static/movieapp/img/star.png') no-repeat right 0;
+          */
+          background: url("{% static 'movieapp/img/star.png' %}");
+          background-size: auto 100%;
+          width: 30px;
+          height: 30px;
+          display: inline-block;
+          text-indent: -9999px;
+          cursor: pointer;
+        }
+        .starR.on{background-position:0 0;}
+    </style>
+</head>
+
   <main id="main">
     <div class="site-section">
       <div class="container">
@@ -16,7 +34,7 @@
         <div class="container">
           <div class="row align-items-stretch">
             <div class="col-md-5" data-aos="fade-up">
-              <img src="{% static 'movieapp/img/m_'%}{{movie.pk}}.jpg" alt="Image" class="img-fluid">
+              <img src="{% static 'movieapp/img/'%}{{movie.pk}}.jpg" alt="Image" class="img-fluid">
             </div>
             <div class="col-md-6 ml-auto" data-aos="fade-up" data-aos-delay="100">
                   <h4 class="h4 mb-3"><b>상세정보</b></h4>
@@ -80,6 +98,15 @@
 {% empty %}
     <p>No comments here yet:(</p>
 {% endfor %}
+
+<!--           별점 test-->
+          <div class="starRev">
+              <span class="starR on">별1</span>
+              <span class="starR">별2</span>
+              <span class="starR">별3</span>
+              <span class="starR">별4</span>
+              <span class="starR">별5</span>
+            </div>
     </div>
   </div>
       <div class="site-section pb-0">
@@ -119,5 +146,13 @@
       </div>
     </div>
   </footer>
+
+<script type="text/javascript">
+    $('.starRev span').click(function(){
+      $(this).parent().children('span').removeClass('on');
+      $(this).addClass('on').prevAll('span').addClass('on');
+      return false;
+    });
+</script>
 
 {% endblock contents %}
