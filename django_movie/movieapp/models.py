@@ -61,9 +61,10 @@ class Actor(models.Model):
 
 class Comment(models.Model):
     movie = models.ForeignKey('movieapp.Movie', on_delete=models.CASCADE, related_name='comments')
-    author = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     comment = models.TextField()
     published_date = models.DateTimeField(default=timezone.now)
+    comment_score = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['published_date']
@@ -73,7 +74,7 @@ class Comment(models.Model):
 
 
 class WishList(models.Model):
-    user = models.ForeignKey('movieapp.UserDetail', on_delete=models.CASCADE, related_name='wishlist')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wishlist')
     movie = models.ForeignKey('movieapp.Movie', on_delete=models.CASCADE)
 
     def __str__(self):
