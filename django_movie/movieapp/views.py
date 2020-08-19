@@ -15,7 +15,7 @@ def index(request):
         if user_pk:
             user = User.objects.get(pk=user_pk)
         # 평점, 좋아요 순으로 정렬
-        return render(request, 'movieapp/index.html', {'movie_list': movie_list, 'user':user})
+        return render(request, 'movieapp/index.html', {'movie_list': movie_list, 'user': user})
     return render(request, 'movieapp/index.html', {'movie_list': movie_list})
 
 
@@ -66,12 +66,18 @@ def movie_detail(request, pk):
 
 
 def signup(request):
+    user_form = UserForm()
+    userdetail_form = UserDetailForm()
+    # return render(request, 'registration/signup.html', {'user_form': user_form, 'userdetail_form': userdetail_form})
     return render(request, 'registration/signup.html')
+
+
 
 def check_password(pw1, pw2):
     if pw1 == pw2:
         return True
     return False
+
 
 def login(request):
     if request.method == 'GET':
@@ -85,7 +91,7 @@ def login(request):
             res_data['error'] = "모든 칸을 다 입력해주세요"
         else:
             try:
-                user = User.objects.get(username = user_id)
+                user = User.objects.get(username=user_id)
             except User.DoesNotExist:
                 res_data['error'] = "존재하지 않는 아이디입니다."
             else:
@@ -96,40 +102,20 @@ def login(request):
                     res_data['error'] = '비밀번호가 틀렸습니다.'
         return render(request, 'registration/login.html', res_data)
 
+
 def logout(request):
     if request.session['user']:
-        del(request.session['user'])
+        del (request.session['user'])
     return redirect('/')
 
-# def create_user(request):
-    # if request.method == 'POST':
-        # form =
 
-
-
-#             post = Post.objects.create(author=User.objects.get(username=request.user.username),
-#                                        published_date=timezone.now(), title=form.cleaned_data['title'],
-#                                        text=form.cleaned_data['text'])
 def create_user(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         userdetail_form = UserDetailForm(request.POST)
         print(request.method)
 
-        if not (user_form.is_valid() and userdetail_form.is_valid()):
-            print("Valid NOOOOOOOOOOOOOOOOOOOOOOOO")
-
         if user_form.is_valid() and userdetail_form.is_valid():
-            # if user_form.password == user
-
-            print('VALID OK~~~~~~~~~~~~~~~~~~~~~~~')
-            print("UserForm data : ", user_form.cleaned_data)
-            print("UserDetailForm data : ", userdetail_form.cleaned_data)
-            # user = user_form.save()
-            # user_detail = userdetail_form.save(commit=False)
-            # user_detail.user = user
-            # user_detail.save()
-
 
             user = User.objects.create(username=user_form.cleaned_data['username'],
                                        password=user_form.cleaned_data['password'],
@@ -143,7 +129,8 @@ def create_user(request):
             user.save()
 
             return render(request, 'registration/login.html')
-        else:
-            user_form = UserForm()
-            userdetail_form = UserDetailForm()
+    if request.method == 'GET':
+        user_form = UserForm()
+        userdetail_form = UserDetailForm()
         return render(request, 'registration/signup.html', {'user_form': user_form, 'userdetail_form': userdetail_form})
+

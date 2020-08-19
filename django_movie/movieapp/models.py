@@ -70,3 +70,11 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.comment
+
+
+class WishList(models.Model):
+    user = models.ForeignKey('movieapp.UserDetail', on_delete=models.CASCADE, related_name='wishlist')
+    movie = models.ForeignKey('movieapp.Movie', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.movie
