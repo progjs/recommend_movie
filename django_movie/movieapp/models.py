@@ -35,12 +35,18 @@ class Movie(models.Model):
     comment_count = models.IntegerField()
     score_sum = models.IntegerField()
     release_year = models.IntegerField()
+    likes_user = models.ManyToManyField(User, through='WishList',
+                                        through_fields=('movie', 'user'),
+                                        blank=True, related_name='likes_user')
 
     def __str__(self):
         return self.title
 
     def calcul_score(self):
         self.score = self.score_sum / self.comment_count
+
+    def count_likes_user(self):
+        return self.likes_user.count()
 
 
 class Genre(models.Model):
@@ -62,7 +68,7 @@ class Actor(models.Model):
 class Comment(models.Model):
     movie = models.ForeignKey('movieapp.Movie', on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    comment = models.TextField()
+    comment = models.TextField(null=True)
     published_date = models.DateTimeField(default=timezone.now)
     comment_score = models.IntegerField(default=0)
 

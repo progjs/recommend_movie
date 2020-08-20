@@ -2,96 +2,105 @@
 {% block contents %}
 {% load static %} {% load humanize %}
 
-  <main id="main">
-    <div class="site-section">
-      <div class="container">
+<div class="site-section">
+    <div class="container">
         <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <h2>{{ movie.title }}</h2>평점 {{ movie.score }}점 ({{ movie.comment_count|intcomma }}명 참여)
-          </div>
+            <div class="col-md-6" data-aos="fade-up">
+                <h2>{{ movie.title }}</h2>평점 {{ movie.score }}점 ({{ movie.comment_count|intcomma }}명 참여)
+            </div>
         </div>
-      </div>
+    </div>
 
-      <div class="site-section pb-0">
+    <div class="site-section pb-0">
         <div class="container">
-          <div class="row align-items-stretch">
-            <div class="col-md-5" data-aos="fade-up">
-              <img src="{% static 'movieapp/img/m_'%}{{movie.pk}}.jpg" alt="Image" class="img-fluid">
-            </div>
-            <div class="col-md-6 ml-auto" data-aos="fade-up" data-aos-delay="100">
-                  <h4 class="h4 mb-3"><b>상세정보</b></h4>
-                <ul class="list-unstyled list-line mb-5">
-                    <li>{{ movie.release_year }}년 개봉 (누적관객 {{ movie.audience|intcomma }}명)</li>
-                  <li><b>장르 </b>
-                      {% for genre in movie.genres.all %}
-                        {{ genre.genre }}
-                      {% endfor %}
-                    </li>
-                    <li><b>감독</b> {{ movie.director }} | {{ movie.nation }}</li>
-
-                    <li><b>출연 </b>
-                      {% for actor in movie.actors.all %}
-                        {{ actor.actor }}
-                      {% endfor %}
-                    </li>
-                </ul>
-
-                <div class="sticky-content">
-                <p class="mb-4"><span class="text-muted"></span></p>
-
-                <div class="mb-5">
-                  <p>{{ movie.plot|linebreaksbr }}</p>
+            <div class="row align-items-stretch">
+                <div class="col-md-5" data-aos="fade-up">
+                    <img src="{% static 'movieapp/img/m_'%}{{movie.pk}}.jpg" alt="Image" class="img-fluid">
                 </div>
+                <div class="col-md-6 ml-auto" data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="h4 mb-3"><b>상세정보</b></h4>
+                    <ul class="list-unstyled list-line mb-5">
+                        <li>{{ movie.release_year }}년 개봉 (누적관객 {{ movie.audience|intcomma }}명)</li>
+                        <li><b>장르 </b>
+                            {% for genre in movie.genres.all %}
+                            {{ genre.genre }}
+                            {% endfor %}
+                        </li>
+                        <li><b>감독</b> {{ movie.director }} | {{ movie.nation }}</li>
 
-                <p><form action="{% url 'add_wishlist' pk=movie.pk %}" method="get" >
+                        <li><b>출연 </b>
+                            {% for actor in movie.actors.all %}
+                            {{ actor.actor }}
+                            {% endfor %}
+                        </li>
+                    </ul>
+
+                    <div class="sticky-content">
+                        <p class="mb-4"><span class="text-muted"></span></p>
+
+                        <div class="mb-5">
+                            <p>{{ movie.plot|linebreaksbr }}</p>
+                        </div>
+
+
+                        <p><form action="{% url 'add_wishlist' pk=movie.pk %}" method="get" >
                         {% csrf_token %}
-                        <button type="submit" class="save readmore d-block w-10">이 영화 찜하기</button>
+
+                        {{movie.likes_user.all}}
+
+                        {% if user in movie.likes_user.all %}
+                            취소
+                        {% else %}
+                            좋아요
+                        <button type="submit" class="like">이 영화 찜하기</button>
+
+                        {% endif %}
                     </form>
-            <!-- <a action="{% url 'add_wishlist' pk=movie.pk %}" class="readmore">이 영화 찜하기</a></p>--></p>
-              </div>
+                        <p id="count-{{movie.id}}">{{movie.count_likes_user}}명이 좋아합니다.</p>
+                        <!-- <a action="{% url 'add_wishlist' pk=movie.pk %}" class="readmore">이 영화 찜하기</a></p>--></p>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
 
     <div class="site-section">
-      <div class="container">
-    <table>
-        <h3>New Comment</h3>
-        <form action="{% url 'add_comment' pk=movie.pk %}" method="post" class="post-form">
-            {% csrf_token %}
-            {{ commentform.as_p }}
-            <button type="submit" class="save readmore d-block w-10">Send</button>
-        </form>
-    </table>
-
-{% for comment in movie.comments.all %}
-    <div class="comment">
-        <div class="date">
-            {{comment.published_date}}
-        </div>
-        <strong>{{comment.user.username}}</strong>
-        <p>{{comment.comment_score}}점! {{comment.comment|linebreaksbr}}</p>
-    </div>
-{% empty %}
-    <p>No comments here yet:(</p>
-{% endfor %}
-    </div>
-  </div>
-      <div class="site-section pb-0">
         <div class="container">
-          <div class="row justify-content-center text-center mb-4">
-            <div class="col-5">
-              <h3 class="h3 heading">More Works</h3>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit explicabo inventore.</p>
+            <table>
+                <h3>New Comment</h3>
+                <form action="{% url 'add_comment' pk=movie.pk %}" method="post" class="post-form">
+                    {% csrf_token %}
+                    {{ commentform.as_p }}
+                    <button type="submit" class="save readmore d-block w-10">Send</button>
+                </form>
+            </table>
+
+            {% for comment in movie.comments.all %}
+            <div class="comment">
+                <div class="date">
+                    {{comment.published_date}}
+                </div>
+                <strong>{{comment.user.username}}</strong>
+                <p>{{comment.comment_score}}점! {{comment.comment|linebreaksbr}}</p>
             </div>
-          </div>
+            {% empty %}
+            <p>No comments here yet:(</p>
+            {% endfor %}
         </div>
-      </div>
+    </div>
+    <div class="site-section pb-0">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-4">
+                <div class="col-5">
+                    <h3 class="h3 heading">More Works</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit explicabo inventore.</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  </main>
 
-  <footer class="footer" role="contentinfo">
+    <footer class="footer" role="contentinfo">
     <div class="container">
       <div class="row">
         <div class="col-sm-6">
@@ -115,5 +124,41 @@
       </div>
     </div>
   </footer>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+  $(".like").click(function(){
+      // 여기에 문제있을수 있음 attr
+    var pk = $(this).attr('attr')
+    $.ajax({ // .like 버튼을 클릭하면 <새로고침> 없이 ajax로 서버와 통신하겠다.
+      type: "POST", // 데이터를 전송하는 방법을 지정
+      url: "{% url 'add_wishlist' pk=movie.pk %}", // 통신할 url을 지정
+      data: {'pk': pk, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터 전송시 옵션
+      dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정, 없으면 알아서 판단
+      // 서버측에서 전송한 Response 데이터 형식 (json)
+      // {'likes_count': post.like_count, 'message': message }
+      success: function(response){ // 통신 성공시 - 동적으로 좋아요 갯수 변경, 유저 목록 변경
+        alert(response.message);
+        $("#count-"+pk).html(response.like_count+"명이 좋아합니다.");
+
+        /* 일단 주석처리 해놓음. 먼저 count부터 동적으로 변경되게 해보기*/
+        // var users = $("#like-user-"+pk).text();
+        // if(users.indexOf(response.nickname) != -1){
+        //   $("#like-user-"+pk).text(users.replace(response.nickname, ""));
+        // }else{
+        //   $("#like-user-"+pk).text(response.nickname+users);
+        // }
+      },
+      error: function(request, status, error){ // 통신 실패시 - 로그인 페이지 리다이렉트
+        alert("로그인이 필요합니다.")
+        window.location.replace("/accounts/login/")
+        //  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+      },
+    });
+  })
+</script>
 
 {% endblock contents %}
+
