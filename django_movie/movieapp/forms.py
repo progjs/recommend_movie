@@ -7,13 +7,6 @@ def check_password(pw1, pw2):
         raise forms.ValidationError('비밀번호가 일치하지 않습니다.')
 
 
-# 댓글 생성
-class CommentForm(forms.ModelForm):
-    class Meta:
-        model = Comment
-        fields = ('comment_score', 'comment')
-
-
 class UserForm(forms.ModelForm):
     class Meta:
         model = User

@@ -61,42 +61,8 @@
         </div>
       </div>
 
-<!--    <div class="'rateit" data-rateit-backingfId="#backing1" data-rateit-resetable="false" data-rateit-ispreset="true" data-rateit-min="0" data-rateit-max="5"></div>-->
-    <!--    <div class="starRev">-->
+{% block comment %} {% endblock comment %}
 
-    <div class="site-section">
-        <div class="container">
-            <table>
-                <h3>New Comment</h3>
-                {% if request.session.user_id %}
-                <form action="{% url 'add_comment' pk=movie.pk %}" method="post" class="post-form">
-                    {% csrf_token %}
-                    <script src="{% static 'movieapp/widgets/jquery.rateit.js' %}" type="text/javascript"></script>
-                    <input type="rating" name="grade" value="4" required="" id="id_score" min="0" max="5" step="0.5" style="display: none;">
-                    <div class="rateit" data-rateit-mode="font" style="font-size: 40px" data-rateit-backingfld="#id_score"></div>
-
-                    {{ commentform.as_p }}
-                    <button type="submit" class="save readmore d-block w-10">Send</button>
-                </form>
-                {% else %}
-                <p><a href="{% url 'login' %}">로그인</a>을 먼저 해주세요.</p>
-                {% endif %}
-            </table>
-
-            {% for comment in movie.comments.all %}
-            <div class="comment">
-                <div class="date">
-                    {{comment.published_date}}
-                </div>
-                <strong>{{comment.user.username}}</strong>
-                <p>{{comment.comment_score}}점! {{comment.comment|linebreaksbr}}</p>
-            </div>
-            {% empty %}
-            <p>No comments here yet:(</p>
-            {% endfor %}
-
-        </div>
-    </div>
     <div class="site-section pb-0">
         <div class="container">
             <div class="row justify-content-center text-center mb-4">
@@ -140,13 +106,12 @@
 <script type="text/javascript">
   $(".like").click(function(){
     var movie_id = $(this).data("id")
-    $.ajax({ // .like 버튼을 클릭하면 <새로고침> 없이 ajax로 서버와 통신하겠다.
-      type: "POST", // 데이터를 전송하는 방법을 지정
-      url: "{% url 'add_wishlist' %}", // 통신할 url을 지정
-      data: {'movie_id': movie_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터 전송시 옵션
-      dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정, 없으면 알아서 판단
-      // 서버측에서 전송한 Response 데이터 형식 (json)
-      success: function(response){ // 통신 성공시 - 동적으로 좋아요 갯수 변경, 유저 목록 변경
+    $.ajax({
+      type: "POST",
+      url: "{% url 'add_wishlist' %}",
+      data: {'movie_id': movie_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+      dataType: "json",
+      success: function(response){
         $("#count").html(response.like_count+"명이 좋아합니다.");
         if (response.message == 1) {
             $(".like-img").attr('src',"{% static 'movieapp/img/like.png' %}")
@@ -155,7 +120,7 @@
             $(".like-img").attr('src',"{% static 'movieapp/img/dislike.png' %}")
         }
       },
-      error: function(response, error){ // 통신 실패시 - 로그인 페이지 리다이렉트
+      error: function(response){
         alert(response.error)
         window.location.replace("/accounts/login/")
         //  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -163,11 +128,6 @@
     });
   });
 
-  $('.starRev span').click(function(){
-      $(this).parent().children('span').removeClass('on');
-      $(this).addClass('on').prevAll('span').addClass('on');
-      return false;
-  });
 </script>
 
 {% endblock contents %}
