@@ -1,7 +1,12 @@
 {% extends 'movieapp/base.html' %}
 {% block contents %}
-{% load static %} {% load humanize %}
+{% load static %}
+{% load humanize %}
 
+<head>
+  <meta charset="utf-8">
+  <title>{{ movie.title }} : 방구석스크린</title>
+</head>
 
     <div class="site-section">
       <div class="container">

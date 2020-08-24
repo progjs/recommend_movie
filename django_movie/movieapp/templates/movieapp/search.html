@@ -1,0 +1,35 @@
+{% extends 'movieapp/base.html' %}
+{% block contents %}
+{% load static %}
+
+<head>
+  <meta charset="utf-8">
+  <title>검색 결과 : 방구석스크린</title>
+</head>
+    {% if not movies %}
+
+        <h1>검색 결과가 없습니다</h1>
+
+    {% else %}
+        <div id="portfolio-grid" class="row no-gutter" data-aos="fade-up" data-aos-delay="200">
+            {% for movie in movies.all %}
+          <div class="item web col-sm-6 col-md-4 col-lg-4 mb-4">
+            <a href="{% url 'movie_detail' pk=movie.pk %}" class="item-wrap fancybox">
+              <div class="work-info">
+                <h3>{{ movie.title }}</h3>
+                <span class="genre-names">
+                {% for genre in movie.genres.all %}
+                  {{ genre.genre }}
+                {% endfor %}
+                </span><br>
+                <span>{{ movie.score }}</span>
+              </div>
+              <img class="img-fluid" src="{% static 'movieapp/img/poster/'%}{{movie.pk}}.jpg">
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+    {% endif %}
+  </main>
+
+{% endblock %}

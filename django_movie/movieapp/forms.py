@@ -18,3 +18,4 @@ class UserDetailForm(forms.ModelForm):
         model = UserDetail
         fields = ('password2', 'sex', 'birth', 'favorite_genre')
 
+
