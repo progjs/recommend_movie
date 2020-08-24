@@ -1,5 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 from django.utils import timezone
 import json
@@ -25,8 +27,7 @@ def genre_filter(request):
     # selected_genre = genre_dict[g_id]
     print('선택한 장르 :', selected_genre)
     # filter_list = Genre.objects.filter(genre=selected_genre)
-    filter_list = Movie.objects.prefetch_related('genres').filter(genres__genre=selected_genre).order_by(
-        'score').reverse()[:6]
+    filter_list = Movie.objects.prefetch_related('genres').filter(genres__genre=selected_genre).order_by('score').reverse()[:6]
     movie_list = []
     for movie in filter_list:
         print(movie.title, movie.score)
@@ -57,7 +58,6 @@ def works(request):
 
 
 def add_comment(request, pk):
-    print(request.session)
     movie = get_object_or_404(Movie, pk=pk)
     user = get_object_or_404(User, username=request.session['user_id'])
 
@@ -80,7 +80,8 @@ def movie_detail(request, pk):
     movie.calcul_score()
     form = CommentForm(instance=movie)
     user_status = 0
-    print(request.session.keys())
+    print(request.session.items())
+    # user_id가 있는지 확인
     if 'user_id' in request.session.keys():
         user = get_object_or_404(User, username=request.session['user_id'])
         likes_user_list = Movie.objects.filter(pk=pk)
@@ -129,11 +130,12 @@ def login(request):
                 res_data['error'] = "존재하지 않는 아이디입니다."
             else:
                 if check_password(password, user.password):
-                    request.session['user_id'] = user.username
+                    # request.session['user_id'] = user.username
                     save_session(request, user.username, password)
                     return HttpResponseRedirect(request.POST['path'])
                 else:
                     res_data['error'] = '비밀번호가 틀렸습니다.'
+
         return render(request, 'registration/login.html', res_data)
 
 
