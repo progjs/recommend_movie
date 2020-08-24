@@ -78,18 +78,18 @@ WSGI_APPLICATION = 'myapp.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
     # 'default': {
-    #         'ENGINE': 'django.db.backends.mysql',
-    #         'NAME': 'project_db',
-    #         'USER': 'hoyun',  # 데이터베이스 계정
-    #         'PASSWORD': 'hoyun',  # 계정 비밀번호
-    #         'HOST': '192.168.0.10',  # 데이테베이스 주소(IP)
-    #         'PORT': '3306',  # 데이터베이스 포트
-    #     }
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+    'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'project_db',
+            'USER': 'hoyun',  # 데이터베이스 계정
+            'PASSWORD': 'hoyun',  # 계정 비밀번호
+            'HOST': '192.168.0.10',  # 데이테베이스 주소(IP)
+            'PORT': '3306',  # 데이터베이스 포트
+        }
 }
 
 # Password validation

@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 from django.utils import timezone
@@ -79,7 +80,9 @@ def movie_detail(request, pk):
     movie.calcul_score()
     form = CommentForm(instance=movie)
     user_status = 0
-    if request.session['user_id']:
+    print(request.session.items())
+    # user_id가 있는지 확인
+    if 'user_id' in request.session.keys():
         user = get_object_or_404(User, username=request.session['user_id'])
         likes_user_list = Movie.objects.filter(pk=pk)
         likes_user = [q['likes_user__username'] for q in likes_user_list.values('likes_user__username')]
@@ -126,8 +129,8 @@ def login(request):
                 res_data['error'] = "존재하지 않는 아이디입니다."
             else:
                 if check_password(password, user.password):
-                    request.session['user'] = user.id
-                    save_session(request, user_id, password)
+                    # request.session['user_id'] = user.username
+                    save_session(request, user.username, password)
                     return HttpResponseRedirect(request.POST['path'])
                 else:
                     res_data['error'] = '비밀번호가 틀렸습니다.'
