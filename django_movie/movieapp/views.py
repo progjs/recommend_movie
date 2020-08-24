@@ -61,6 +61,8 @@ def add_comment(request, pk):
     if request.method == 'POST':
         new_score = int(request.POST['comment-score'])
         new_comment = request.POST['comment']
+        if not new_score:
+            return HttpResponseRedirect(request.POST['path'])
         movie = get_object_or_404(Movie, pk=pk)
         user = get_object_or_404(User, username=request.session['user_id'])
         date = timezone.now()
@@ -75,7 +77,7 @@ def add_comment(request, pk):
 def movie_detail(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
     user_status = 0
-    comment_list = Comment.objects.filter(movie__pk=pk).order_by('-published_date')
+    comment_list = Comment.objects.filter(movie__pk=pk).exclude(comment="").order_by('-published_date')
     # print(request.session.items())
     # user_id가 있는지 확인
     if 'user_id' in request.session.keys():
@@ -84,8 +86,9 @@ def movie_detail(request, pk):
         likes_user = [q['likes_user__username'] for q in likes_user_list.values('likes_user__username')]
         if user.username in likes_user:
             user_status = 1
-
-    return render(request, 'movieapp/movie_detail.html', {'movie': movie, 'user_status': user_status, 'comments': comment_list})
+    return render(request, 'movieapp/movie_comment.html',
+                  {'movie': movie, 'user_status': user_status, 'comments': comment_list})
+    # return render(request, 'movieapp/movie_detail.html', {'movie': movie, 'user_status': user_status, 'comments': comment_list})
 
 
 def signup(request):

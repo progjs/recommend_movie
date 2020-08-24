@@ -57,63 +57,8 @@
         </div>
       </div>
 
+{% block comment %} {% endblock comment %}
 
-    <div class="site-section">
-        <div class="container">
-            <table>
-                <h3>New Comment</h3>
-                {% if request.session.user_id %}
-                <form method="post" action="{% url 'add_comment' pk=movie.pk %}">
-                    {% csrf_token %}
-                    <div class="star-box">
-                      <span class="star star_left" value="1"></span>
-                      <span class="star star_right" value="2"></span>
-
-                      <span class="star star_left" value="3"></span>
-                      <span class="star star_right" value="4"></span>
-
-                      <span class="star star_left" value="5"></span>
-                      <span class="star star_right"  value="6"></span>
-
-                     <span class="star star_left" value="7"></span>
-                     <span class="star star_right" value="8"></span>
-
-                     <span class="star star_left" value="9"></span>
-                     <span class="star star_right" value="10"></span>
-                    </div>
-                    <div class="'form-group" style="display:none;">
-                        <label for="comment">평점 입력</label>
-                        <input type="range" class="form-control" id="comment-score" name="comment-score" placeholder="평점">
-                    </div>
-                    <div class="'form-group">
-                        <label for="comment">댓글 입력</label>
-                        <input type="text" class="form-control" id="comment" name="comment" placeholder="댓글">
-                    </div>
-                    <input type="hidden" name="path" value="{{ request.path }}">
-                    <button type="submit" class="btn btn-primary">완료</button>
-                </form>
-
-
-                {% else %}
-                <p><a href="{% url 'login' %}">로그인</a>을 먼저 해주세요.</p>
-                {% endif %}
-
-            </table>
-
-            {% for comment in comments %}
-            <div class="comment">
-                <div class="date">
-                    {{comment.published_date}}
-                </div>
-                <strong>{{comment.user.username}}</strong>
-                <p>{{comment.comment|linebreaksbr}}</p>
-            </div>
-            {% empty %}
-            <p>아직 댓글이 없습니다.</p>
-            {% endfor %}
-
-        </div>
-    </div>
     <div class="site-section pb-0">
         <div class="container">
             <div class="row justify-content-center text-center mb-4">
@@ -157,13 +102,12 @@
 <script type="text/javascript">
   $(".like").click(function(){
     var movie_id = $(this).data("id")
-    $.ajax({ // .like 버튼을 클릭하면 <새로고침> 없이 ajax로 서버와 통신하겠다.
-      type: "POST", // 데이터를 전송하는 방법을 지정
-      url: "{% url 'add_wishlist' %}", // 통신할 url을 지정
-      data: {'movie_id': movie_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'}, // 서버로 데이터 전송시 옵션
-      dataType: "json", // 서버측에서 전송한 데이터를 어떤 형식의 데이터로서 해석할 것인가를 지정, 없으면 알아서 판단
-      // 서버측에서 전송한 Response 데이터 형식 (json)
-      success: function(response){ // 통신 성공시 - 동적으로 좋아요 갯수 변경, 유저 목록 변경
+    $.ajax({
+      type: "POST",
+      url: "{% url 'add_wishlist' %}",
+      data: {'movie_id': movie_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+      dataType: "json",
+      success: function(response){
         $("#count").html(response.like_count+"명이 좋아합니다.");
         if (response.message == 1) {
             $(".like-img").attr('src',"{% static 'movieapp/img/like.png' %}")
@@ -172,7 +116,7 @@
             $(".like-img").attr('src',"{% static 'movieapp/img/dislike.png' %}")
         }
       },
-      error: function(response){ // 통신 실패시 - 로그인 페이지 리다이렉트
+      error: function(response){
         alert(response.error)
         window.location.replace("/accounts/login/")
         //  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -180,16 +124,6 @@
     });
   });
 
-    $(".star").on('click',function(){
-        var star_value = $(this).attr('value');
-        console.log(star_value);
-        $('#comment-score').val(star_value);
-   var idx = $(this).index();
-   $(".star").removeClass("on");
-     for(var i=0; i<=idx; i++){
-        $(".star").eq(i).addClass("on");
-   }
- });
 </script>
 
 {% endblock contents %}
