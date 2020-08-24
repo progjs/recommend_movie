@@ -11,6 +11,7 @@ urlpatterns = [
     path('movie_detail/<int:pk>/', views.movie_detail, name='movie_detail'),
     # path('accounts/signup/', views.signup, name='signup'),
     path('comment/<int:pk>/', views.add_comment, name='add_comment'),
+    path('comment/remove/<int:pk>/<int:comment_id>/', views.remove_comment, name='remove_comment'),
     path('accounts/login/', views.login, name='login'),
     path('accounts/logout/', views.logout, name='logout'),
     path('accounts/signup/', views.create_user, name='create_user'),

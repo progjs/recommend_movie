@@ -51,6 +51,9 @@
                 </div>
                 <strong>{{comment.user.username}}</strong>
                 <p>{{comment.comment|linebreaksbr}}</p>
+                {% if comment.user.username == request.session.user_id %}
+                <a href="{% url 'remove_comment' pk=movie.pk comment_id=comment.id %}">삭제</a>
+                {% endif %}
             </div>
             {% empty %}
             <p>아직 댓글이 없습니다.</p>

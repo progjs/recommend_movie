@@ -76,6 +76,16 @@ def add_comment(request, pk):
     return HttpResponseRedirect(request.POST['path'])
 
 
+def remove_comment(request, pk, comment_id):
+    del_comment = get_object_or_404(Comment, pk=comment_id)
+    movie = get_object_or_404(Movie, pk=pk)
+    movie.score_sum -= del_comment.comment_score
+    movie.comment_count -= 1
+    movie.calcul_score()
+    del_comment.delete()
+    return redirect('movie_detail', pk=pk)
+
+
 def movie_detail(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
     user_status = 0
