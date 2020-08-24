@@ -1,6 +1,5 @@
 from django import forms
 from .models import Comment, UserDetail, User
-from .widgets import StarWidget
 
 
 def check_password(pw1, pw2):
