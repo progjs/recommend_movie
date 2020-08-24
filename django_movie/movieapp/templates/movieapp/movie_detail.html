@@ -2,6 +2,10 @@
 {% block contents %}
 {% load static %} {% load humanize %}
 
+<head>
+  <meta charset="utf-8">
+  <title>{{ movie.title }} : 방구석스크린</title>
+</head>
 
     <div class="site-section">
       <div class="container">
@@ -150,13 +154,6 @@
         else {
             $(".like-img").attr('src',"{% static 'movieapp/img/dislike.png' %}")
         }
-        /* 일단 주석처리 해놓음. 먼저 count부터 동적으로 변경되게 해보기*/
-        // var users = $("#like-user-"+pk).text();
-        // if(users.indexOf(response.nickname) != -1){
-        //   $("#like-user-"+pk).text(users.replace(response.nickname, ""));
-        // }else{
-        //   $("#like-user-"+pk).text(response.nickname+users);
-        // }
       },
       error: function(response, error){ // 통신 실패시 - 로그인 페이지 리다이렉트
         alert(response.error)

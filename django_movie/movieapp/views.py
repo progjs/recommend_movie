@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
@@ -27,7 +28,8 @@ def genre_filter(request):
     # selected_genre = genre_dict[g_id]
     print('선택한 장르 :', selected_genre)
     # filter_list = Genre.objects.filter(genre=selected_genre)
-    filter_list = Movie.objects.prefetch_related('genres').filter(genres__genre=selected_genre).order_by('score').reverse()[:6]
+    filter_list = Movie.objects.prefetch_related('genres').filter(genres__genre=selected_genre).order_by(
+        'score').reverse()[:6]
     movie_list = []
     for movie in filter_list:
         print(movie.title, movie.score)
@@ -198,3 +200,20 @@ def add_wishlist(request):
                    }
         return HttpResponse(json.dumps(context), content_type="application/json")
     # return redirect('movie_detail', pk=movie.pk)
+
+
+def search_movie(request):
+    word = request.POST.get('word')
+    # word = word.replace(' ', "")
+
+    if word:
+        print('word 검색')
+        movie_list = Movie.objects.filter(
+            Q(title__icontains=word) | Q(director__icontains=word) | Q(genres__genre__icontains=word) | Q(
+                actors__actor__icontains=word)
+        ).distinct()
+        print('검색 영화 리스트 : ', movie_list)
+        return render(request, 'movieapp/search.html', {'movies': movie_list, 'word': word})
+
+    else:
+        return render(request, 'movieapp/search.html')
