@@ -7,7 +7,7 @@ from django.utils import timezone
 import json
 
 from .models import Movie, Actor, Genre, Comment, User, UserDetail, WishList
-from .forms import CommentForm, UserForm, UserDetailForm
+from .forms import UserForm, UserDetailForm
 
 
 # Create your views here.
@@ -58,29 +58,25 @@ def works(request):
 
 
 def add_comment(request, pk):
-    movie = get_object_or_404(Movie, pk=pk)
-    user = get_object_or_404(User, username=request.session['user_id'])
-
     if request.method == 'POST':
-        # form 객체생성
-        form = CommentForm(request.POST)
-        # form valid check
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user = user
-            comment.published_date = timezone.now()
-            comment.movie = movie
-            comment.save()
-            return redirect('movie_detail', pk=movie.pk)
-    return render(request, 'movieapp/movie_detail.html', {'commentform': form})
+        new_score = int(request.POST['comment-score'])
+        new_comment = request.POST['comment']
+        movie = get_object_or_404(Movie, pk=pk)
+        user = get_object_or_404(User, username=request.session['user_id'])
+        date = timezone.now()
+        new_comment = Comment.objects.create(movie=movie, user=user, comment=new_comment, published_date=date, comment_score=new_score)
+        new_comment.save()
+        movie.score_sum += new_score
+        movie.comment_count += 1
+        movie.calcul_score()
+    return HttpResponseRedirect(request.POST['path'])
 
 
 def movie_detail(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
-    movie.calcul_score()
-    form = CommentForm(instance=movie)
     user_status = 0
-    print(request.session.items())
+    comment_list = Comment.objects.filter(movie__pk=pk).order_by('-published_date')
+    # print(request.session.items())
     # user_id가 있는지 확인
     if 'user_id' in request.session.keys():
         user = get_object_or_404(User, username=request.session['user_id'])
@@ -89,7 +85,7 @@ def movie_detail(request, pk):
         if user.username in likes_user:
             user_status = 1
 
-    return render(request, 'movieapp/movie_detail.html', {'movie': movie,'commentform': form,'user_status': user_status})
+    return render(request, 'movieapp/movie_detail.html', {'movie': movie, 'user_status': user_status, 'comments': comment_list})
 
 
 def signup(request):
@@ -118,7 +114,6 @@ def login(request):
         user_id = request.POST['username']
         password = request.POST['password']
         next_path = request.POST['path']
-        print(user_id, password)
         res_data = {}
         if not (user_id and password):
             res_data['error'] = "모든 칸을 다 입력해주세요"
