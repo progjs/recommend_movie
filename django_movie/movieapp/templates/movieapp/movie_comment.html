@@ -1,0 +1,76 @@
+{% extends 'movieapp/movie_detail.html' %}
+{% block comment %}
+{% load static %} {% load humanize %}
+
+    <div class="site-section">
+        <div class="container">
+            <table>
+                <h3>New Comment</h3>
+                {% if request.session.user_id %}
+                <form method="post" action="{% url 'add_comment' pk=movie.pk %}">
+                    {% csrf_token %}
+                    <div class="star-box">
+                      <span class="star star_left" value="1"></span>
+                      <span class="star star_right" value="2"></span>
+
+                      <span class="star star_left" value="3"></span>
+                      <span class="star star_right" value="4"></span>
+
+                      <span class="star star_left" value="5"></span>
+                      <span class="star star_right"  value="6"></span>
+
+                     <span class="star star_left" value="7"></span>
+                     <span class="star star_right" value="8"></span>
+
+                     <span class="star star_left" value="9"></span>
+                     <span class="star star_right" value="10"></span>
+                    </div>
+                    <div class="'form-group" style="display:none;">
+                        <label for="comment">평점 입력</label>
+                        <input type="range" class="form-control" id="comment-score" name="comment-score" placeholder="평점">
+                    </div>
+                    <div class="'form-group">
+                        <label for="comment">댓글 입력</label>
+                        <input type="text" class="form-control" id="comment" name="comment" placeholder="댓글">
+                    </div>
+                    <input type="hidden" name="path" value="{{ request.path }}">
+                    <button type="submit" class="btn btn-primary">완료</button>
+                </form>
+
+
+                {% else %}
+                <p><a href="{% url 'login' %}">로그인</a>을 먼저 해주세요.</p>
+                {% endif %}
+
+            </table>
+
+            {% for comment in comments %}
+            <div class="comment">
+                <div class="date">
+                    {{comment.published_date}}
+                </div>
+                <strong>{{comment.user.username}}</strong>
+                <p>{{comment.comment|linebreaksbr}}</p>
+            </div>
+            {% empty %}
+            <p>아직 댓글이 없습니다.</p>
+            {% endfor %}
+
+        </div>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    $(".star").on('click',function(){
+        var star_value = $(this).attr('value');
+        console.log(star_value);
+        $('#comment-score').val(star_value);
+   var idx = $(this).index();
+   $(".star").removeClass("on");
+     for(var i=0; i<=idx; i++){
+        $(".star").eq(i).addClass("on");
+   }
+ });
+</script>
+
+{% endblock comment %}
