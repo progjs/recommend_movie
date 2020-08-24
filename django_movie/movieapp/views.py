@@ -142,6 +142,7 @@ def create_user(request):
 
 
 def add_wishlist(request, pk):
+    print('유저 아이디입니다', request.user.id)
     movie = get_object_or_404(Movie, pk=pk)
     user = get_object_or_404(User, username=request.session['user_id'])
 
@@ -153,9 +154,10 @@ def add_wishlist(request, pk):
         movie.likes_user.add(user)
         message = "좋아요"
 
-    context = {'like_count': movie.count_likes_user,
+    context = {'like_count': movie.count_likes_user(),
                'message': message,
                'username': request.session['user_id']
                }
+    # return render(request, 'movieapp/movie_detail.html', {'movie': movie, 'context': context})
     return HttpResponse(json.dumps(context), content_type="application/json")
     # return redirect('movie_detail', pk=movie.pk)
