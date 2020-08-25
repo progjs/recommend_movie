@@ -184,18 +184,15 @@ def add_wishlist(request):
         user = get_object_or_404(User, username=request.session['user_id'])
         movie_id = request.POST.get('movie_id')
         movie = get_object_or_404(Movie, pk=movie_id)
-        likes_user_list = Movie.objects.filter(pk=movie_id)
-        likes_user = [q['likes_user__username'] for q in likes_user_list.values('likes_user__username')]
-        if user.username in likes_user:
+
+        if movie.likes_user.filter(username=user.username).exists():
             movie.likes_user.remove(user)
-            print('삭제함')
             message = 0
         else:
             movie.likes_user.add(user)
-            print('추가함')
             message = 1
 
-        print(movie.title, '좋아요 수: ', movie.count_likes_user())
+        # print(movie.title, '좋아요 수: ', movie.count_likes_user())
         context = {'like_count': movie.count_likes_user(),
                    'message': message,
                    }
@@ -203,10 +200,9 @@ def add_wishlist(request):
     else:
         context = {'success': False,
                    'error': '로그인이 필요합니다.',
-                   'next': request.path
+                   # 'next': request.path
                    }
         return HttpResponse(json.dumps(context), content_type="application/json")
-    # return redirect('movie_detail', pk=movie.pk)
 
 
 def search_movie(request):
