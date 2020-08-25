@@ -36,6 +36,11 @@ h6,
   padding: 7rem 0;
 }
 
+.filters {
+  padding-top: 1%;
+  padding-bottom: 4%;
+}
+
 .filters a {
   color: #000;
   display: inline-block;

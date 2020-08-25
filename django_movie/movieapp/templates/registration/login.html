@@ -5,21 +5,7 @@
 
 <div class="site-section site-portfolio">
     <div class="container">
-        <div class="row mb-5 align-items-center">
-            <div class="col-md-12 col-lg-6 mb-4 mb-lg-0" data-aos="fade-up">
-                <h2>영화 추천 서비스</h2>
-                <p class="mb-0">Freelance Creative &amp; Professional Graphics Designer</p>
-            </div>
-            <div class="col-md-12 col-lg-6 text-left text-lg-right" data-aos="fade-up" data-aos-delay="100">
-                <div id="filters" class="filters">
-                    <a href="#" data-filter="*" class="active">All</a>
-                    <a href="#" data-filter=".web">Web</a>
-                    <a href="#" data-filter=".design">Design</a>
-                    <a href="#" data-filter=".branding">Branding</a>
-                    <a href="#" data-filter=".photography">Photography</a>
-                </div>
-            </div>
-        </div>
+
         {% if error %}
         <p>{{ error }}</p>
         {% endif %}
@@ -28,11 +14,11 @@
 
             {% csrf_token %}
             <div class="col-md-6 form-group">
-                <label for="username">사용자 id 입력</label>
+                <label for="username">아이디</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="아이디">
             </div>
             <div class="col-md-6 form-group">
-                <label for="password">비밀번호 입력</label>
+                <label for="password">비밀번호</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="비밀번호">
             </div>
             <input type="hidden" name="path" value="{{ request.path }}">
