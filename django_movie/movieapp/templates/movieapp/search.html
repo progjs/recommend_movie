@@ -6,15 +6,18 @@
   <meta charset="utf-8">
   <title>검색 결과 : 방구석스크린</title>
 </head>
+    <div class="container" style="margin-top: 5%">
+        '{{ search_word }}'에 대한 통합 검색 결과입니다.
     {% if not movies %}
-
-        <h1>검색 결과가 없습니다</h1>
+        <div align="center" style="margin-top: 10%">
+            검색 결과가 없습니다.
+        </div>
 
     {% else %}
-        <div id="portfolio-grid" class="row no-gutter" data-aos="fade-up" data-aos-delay="200">
+        <div id="portfolio-grid" class="row no-gutter" data-aos="fade-up" data-aos-delay="200" style="margin-top: 5%">
             {% for movie in movies.all %}
           <div class="item web col-sm-6 col-md-4 col-lg-4 mb-4">
-            <a href="{% url 'movie_detail' pk=movie.pk %}" class="item-wrap fancybox">
+            <a href="{% url 'movie_detail' pk=movie.id %}" class="item-wrap fancybox">
               <div class="work-info">
                 <h3>{{ movie.title }}</h3>
                 <span class="genre-names">
@@ -30,6 +33,7 @@
           {% endfor %}
         </div>
     {% endif %}
+    </div>
   </main>
 
 {% endblock %}

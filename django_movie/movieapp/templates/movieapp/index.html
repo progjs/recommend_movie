@@ -11,24 +11,18 @@
 </head>
 
   <main id="main">
-
-    <div class="site-section site-portfolio">
       <div class="container">
-        <div class="row mb-5 align-items-center">
-          <div class="col-md-12 col-lg-6 mb-4 mb-lg-0" data-aos="fade-up">
-            <h2>영화 추천 서비스</h2>
-            <p class="mb-0">장르별, 감독/배우별 방구석에서 볼만한 영화를 추천해드립니다.<br></p>
-          </div>
-          <div class="col-md-12 col-lg-6 mb-4 mb-lg-0" data-aos="fade-up"></div>
-          <div class="container" style="padding:20px">
+          <div class="container" style="padding:3%">
             <form class="form-inline my-2 my-lg-0" action="{% url 'search_movie' %}" method="post">
               {% csrf_token %}
               <div class="box_main">
-			    <input type="search" class="email_bt" placeholder="Search" name="word" value="{{word}}" style="border:1px">
+			    <input type="search" class="email_bt" placeholder="영화제목,배우,장르,감독 입력" name="word" value="{{word}}" style="border:1px">
 				<button class="subscribe_bt" type="submit">검색</a></button>
 		      </div>
+            </form>
           </div>
-          <div class="container" style="padding:20px 0px 0px 0px">
+
+          <div class="container" style="padding:1%">
             <div id="filters" class="filters" align="right">
               <a href="#" data-filter="*" class="active">전체</a>
               <a href="#" data-filter=".web">드라마</a>
@@ -37,7 +31,6 @@
               <a href="#" data-filter=".photography">애니메이션</a>
             </div>
           </div>
-        </div>
         <div id="portfolio-grid" class="row no-gutter" data-aos="fade-up" data-aos-delay="200">
             {% for movie in movie_list %}
           <div class="item web col-sm-6 col-md-4 col-lg-4 mb-4">
@@ -56,10 +49,9 @@
           </div>
           {% endfor %}
         </div>
-
       </div>
-    </div>
   </main>
+
 
 
 {% endblock %}
