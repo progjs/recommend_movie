@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.db.models.functions import Replace
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
@@ -6,6 +7,9 @@ from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 from django.utils import timezone
 import json
+
+#
+from django.db.models import F, Func, Value
 
 from .models import Movie, Actor, Genre, Comment, User, UserDetail, WishList
 from .forms import UserForm, UserDetailForm
@@ -68,7 +72,8 @@ def add_comment(request, pk):
         movie = get_object_or_404(Movie, pk=pk)
         user = get_object_or_404(User, username=request.session['user_id'])
         date = timezone.now()
-        new_comment = Comment.objects.create(movie=movie, user=user, comment=new_comment, published_date=date, comment_score=new_score)
+        new_comment = Comment.objects.create(movie=movie, user=user, comment=new_comment, published_date=date,
+                                             comment_score=new_score)
         new_comment.save()
         movie.score_sum += new_score
         movie.comment_count += 1
@@ -200,17 +205,27 @@ def add_wishlist(request):
 
 
 def search_movie(request):
-    word = request.POST.get('word')
-    # word = word.replace(' ', "")
+    search_word = request.POST.get('word')
 
-    if word:
-        print('word 검색')
-        movie_list = Movie.objects.filter(
-            Q(title__icontains=word) | Q(director__icontains=word) | Q(genres__genre__icontains=word) | Q(
-                actors__actor__icontains=word)
-        ).distinct()
-        print('검색 영화 리스트 : ', movie_list)
-        return render(request, 'movieapp/search.html', {'movies': movie_list, 'word': word})
+    fixed_title = Movie.objects.annotate(
+        fixed_title=Replace('title', Value(' '), Value('')), )
+    fixed_director = Movie.objects.annotate(
+        fixed_director=Replace('director', Value(' '), Value('')), )
+    fixed_genres = Movie.objects.annotate(
+        fixed_genres=Replace('genres__genre', Value(' '), Value('')), )
+    fixed_actors = Movie.objects.annotate(
+        fixed_actors=Replace('actors__actor', Value(' '), Value('')), )
+
+    if search_word:
+        fixed_word = search_word.replace(' ', "")
+        movie_list_title = fixed_title.filter(Q(fixed_title__icontains=fixed_word))
+        movie_list_director = fixed_director.filter(Q(fixed_director__icontains=fixed_word))
+        movie_list_actors = fixed_actors.filter(Q(fixed_actors__icontains=fixed_word))
+        movie_list_genres = fixed_genres.filter(Q(fixed_genres__icontains=fixed_word))
+
+        search_movie_list = movie_list_title.union(movie_list_director, movie_list_actors, movie_list_genres)
+
+        return render(request, 'movieapp/search.html', {'movies': search_movie_list, 'search_word': search_word})
 
     else:
         return render(request, 'movieapp/search.html')
