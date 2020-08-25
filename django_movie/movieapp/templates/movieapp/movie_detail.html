@@ -10,9 +10,10 @@
 
     <div class="site-section">
       <div class="container">
-        <div class="row mb-4 align-items-center">
-          <div class="col-md-6" data-aos="fade-up">
-            <h2>{{ movie.title }}</h2>평점 {{ movie.score }}점 ({{ movie.comment_count|intcomma }}명 참여)
+        <div>
+            <h2>{{ movie.title }}</h2>
+            <div>
+                평점 {{ movie.score }}점 ({{ movie.comment_count|intcomma }}명 참여)
           </div>
         </div>
     </div>

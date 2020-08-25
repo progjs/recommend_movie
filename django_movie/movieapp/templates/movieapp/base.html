@@ -72,10 +72,12 @@
 
   <nav class="navbar navbar-light custom-navbar">
     <div class="container">
-      <a href="#" class="burger" data-toggle="collapse" data-target="#main-navbar"><span></span></a>
+        <a href="#" class="burger" data-toggle="collapse" data-target="#main-navbar"><span></span></a>
+      <div style="float: left"><h2>방구석스크린</h2></div>
+
       <div>
       {% if request.session.user_id %}
-        <p>{{ request.session.user_id }} 님</p>
+        {{ request.session.user_id }}님
         <a class="mb-0" href="{% url 'logout' %}">로그아웃</a>
       {% else %}
         <a class="mb-0" href="{% url 'login' %}">로그인</a>
@@ -83,6 +85,9 @@
         </div>
     </div>
   </nav>
+  <div>
+        <p align="center">장르별, 감독/배우별 방구석에서 볼만한 영화를 추천해드립니다.</p>
+  </div>
 
         {% block contents %}
         {% endblock %}
