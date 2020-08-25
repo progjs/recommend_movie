@@ -12,33 +12,30 @@
                     <div class="row">
                         <div class="col-md-7 form-group">
                             <div class="star-box">
-                              <span class="star star_left" value="1"></span>
-                              <span class="star star_right" value="2"></span>
+                                <span class="star star_left" value="1"></span>
+                                <span class="star star_right" value="2"></span>
 
-                              <span class="star star_left" value="3"></span>
-                              <span class="star star_right" value="4"></span>
+                                <span class="star star_left" value="3"></span>
+                                <span class="star star_right" value="4"></span>
 
-                              <span class="star star_left" value="5"></span>
-                              <span class="star star_right"  value="6"></span>
+                                <span class="star star_left" value="5"></span>
+                                <span class="star star_right"  value="6"></span>
 
-                             <span class="star star_left" value="7"></span>
-                             <span class="star star_right" value="8"></span>
+                                <span class="star star_left" value="7"></span>
+                                <span class="star star_right" value="8"></span>
 
-                             <span class="star star_left" value="9"></span>
-                             <span class="star star_right" value="10"></span>
+                                <span class="star star_left" value="9"></span>
+                                <span class="star star_right" value="10"></span>
                             </div>
                             <div style="display:none;">
-                                <label for="comment">평점 입력</label>
                                 <input type="range" class="form-control" id="comment-score" name="comment-score">
-                                <div class="validate"></div>
                             </div>
                         </div>
                         <div class="col-md-7 form-group">
-                            <label for="comment">댓글 입력</label>
-                            <input type="text" class="form-control" id="comment" name="comment">
+                            <input type="text" class="form-control" id="comment" name="comment" placeholder="댓글을 남겨주세요.">
                             <input type="hidden" name="path" value="{{ request.path }}">
-                            <button type="submit" class="btn btn-primary">완료</button>
                         </div>
+                        <button type="submit" class="btn btn-primary">완료</button>
                     </div>
                 </form>
 
@@ -47,21 +44,23 @@
                 {% endif %}
 
             </table>
-
+            <div class="col-md-10-left">
             {% for comment in comments %}
             <div class="comment">
-                <div class="date">
+                <div class="date" style="font-size: small;">
                     {{comment.published_date}}
+                    {% if comment.user.username == request.session.user_id %}
+                        <a href="{% url 'remove_comment' pk=movie.pk comment_id=comment.id %}">삭제</a>
+                    {% endif %}
                 </div>
                 <strong>{{comment.user.username}}</strong>
                 <p>{{comment.comment|linebreaksbr}}</p>
-                {% if comment.user.username == request.session.user_id %}
-                <a href="{% url 'remove_comment' pk=movie.pk comment_id=comment.id %}">삭제</a>
-                {% endif %}
+                <hr>
             </div>
             {% empty %}
             <p>아직 댓글이 없습니다.</p>
             {% endfor %}
+            </div>
 
         </div>
     </div>
@@ -70,7 +69,6 @@
 <script type="text/javascript">
     $(".star").on('click',function(){
         var star_value = $(this).attr('value');
-        console.log(star_value);
         $('#comment-score').val(star_value);
         var idx = $(this).index();
         $(".star").removeClass("on");
