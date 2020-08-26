@@ -26,6 +26,8 @@
 
                                 <span class="star star_left" value="9"></span>
                                 <span class="star star_right" value="10"></span>
+
+                                <span id="cur-score" style="font-size: x-large;"></span>
                             </div>
                             <div style="display:none;">
                                 <input type="range" class="form-control" id="comment-score" name="comment-score">
@@ -47,14 +49,21 @@
             <div class="col-md-10-left">
             {% for comment in comments %}
             <div class="comment">
+                <p>{{comment.comment|linebreaksbr}}</p>
                 <div class="date" style="font-size: small;">
-                    {{comment.published_date}}
+                    {% if comment.comment_score != 0 %}
+                    <span>
+                        <img src="{% static 'movieapp/css/star.png' %}" alt="star" align="bottom" width="18px" height="18px" style="float:left;">
+                        {{comment.comment_score}}점 |
+                    </span>
+                    {% endif %}
+                    <span>{{comment.user.username}} |</span>
+                    <span>{{comment.published_date}} |</span>
                     {% if comment.user.username == request.session.user_id %}
                         <a href="{% url 'remove_comment' pk=movie.pk comment_id=comment.id %}">삭제</a>
                     {% endif %}
                 </div>
-                <strong>{{comment.user.username}}</strong>
-                <p>{{comment.comment|linebreaksbr}}</p>
+
                 <hr>
             </div>
             {% empty %}
@@ -69,6 +78,7 @@
 <script type="text/javascript">
     $(".star").on('click',function(){
         var star_value = $(this).attr('value');
+        $('#cur-score').html(star_value+'점');
         $('#comment-score').val(star_value);
         var idx = $(this).index();
         $(".star").removeClass("on");
