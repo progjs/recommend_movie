@@ -43,26 +43,24 @@ def genre_filter(request):
     return HttpResponse(json.dumps({'genre_movies': movie_list}), content_type="application/json")
 
 
-def contact(request):
-    name = '영화'
-    return render(request, 'movieapp/contact.html')
+def movie_detail(request, pk):
+    movie = get_object_or_404(Movie, pk=pk)
+    user_status = 0
+    comment_list = Comment.objects.filter(movie__pk=pk).exclude(comment="").order_by('-published_date')
+    # print(request.session.items())
+    # user_id가 있는지 확인
+    if 'user_id' in request.session.keys():
+        user = get_object_or_404(User, username=request.session['user_id'])
+        likes_user_list = Movie.objects.filter(pk=pk)
+        likes_user = [q['likes_user__username'] for q in likes_user_list.values('likes_user__username')]
+        if user.username in likes_user:
+            user_status = 1
+    return render(request, 'movieapp/movie_comment.html',
+                  {'movie': movie, 'user_status': user_status, 'comments': comment_list})
+    # return render(request, 'movieapp/movie_detail.html', {'movie': movie, 'user_status': user_status, 'comments': comment_list})
 
 
-def about(request):
-    name = '영화'
-    return render(request, 'movieapp/about.html')
-
-
-def services(request):
-    name = '영화'
-    return render(request, 'movieapp/services.html')
-
-
-def works(request):
-    name = '영화'
-    return render(request, 'movieapp/works.html')
-
-
+# ------------------- 댓글 CRUD ---------------------
 def add_comment(request, pk):
     if request.method == 'POST':
         new_score = int(request.POST['comment-score'])
@@ -81,23 +79,17 @@ def add_comment(request, pk):
     return HttpResponseRedirect(request.POST['path'])
 
 
-def movie_detail(request, pk):
+def remove_comment(request, pk, comment_id):
+    del_comment = get_object_or_404(Comment, pk=comment_id)
     movie = get_object_or_404(Movie, pk=pk)
-    user_status = 0
-    comment_list = Comment.objects.filter(movie__pk=pk).exclude(comment="").order_by('-published_date')
-    # print(request.session.items())
-    # user_id가 있는지 확인
-    if 'user_id' in request.session.keys():
-        user = get_object_or_404(User, username=request.session['user_id'])
-        likes_user_list = Movie.objects.filter(pk=pk)
-        likes_user = [q['likes_user__username'] for q in likes_user_list.values('likes_user__username')]
-        if user.username in likes_user:
-            user_status = 1
-    return render(request, 'movieapp/movie_comment.html',
-                  {'movie': movie, 'user_status': user_status, 'comments': comment_list})
-    # return render(request, 'movieapp/movie_detail.html', {'movie': movie, 'user_status': user_status, 'comments': comment_list})
+    movie.score_sum -= del_comment.comment_score
+    movie.comment_count -= 1
+    movie.calcul_score()
+    del_comment.delete()
+    return redirect('movie_detail', pk=pk)
 
 
+# ------------------- 회원계정 ---------------------
 def signup(request):
     user_form = UserForm()
     userdetail_form = UserDetailForm()
@@ -174,23 +166,21 @@ def create_user(request):
         return render(request, 'registration/signup.html', {'user_form': user_form, 'userdetail_form': userdetail_form})
 
 
+# ------------------- 추가기능 ---------------------
 def add_wishlist(request):
     if request.session['user_id']:
         user = get_object_or_404(User, username=request.session['user_id'])
         movie_id = request.POST.get('movie_id')
         movie = get_object_or_404(Movie, pk=movie_id)
-        likes_user_list = Movie.objects.filter(pk=movie_id)
-        likes_user = [q['likes_user__username'] for q in likes_user_list.values('likes_user__username')]
-        if user.username in likes_user:
+
+        if movie.likes_user.filter(username=user.username).exists():
             movie.likes_user.remove(user)
-            print('삭제함')
             message = 0
         else:
             movie.likes_user.add(user)
-            print('추가함')
             message = 1
 
-        print(movie.title, '좋아요 수: ', movie.count_likes_user())
+        # print(movie.title, '좋아요 수: ', movie.count_likes_user())
         context = {'like_count': movie.count_likes_user(),
                    'message': message,
                    }
@@ -198,10 +188,9 @@ def add_wishlist(request):
     else:
         context = {'success': False,
                    'error': '로그인이 필요합니다.',
-                   'next': request.path
+                   # 'next': request.path
                    }
         return HttpResponse(json.dumps(context), content_type="application/json")
-    # return redirect('movie_detail', pk=movie.pk)
 
 
 def search_movie(request):

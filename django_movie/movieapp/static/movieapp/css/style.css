@@ -36,6 +36,11 @@ h6,
   padding: 7rem 0;
 }
 
+.filters {
+  padding-top: 1%;
+  padding-bottom: 4%;
+}
+
 .filters a {
   color: #000;
   display: inline-block;
@@ -586,7 +591,7 @@ h6,
 .star_left{
   background: url("star_empty.png") no-repeat 0 0;
   background-size: 60px;
-  margin-right: -3px;
+  margin-right: -4px;
 }
 .star_right{
   background: url("star_empty.png") no-repeat -30px 0;
