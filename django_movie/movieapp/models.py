@@ -84,4 +84,4 @@ class WishList(models.Model):
     movie = models.ForeignKey('movieapp.Movie', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.movie
+        return "위시리스트"
