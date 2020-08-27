@@ -4,19 +4,19 @@
 
 <head>
   <meta charset="utf-8">
-  <title>검색 결과 : 방구석스크린</title>
+  <title>내가 찜한 영화 : 방구석스크린</title>
 </head>
 
-    {% if not movies %}
+    {% if not wish_movies %}
         <div align="center" style="margin-top: 10%">
-            '{{ search_word }}'에 대한 검색 결과가 없습니다.
+            내가 찜한 영화가 없습니다.
         </div>
 
     {% else %}
     <div class="container" style="margin-top: 5%">
-        '{{ search_word }}'에 대한 {{ movies.count }}건의 통합 검색 결과가 있습니다.
+        <h3>찜한 영화</h3>
         <div id="portfolio-grid" class="row no-gutter" data-aos="fade-up" data-aos-delay="200" style="margin-top: 5%">
-            {% for movie in movies.all %}
+            {% for movie in wish_movies%}
           <div class="item web col-sm-6 col-md-4 col-lg-4 mb-4">
             <a href="{% url 'movie_detail' pk=movie.id %}" class="item-wrap fancybox">
               <div class="work-info">

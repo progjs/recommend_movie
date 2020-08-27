@@ -18,6 +18,7 @@ from .forms import UserForm, UserDetailForm
 # Create your views here.
 def index(request):
     movie_list = Movie.objects.order_by('score').reverse()[:6]
+
     # if request.session._session:
     #     user_pk = request.session.get('user')
     #     if user_pk:
@@ -218,3 +219,15 @@ def search_movie(request):
 
     else:
         return render(request, 'movieapp/search.html')
+
+
+def find_wishlist(request):
+    user = get_object_or_404(User, username=request.session['user_id'])
+    wishlist = WishList.objects.filter(user_id=user.id).values()
+
+    wish_movies = []
+    for wish in wishlist:
+        wish_movie = list(Movie.objects.filter(id=wish['movie_id']))
+        wish_movies = wish_movies + wish_movie
+
+    return render(request, 'movieapp/wishlist.html', {'wish_movies': wish_movies})
