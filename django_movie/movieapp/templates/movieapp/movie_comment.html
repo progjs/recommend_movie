@@ -44,8 +44,9 @@
                 {% else %}
                 <p><a href="{% url 'login' %}">로그인</a>을 먼저 해주세요.</p>
                 {% endif %}
-
+                <hr>
             </table>
+
             <div class="col-md-10-left">
             {% for comment in comments %}
             <div class="comment">
@@ -54,7 +55,7 @@
                     {% if comment.comment_score != 0 %}
                     <span>
                         <img src="{% static 'movieapp/css/star.png' %}" alt="star" align="bottom" width="18px" height="18px" style="float:left;">
-                        {{comment.comment_score}}점 |
+                         {{comment.comment_score}}점 |
                     </span>
                     {% endif %}
                     <span>{{comment.user.username}} |</span>
