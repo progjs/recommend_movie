@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="recommend_db@localhost" uuid="ed9f339f-f838-4e70-8fb2-c98b772ae682">
+    <data-source source="LOCAL" name="MariaDB - project_db@localhost" uuid="fe1cf457-64a1-40fb-910a-93576080b65c">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mariadb://localhost:3306/recommend_db</jdbc-url>
+      <jdbc-url>jdbc:mariadb://localhost:3306/project_db</jdbc-url>
     </data-source>
   </component>
 </project>
