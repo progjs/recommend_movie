@@ -37,7 +37,11 @@
 
                         <li><b>출연 </b>
                             {% for actor in movie.actors.all %}
-                                {{ actor.actor }},
+                                {% if forloop.last %}
+                                    {{ actor.actor }}
+                                {% else %}
+                                    {{ actor.actor }},
+                                {% endif %}
                             {% endfor %}
                         </li>
                     </ul>
