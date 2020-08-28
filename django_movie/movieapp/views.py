@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 from django.utils import timezone
 import json
+from random import sample
 
 #
 from django.db.models import F, Func, Value
@@ -19,7 +20,9 @@ redirect_path: str = ""
 
 # Create your views here.
 def index(request):
-    movie_list = Movie.objects.order_by('score').reverse()[:6]
+    movie_id_list = Movie.objects.filter(score__gte=8.5).values_list('pk', flat=True)
+    choice_id = sample(list(movie_id_list), 9)
+    movie_list = Movie.objects.filter(pk__in=choice_id)
     # if request.session._session:
     #     user_pk = request.session.get('user')
     #     if user_pk:
