@@ -13,7 +13,7 @@ urlpatterns = [
     path('movie_detail/<int:pk>/', views.movie_detail, name='movie_detail'),
     path('movie_detail/wishlist/', views.add_wishlist, name='add_wishlist'),
     path('search', views.search_movie, name='search_movie'),
-    path('wordcloud/<int:pk>/', views.add_wordcloud, name='add_wordcloud'),
+    # path('wordcloud/<int:pk>/', views.add_wordcloud, name='add_wordcloud'),
     # path('genre/', views.genre_filter, name='genre_filter'),
     path('wishlist/', views.find_wishlist, name='find_wishlist'),
 
