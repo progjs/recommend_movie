@@ -14,6 +14,8 @@ from django.db.models import F, Func, Value
 from .models import Movie, Actor, Genre, Comment, User, UserDetail, WishList
 from .forms import UserForm, UserDetailForm
 
+redirect_path: str = ""
+
 
 # Create your views here.
 def index(request):
@@ -110,16 +112,17 @@ def save_session(request, user_id, user_pw):
 
 
 def login(request):
-    print('이전페이지', request.path)
     if request.method == 'GET':
+        global redirect_path
+        redirect_path = request.GET.get('next', '')
+        print('이전 페이지 ', redirect_path)
         return render(request, 'registration/login.html')
     if request.method == 'POST':
         user_id = request.POST['username']
         password = request.POST['password']
-        next_path = request.POST['path']
         res_data = {}
         if not (user_id and password):
-            res_data['error'] = "모든 칸을 다 입력해주세요"
+            res_data['error'] = "모든 칸을 다 입력해주세요."
         else:
             try:
                 user = User.objects.get(username=user_id)
@@ -127,9 +130,8 @@ def login(request):
                 res_data['error'] = "존재하지 않는 아이디입니다."
             else:
                 if check_password(password, user.password):
-                    # request.session['user_id'] = user.username
                     save_session(request, user.username, password)
-                    return HttpResponseRedirect(request.POST['path'])
+                    return HttpResponseRedirect(redirect_path)
                 else:
                     res_data['error'] = '비밀번호가 틀렸습니다.'
 
@@ -195,7 +197,7 @@ def add_wishlist(request):
 
 
 def search_movie(request):
-    search_word = request.POST.get('word')
+    search_word = request.GET.get('word')
 
     fixed_title = Movie.objects.annotate(
         fixed_title=Replace('title', Value(' '), Value('')), )
@@ -221,7 +223,7 @@ def search_movie(request):
         return render(request, 'movieapp/search.html')
 
 
-def find_wishlist(request):
+def show_wishlist(request):
     user = get_object_or_404(User, username=request.session['user_id'])
     wishlist = WishList.objects.filter(user_id=user.id).values()
 

@@ -16,7 +16,7 @@
     <div class="container" style="margin-top: 5%">
         '{{ search_word }}'에 대한 {{ movies.count }}건의 통합 검색 결과가 있습니다.
         <div id="portfolio-grid" class="row no-gutter" data-aos="fade-up" data-aos-delay="200" style="margin-top: 5%">
-            {% for movie in movies.all %}
+            {% for movie in movies %}
           <div class="item web col-sm-6 col-md-4 col-lg-4 mb-4">
             <a href="{% url 'movie_detail' pk=movie.id %}" class="item-wrap fancybox">
               <div class="work-info">
@@ -28,7 +28,7 @@
                 </span><br>
                 <span>{{ movie.score }}</span>
               </div>
-              <img class="img-fluid" src="{% static 'movieapp/img/poster/'%}{{movie.pk}}.jpg">
+              <img class="img-fluid" src="{% static 'movieapp/img/poster/'%}{{movie.id}}.jpg">
             </a>
           </div>
           {% endfor %}
