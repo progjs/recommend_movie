@@ -2,52 +2,51 @@
 {% block comment %}
 {% load static %} {% load humanize %}
 
-    <div class="site-section">
-        <div class="container">
-            <table>
-                <h3>New Comment</h3>
-                {% if request.session.user_id %}
-                <form method="post" action="{% url 'add_comment' pk=movie.pk %}">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-md-7 form-group">
-                            <div class="star-box">
-                                <span class="star star_left" value="1"></span>
-                                <span class="star star_right" value="2"></span>
+<div class="site-section" data-aos="fade-up">
+    <div class="container">
+            <h3>New Comment</h3>
+            {% if request.session.user_id %}
+            <form method="post" action="{% url 'add_comment' pk=movie.pk %}">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-7 form-group">
+                        <div class="star-box">
+                            <span class="star star_left" value="1"></span>
+                            <span class="star star_right" value="2"></span>
 
-                                <span class="star star_left" value="3"></span>
-                                <span class="star star_right" value="4"></span>
+                            <span class="star star_left" value="3"></span>
+                            <span class="star star_right" value="4"></span>
 
-                                <span class="star star_left" value="5"></span>
-                                <span class="star star_right"  value="6"></span>
+                            <span class="star star_left" value="5"></span>
+                            <span class="star star_right"  value="6"></span>
 
-                                <span class="star star_left" value="7"></span>
-                                <span class="star star_right" value="8"></span>
+                            <span class="star star_left" value="7"></span>
+                            <span class="star star_right" value="8"></span>
 
-                                <span class="star star_left" value="9"></span>
-                                <span class="star star_right" value="10"></span>
+                            <span class="star star_left" value="9"></span>
+                            <span class="star star_right" value="10"></span>
 
-                                <span id="cur-score" style="font-size: x-large;"></span>
-                            </div>
-                            <div style="display:none;">
-                                <input type="range" class="form-control" id="comment-score" name="comment-score">
-                            </div>
+                            <span id="cur-score" style="font-size: x-large;"></span>
                         </div>
-                        <div class="col-md-7 form-group">
-                            <input type="text" class="form-control" id="comment" name="comment" placeholder="댓글을 작성해주세요.">
-                            <input type="hidden" name="path" value="{{ request.path }}">
+                        <div style="display:none;">
+                            <input type="range" class="form-control" id="comment-score" name="comment-score">
                         </div>
-                        <button type="submit" class="btn btn-primary">완료</button>
                     </div>
-                </form>
+                    <div class="col-md-7 form-group">
+                        <input type="text" class="form-control" id="comment" name="comment" placeholder="댓글을 작성해주세요.">
+                        <input type="hidden" name="path" value="{{ request.path }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">완료</button>
+                </div>
+            </form>
 
-                {% else %}
-                <p><a href="{% url 'login' %}">로그인</a>을 먼저 해주세요.</p>
-                {% endif %}
-                <hr>
-            </table>
+            {% else %}
+            <p><a href="{% url 'login' %}">로그인</a>을 먼저 해주세요.</p>
+            {% endif %}
 
-            <div class="col-md-10-left">
+        <div class="row">
+            <div class="col-md-10-left" data-aos="fade-up">
+            <hr>
             {% for comment in comments %}
             <div class="comment">
                 <p>{{comment.comment|linebreaksbr}}</p>
@@ -74,6 +73,8 @@
 
         </div>
     </div>
+</div>
+
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
