@@ -18,16 +18,24 @@ from .forms import UserForm, UserDetailForm
 redirect_path: str = ""
 
 
-# Create your views here.
+def choice_movies(past_cnt, cur_cnt):
+    # past_id = Movie.objects.filter(release_year__lte=2010, score__gte=8.8).values_list('pk', flat=True)
+    # choice_id_list = sample(list(past_id), past_cnt)
+    # cur_id = Movie.objects.filter(release_year__gt=2010, score__gte=8.5).values_list('pk', flat=True)
+    cur_id = Movie.objects.filter(score__gte=8.5).values_list('pk', flat=True)
+    choice_id_list = sample(list(cur_id), cur_cnt)
+    return choice_id_list
+
+
 def index(request):
-    movie_id_list = Movie.objects.filter(score__gte=8.5).values_list('pk', flat=True)
-    choice_id = sample(list(movie_id_list), 9)
+    if 'user_id' in request.session.keys():
+        user = get_object_or_404(User, username=request.session['user_id'])
+        user_genre = get_object_or_404(UserDetail, user=user).favorite_genre
+        genre_movie_id = Movie.objects.filter(genres__genre=user_genre, score__gte=8).values_list('pk', flat=True)
+        choice_id = sample(list(genre_movie_id), 3) + choice_movies(2, 6)
+    else:
+        choice_id = choice_movies(3, 9)
     movie_list = Movie.objects.filter(pk__in=choice_id)
-    # if request.session._session:
-    #     user_pk = request.session.get('user')
-    #     if user_pk:
-    #         user = User.objects.get(pk=user_pk)
-    #     return render(request, 'movieapp/index.html', {'movie_list': movie_list, 'user': user})
     return render(request, 'movieapp/index.html', {'movie_list': movie_list})
 
 
