@@ -81,7 +81,7 @@
         <a class="mb-0" href="{% url 'logout' %}">로그아웃</a>
         <p style="text-align: center"> <a class="mb-0" href="{% url 'show_wishlist' %}">찜한 영화</a></p>
       {% else %}
-        <a class="mb-0" href="{% url 'login' %}?next={{request.get_full_path|urlencode}}">로그인</a>
+        <a class="mb-0" href="{% url 'login' %}?next={{request.get_full_path|urlencode}}">로그인 및 회원가입</a>
 
       {% endif %}
         </div>
