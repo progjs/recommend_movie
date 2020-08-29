@@ -76,21 +76,16 @@ def movie_detail(request, pk):
 
 # ------------------- 댓글 CRUD ---------------------
 def add_comment(request, pk):
-    res_data = {}
     movie = get_object_or_404(Movie, pk=pk)
     user = get_object_or_404(User, username=request.session['user_id'])
-    if Comment.objects.filter(movie=movie, user=user).exists():
-        res_data['error'] = '댓글은 한 번만 작성할 수 있습니다.'
-        return HttpResponseRedirect(request.POST['path'])
 
     if request.method == 'POST':
+        if Comment.objects.filter(movie=movie, user=user).exists():
+            res_data = {'error': "이미 댓글을 작성하셨습니다.\n댓글은 영화마다 한 번만 작성할 수 있습니다.", 'success': False}
+            return HttpResponse(json.dumps(res_data), content_type="application/json")
+
         new_score = int(request.POST['comment-score'])
         new_comment = request.POST['comment']
-
-        if new_score < 0 or new_score > 10:
-            res_data['error'] = '평점을 입력해주세요.'
-            return HttpResponseRedirect(request.POST['path'])
-
         date = timezone.now()
         new_comment = Comment.objects.create(movie=movie, user=user, comment=new_comment, published_date=date,
                                              comment_score=new_score)
@@ -205,12 +200,6 @@ def add_wishlist(request):
         # print(movie.title, '좋아요 수: ', movie.count_likes_user())
         context = {'like_count': movie.count_likes_user(),
                    'message': message,
-                   }
-        return HttpResponse(json.dumps(context), content_type="application/json")
-    else:
-        context = {'success': False,
-                   'error': '로그인이 필요합니다.',
-                   # 'next': request.path
                    }
         return HttpResponse(json.dumps(context), content_type="application/json")
 
