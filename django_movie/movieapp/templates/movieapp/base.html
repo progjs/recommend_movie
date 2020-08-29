@@ -72,12 +72,12 @@
 
   <nav class="navbar navbar-light custom-navbar">
     <div class="container">
-        <a href="#" class="burger" data-toggle="collapse" data-target="#main-navbar"><span></span></a>
-      <div style="float: left"><h2>방구석스크린</h2></div>
+        <a href="{% url 'index' %}" class="font-heading" style="color: #212529"><h4>Home</h4></a>
+      <div class="float-left"><h2>방구석스크린</h2></div>
 
       <div>
       {% if request.session.user_id %}
-        {{ request.session.user_id }}님
+        <span id="user-id" data-id="{{ request.session.user_id }}">{{ request.session.user_id }}님</span>
         <a class="mb-0" href="{% url 'logout' %}">로그아웃</a>
         <p style="text-align: center"> <a class="mb-0" href="{% url 'show_wishlist' %}">찜한 영화</a></p>
       {% else %}
