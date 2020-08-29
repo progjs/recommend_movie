@@ -1,12 +1,13 @@
 from django.db.models import Q
 from django.db.models.functions import Replace
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, resolve_url, reverse
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.models import User
 from django.utils import timezone
 import json
+from random import sample
 
 #
 from django.db.models import F, Func, Value
@@ -17,15 +18,24 @@ from .forms import UserForm, UserDetailForm
 redirect_path: str = ""
 
 
-# Create your views here.
-def index(request):
-    movie_list = Movie.objects.order_by('score').reverse()[:6]
+def choice_movies(past_cnt, cur_cnt):
+    # past_id = Movie.objects.filter(release_year__lte=2010, score__gte=8.8).values_list('pk', flat=True)
+    # choice_id_list = sample(list(past_id), past_cnt)
+    # cur_id = Movie.objects.filter(release_year__gt=2010, score__gte=8.5).values_list('pk', flat=True)
+    cur_id = Movie.objects.filter(score__gte=8.5).values_list('pk', flat=True)
+    choice_id_list = sample(list(cur_id), cur_cnt)
+    return choice_id_list
 
-    # if request.session._session:
-    #     user_pk = request.session.get('user')
-    #     if user_pk:
-    #         user = User.objects.get(pk=user_pk)
-    #     return render(request, 'movieapp/index.html', {'movie_list': movie_list, 'user': user})
+
+def index(request):
+    if 'user_id' in request.session.keys():
+        user = get_object_or_404(User, username=request.session['user_id'])
+        user_genre = get_object_or_404(UserDetail, user=user).favorite_genre
+        genre_movie_id = Movie.objects.filter(genres__genre=user_genre, score__gte=8).values_list('pk', flat=True)
+        choice_id = sample(list(genre_movie_id), 3) + choice_movies(2, 6)
+    else:
+        choice_id = choice_movies(3, 9)
+    movie_list = Movie.objects.filter(pk__in=choice_id)
     return render(request, 'movieapp/index.html', {'movie_list': movie_list})
 
 
@@ -49,7 +59,8 @@ def genre_filter(request):
 def movie_detail(request, pk):
     movie = get_object_or_404(Movie, pk=pk)
     user_status = 0
-    comment_list = Comment.objects.filter(movie__pk=pk).exclude(comment="").order_by('-published_date')
+    comment_list = Comment.objects.filter(movie__pk=pk).order_by('-published_date')
+    # comment_list = Comment.objects.filter(movie__pk=pk).exclude(comment="").order_by('-published_date')
     # print(request.session.items())
     # user_id가 있는지 확인
     if 'user_id' in request.session.keys():
@@ -65,13 +76,21 @@ def movie_detail(request, pk):
 
 # ------------------- 댓글 CRUD ---------------------
 def add_comment(request, pk):
+    res_data = {}
+    movie = get_object_or_404(Movie, pk=pk)
+    user = get_object_or_404(User, username=request.session['user_id'])
+    if Comment.objects.filter(movie=movie, user=user).exists():
+        res_data['error'] = '댓글은 한 번만 작성할 수 있습니다.'
+        return HttpResponseRedirect(request.POST['path'])
+
     if request.method == 'POST':
         new_score = int(request.POST['comment-score'])
         new_comment = request.POST['comment']
-        if not new_score:
+
+        if new_score < 0 or new_score > 10:
+            res_data['error'] = '평점을 입력해주세요.'
             return HttpResponseRedirect(request.POST['path'])
-        movie = get_object_or_404(Movie, pk=pk)
-        user = get_object_or_404(User, username=request.session['user_id'])
+
         date = timezone.now()
         new_comment = Comment.objects.create(movie=movie, user=user, comment=new_comment, published_date=date,
                                              comment_score=new_score)

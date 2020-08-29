@@ -13,14 +13,14 @@
         <div>
             <h2>{{ movie.title }}</h2>
             <div>
-                평점 {{ movie.score }}점 ({{ movie.comment_count|intcomma }}명 참여)
+                평점 {{ movie.score|floatformat:2 }}점 ({{ movie.comment_count|intcomma }}명 참여)
           </div>
         </div>
     </div>
 
       <div class="site-section pb-0">
         <div class="container">
-            <div class="row align-items-stretch">
+            <div class="row align-items-stretch" data-aos="fade-up">
                 <div class="col-md-5" data-aos="fade-up">
                     <img src="{% static 'movieapp/img/poster/'%}{{movie.pk}}.jpg" alt="Image" class="img-fluid">
                 </div>
@@ -37,17 +37,17 @@
 
                         <li><b>출연 </b>
                             {% for actor in movie.actors.all %}
-                                {{ actor.actor }},
+                                {% if forloop.last %}
+                                    {{ actor.actor }}
+                                {% else %}
+                                    {{ actor.actor }},
+                                {% endif %}
                             {% endfor %}
                         </li>
                     </ul>
 
                     <div class="sticky-content">
                         <p class="mb-4"><span class="text-muted"></span></p>
-
-                        <div class="mb-5">
-                            <p>{{ movie.plot|linebreaksbr }}</p>
-                        </div>
                             <a type="button" class="like" data-id="{{ movie.id }}">
                                 {% if user_status %}
                                     <img class="like-img" src="{% static 'movieapp/img/like.png' %}" alt="Image" style="width: auto; height: auto;
@@ -61,9 +61,22 @@
                 </div>
             </div>
         </div>
+          <div class="container" style="margin-top:3em">
+              <div class="col-md-12" >
+                <p>{{ movie.plot|linebreaksbr }}</p>
+              </div>
+          </div>
       </div>
 
-{% block comment %} {% endblock comment %}
+<div class="site-section pb-0" data-aos="fade-up">
+    <div class="container">
+        <h3>Comment Keyword</h3>
+        <img src="{% static 'movieapp/img/wordcloud/'%}{{movie.pk}}.png" alt="Image" class="img-fluid" align="center" style="display: block; margin: 0px auto;">
+    </div>
+</div>
+
+{% block comment %}
+{% endblock comment %}
 
     <div class="site-section pb-0">
         <div class="container">
