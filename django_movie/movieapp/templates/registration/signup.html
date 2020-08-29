@@ -10,6 +10,8 @@
         <h3>회원가입</h3>
         <form action="{% url 'create_user' %}" method="post">
             {% csrf_token %}
+            <label for="{{ user_form.first_name.id_for_label }}">닉네임</label>
+    <input class="form-control" id="{{ form.username.id_for_label }}" maxlength="15" name="{{ form.username.html_name }}" type="text" />
             {{ user_form }}
             {{ userdetail_form }}
             <button type="submit" class="save readmore d-block w-10">Send</button>
