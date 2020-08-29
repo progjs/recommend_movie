@@ -185,7 +185,7 @@ def create_user(request):
     if request.method == 'GET':
         user_form = UserForm()
         userdetail_form = UserDetailForm()
-        return render(request, 'registration/signup.html', {'user_form': user_form, 'userdetail_form': userdetail_form})
+        return render(request, 'registration/signup2.html', {'user_form': user_form, 'userdetail_form': userdetail_form})
 
 
 # ------------------- 추가기능 ---------------------

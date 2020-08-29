@@ -57,7 +57,6 @@
   };
   siteOwlCarousel();
 
-
 })(jQuery);
 
 AOS.init({
