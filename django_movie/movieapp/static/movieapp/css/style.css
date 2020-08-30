@@ -36,6 +36,10 @@ h6,
   padding: 7rem 0;
 }
 
+.movie-session {
+  padding-top: 2.5rem;
+}
+
 .filters {
   padding-top: 1%;
   padding-bottom: 4%;
@@ -243,7 +247,7 @@ h6,
 .sticky-content {
   position: sticky;
   position: -webkit-sticky;
-  top: 0;
+  /*margin-top: 20%;*/
   /* required */
 }
 
@@ -252,6 +256,8 @@ h6,
   position: relative;
   padding-left: 30px;
 }
+
+
 
 .list-line li:before {
   content: "";
@@ -600,4 +606,8 @@ h6,
 }
 .star.on{
   background-image: url("star.png");
+}
+
+.btn-outline-dark:focus, .btn-outline-dark:hover, .btn-outline-dark:active, .btn-outline-dark.active, .open>.dropdown-toggle.btn-outline-dark {
+    background-color: GhostWhite;
 }
