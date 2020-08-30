@@ -3,26 +3,17 @@
 {% load static %}
 
 <head>
-<!--===============================================================================================-->
+	<title>회원가입 : 방구석스크린</title>
 	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/vendor/animate/animate.css' %}">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/vendor/css-hamburgers/hamburgers.min.css' %}">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/vendor/animsition/css/animsition.min.css' %}">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/vendor/select2/select2.min.css' %}">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/vendor/daterangepicker/daterangepicker.css' %}">
-<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/css/main.css' %}">
-<!--===============================================================================================-->
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
-
 </head>
 
 	<div class="limiter">
@@ -104,38 +95,27 @@
 	</div>
 
 
-	<div id="dropDownSelect1"></div>
-
-<!--===============================================================================================-->
 	<script src="movieapp/vendor/jquery/jquery-3.2.1.min.js"></script>
     <script src="vendor/jquery-ui/jquery-ui.min.js"></script>
-<!--===============================================================================================-->
 	<script src="movieapp/vendor/animsition/js/animsition.min.js"></script>
-<!--===============================================================================================-->
 	<script src="movieapp/vendor/bootstrap/js/popper.js"></script>
 	<script src="movieapp/vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
 	<script src="movieapp/vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
 	<script src="movieapp/vendor/daterangepicker/moment.min.js"></script>
 	<script src="movieapp/vendor/daterangepicker/daterangepicker.js"></script>
-<!--===============================================================================================-->
 	<script src="movieapp/vendor/countdowntime/countdowntime.js"></script>
-<!--===============================================================================================-->
 	<script src="movieapp/js/main.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
 
 <script type="text/javascript">
 	(function ($) {
 		$( ".birth" ).datepicker({
 			dateFormat: "yy - mm - dd",
-			buttonImageOnly: true,
 	 		showOn: "both",
-	 		buttonImage : "/static/movieapp/img/calendar.png",
+        	buttonText : '<span style="color:grey"><i class="far fa-calendar"></i></span>',
 	 		fontFamily : "Raleway-Medium",
 	 		minDate : "-100Y",
 	 		yearRange: "-100:+0",

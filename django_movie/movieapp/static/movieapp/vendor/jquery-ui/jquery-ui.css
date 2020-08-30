@@ -405,6 +405,10 @@ button.ui-button::-moz-focus-inner {
 	padding: .2em .2em 0;
 	display: none;
 }
+.ui-datepicker-trigger {
+	border:none;
+    background:none;
+}
 .ui-datepicker .ui-datepicker-header {
 	position: relative;
 	padding: .2em 0;
@@ -947,6 +951,7 @@ a.ui-button,
 a:link.ui-button,
 a:visited.ui-button,
 .ui-button {
+	font-family: Raleway-Medium;
 	color: #454545;
 	text-decoration: none;
 }
