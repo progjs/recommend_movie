@@ -1,0 +1,134 @@
+{% extends 'movieapp/base.html' %}
+{% block contents %}
+{% load static %}
+
+<head>
+	<title>회원가입 : 방구석스크린</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/fonts/Linearicons-Free-v1.0.0/icon-font.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/vendor/animate/animate.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/vendor/css-hamburgers/hamburgers.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/vendor/animsition/css/animsition.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/vendor/select2/select2.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/vendor/daterangepicker/daterangepicker.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'movieapp/css/main.css' %}">
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+</head>
+
+	<div class="limiter">
+		<div class="container">
+
+			<div class="wrap-signup100 p-l-85 p-r-85 p-t-55 p-b-55" style="margin: 0 auto; margin-top: 5%;">
+				<form method="post" action="{% url 'create_user' %}" class="login100-form validate-form flex-sb flex-w">
+                    {% load widget_tweaks %}
+					{% csrf_token %}
+					<span class="login100-form-title p-b-32">
+						회원가입
+					</span>
+
+					<span class="txt1 p-b-11">
+						이름
+					</span>
+					<div class="wrap-input100 validate-input m-b-12">
+                        {{user_form.first_name |add_class:"input-signup" }}
+						<span class="focus-input-signup"></span>
+					</div>
+
+					<span class="txt1 p-b-11">
+						아이디
+					</span>
+					<div class="wrap-input100 validate-input m-b-12">
+						{{user_form.username |add_class:"input-signup"}}
+						<span class="focus-input-signup"></span>
+					</div>
+
+					<span class="txt1 p-b-11">
+						비밀번호
+					</span>
+					<div class="wrap-input100 validate-input m-b-12">
+						{{user_form.password |add_class:"input-signup"}}
+						<span class="focus-input-signup"></span>
+					</div>
+
+					<span class="txt1 p-b-11">
+						비밀번호 확인
+					</span>
+					<div class="wrap-input100 validate-input m-b-12">
+						{{userdetail_form.password2 |add_class:"input-signup"}}
+						<span class="focus-input-signup"></span>
+					</div>
+
+					<span class="txt1 p-b-11">
+						성별
+					</span>
+					<div class="wrap-input100 validate-input m-b-12">
+						{{userdetail_form.sex |add_class:"select-list"}}
+						<span class="focus-select-list"></span>
+					</div>
+
+					<span class="txt1 p-b-11">
+						생년월일
+					</span>
+					<div class="wrap-input100 validate-input m-b-12" style="display: inline-block">
+						{{userdetail_form.birth | add_class:"birth"}}
+						<span class="focus-input-signup"></span>
+					</div>
+
+					<span class="txt1 p-b-11">
+						좋아하는 영화 장르
+					</span>
+					<div class="wrap-input100 validate-input m-b-12">
+						{{userdetail_form.favorite_genre | add_class:"select-list"}}
+						<span class="focus-select-list"></span>
+					</div>
+
+
+					<div class="container-login100-form-btn" style="text-align: center; margin-top: 5%;">
+						<button type="submit" class="login100-form-btn" style="margin: 0 auto;">
+							회원가입
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="movieapp/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="vendor/jquery-ui/jquery-ui.min.js"></script>
+	<script src="movieapp/vendor/animsition/js/animsition.min.js"></script>
+	<script src="movieapp/vendor/bootstrap/js/popper.js"></script>
+	<script src="movieapp/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="movieapp/vendor/select2/select2.min.js"></script>
+	<script src="movieapp/vendor/daterangepicker/moment.min.js"></script>
+	<script src="movieapp/vendor/daterangepicker/daterangepicker.js"></script>
+	<script src="movieapp/vendor/countdowntime/countdowntime.js"></script>
+	<script src="movieapp/js/main.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
+
+
+
+<script type="text/javascript">
+	(function ($) {
+		$( ".birth" ).datepicker({
+			dateFormat: "yy - mm - dd",
+	 		showOn: "both",
+        	buttonText : '<span style="color:grey"><i class="far fa-calendar"></i></span>',
+	 		fontFamily : "Raleway-Medium",
+	 		minDate : "-100Y",
+	 		yearRange: "-100:+0",
+	 		maxDate : 0,
+	 		changeYear: true,
+	 		changeMonth: true,
+	 		dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
+	 		dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+	 		monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+	 		monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+		});
+	})(jQuery);
+
+ </script>
+
+    {% endblock %}
