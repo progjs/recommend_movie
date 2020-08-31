@@ -130,3 +130,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
 LOGIN_REDIRECT_URL = '/'  # 최상위에서 로그인
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

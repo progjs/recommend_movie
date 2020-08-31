@@ -9,6 +9,9 @@ def check_password(pw1, pw2):
         raise forms.ValidationError('비밀번호가 일치하지 않습니다.')
 
 
+password: str = ""
+
+
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
@@ -27,6 +30,19 @@ class UserForm(forms.ModelForm):
             "username": forms.TextInput,
             "password": forms.PasswordInput
         }
+
+    def clean(self):
+        super(UserForm, self).clean()
+
+        username = self.cleaned_data.get('username')
+        global password
+        password = self.cleaned_data.get('password')
+        print(type(password))
+
+        if User.objects.filter(username=username).exists():
+            self._errors['username'] = self.error_class(['이미 가입된 아이디입니다.'])
+
+        return self.cleaned_data
 
 
 SEX_CHOICES = [('선택안함', '선택안함'),
@@ -54,3 +70,14 @@ class UserDetailForm(forms.ModelForm):
             "birth": forms.TextInput,
             "favorite_genre": forms.Select(choices=GENRE_CHOICE)
         }
+
+    def clean(self):
+        super(UserDetailForm, self).clean()
+
+        global password
+        password2 = self.cleaned_data.get('password2')
+
+        if not password == password2:
+            self._errors['password2'] = self.error_class(['비밀번호가 일치하지 않습니다.'])
+
+        return self.cleaned_data
