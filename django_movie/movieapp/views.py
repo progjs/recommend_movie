@@ -28,7 +28,7 @@ def choice_movies(past_cnt, cur_cnt):
     return choice_id_list
 
 
-def index(request):
+def filter_all(request):
     if 'user_id' in request.session.keys():
         user = get_object_or_404(User, username=request.session['user_id'])
         user_genre = get_object_or_404(UserDetail, user=user).favorite_genre
@@ -37,22 +37,29 @@ def index(request):
     else:
         choice_id = choice_movies(3, 9)
     movie_list = Movie.objects.filter(pk__in=choice_id)
+    return movie_list
+
+
+def index(request):
+    movie_list = filter_all(request)
     return render(request, 'movieapp/index.html', {'movie_list': movie_list})
 
 
 def index_filter(request):
     genre = request.POST.get('genre')
     if genre == 'all':
-        genre_movies = Movie.objects.filter(pk__in=choice_movies(3, 9))
+        genre_movies = filter_all(request)
     else:
         print('선택한 장르', genre)
-        genre_movies = Movie.objects.filter(genres__genre=genre)[0:9]
-    genre_dict = {}
-    # genre_dict = genre_movies.genres.all()
-    # print(genre_dict)
-    # print(genre_json)
+        genre_movie_id = Movie.objects.filter(genres__genre=genre, score__gte=8).values_list('pk', flat=True)
+        choice_id = sample(list(genre_movie_id), 9)
+        genre_movies = Movie.objects.filter(pk__in=choice_id)
+
     movie_list = serializers.serialize('json', genre_movies)
-    data = {"movie_data": movie_list, "genre_data": genre_dict}
+    data = {"movie_data": movie_list}
+    for movie in genre_movies:
+        movie_genres = movie.genres.all()[:3]
+        data[movie.pk] = serializers.serialize('json', movie_genres)
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 

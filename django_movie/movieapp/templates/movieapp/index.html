@@ -82,13 +82,15 @@
           t.children('span.score').text(movie_obj['score']);
           $('#movie'+i+' img').attr('src', "{% static 'movieapp/img/poster/'%}"+pk+".jpg");
           $('#movie'+i).attr('href', "movie_detail/"+pk);
-        });
 
-        const data2 = jQuery.parseJSON(response);
-        console.log(data2);
-      },
-      error: function(response){
-      },
+          const genre_data = jQuery.parseJSON(response[pk]);
+          let genres = ''
+          $.each(genre_data, function (j, g_obj) {
+            genres = genres.concat(g_obj['fields']['genre'], ' ');
+          });
+          t.children('span.genre-names').text(genres);
+        });
+      }
     });
   });
 </script>
