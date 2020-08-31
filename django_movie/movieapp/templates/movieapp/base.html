@@ -9,8 +9,7 @@
   <meta content="" name="description">
 
   <!-- Favicons -->
-  <link href="{% static 'movieapp/img/favicon.png' %}" rel="icon">
-  <link href="{% static 'movieapp/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+  <link href="{% static 'movieapp/img/favicon3.png' %}" rel="icon" type="image/x-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700|Raleway:400,700&display=swap"
@@ -20,7 +19,6 @@
   <link href="{% static 'movieapp/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-
   <link href="{% static 'movieapp/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
   <link href="{% static 'movieapp/vendor/line-awesome/css/line-awesome.min.css' %}" rel="stylesheet">
   <link href="{% static 'movieapp/vendor/aos/aos.css' %}" rel="stylesheet">
@@ -35,45 +33,21 @@
     Author: BootstrapMade.com
     Author URL: https://bootstrapmade.com/
   ======================================================= -->
+  <style>
+    .p-longtext {
+      line-height: 1.8;
+      text-align: justify;
+    }
+  </style>
+
 </head>
 
 <body>
 
-  <div class="collapse navbar-collapse custom-navmenu" id="main-navbar">
-    <div class="container py-2 py-md-5">
-      <div class="row align-items-start">
-        <div class="col-md-2">
-          <ul class="custom-menu">
-            <li class="active"><a href="{% url 'index' %}">Home</a></li>
-            <li><a href="#">About Me</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Works</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
-        </div>
-        <div class="col-md-6 d-none d-md-block  mr-auto">
-          <div class="tweet d-flex">
-            <span class="icofont-twitter text-white mt-2 mr-3"></span>
-            <div>
-              <p><em>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam necessitatibus incidunt ut
-                  officiis explicabo inventore. <br> <a href="#">t.co/v82jsk</a></em></p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 d-none d-md-block">
-          <h3>Hire Me</h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam necessitatibus incidunt ut officiis
-            explicabo inventore. <br> <a href="#">myemail@gmail.com</a></p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
   <nav class="navbar navbar-light custom-navbar">
     <div class="container">
         <a href="{% url 'index' %}" class="font-heading" style="color: #212529"><h4>Home</h4></a>
-      <div class="float-left"><h2>방구석스크린</h2></div>
+      <div class="float-left"><h2>방구석 스크린</h2></div>
 
       <div>
       {% if request.session.user_id %}
