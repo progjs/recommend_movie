@@ -14,6 +14,7 @@ from django.db.models import F, Func, Value
 
 from .models import Movie, Actor, Genre, Comment, User, UserDetail, WishList
 from .forms import UserForm, UserDetailForm
+from django.core import serializers
 
 redirect_path: str = ""
 
@@ -37,6 +38,22 @@ def index(request):
         choice_id = choice_movies(3, 9)
     movie_list = Movie.objects.filter(pk__in=choice_id)
     return render(request, 'movieapp/index.html', {'movie_list': movie_list})
+
+
+def index_filter(request):
+    genre = request.POST.get('genre')
+    if genre == 'all':
+        genre_movies = Movie.objects.filter(pk__in=choice_movies(3, 9))
+    else:
+        print('선택한 장르', genre)
+        genre_movies = Movie.objects.filter(genres__genre=genre)[0:9]
+    genre_dict = {}
+    # genre_dict = genre_movies.genres.all()
+    # print(genre_dict)
+    # print(genre_json)
+    movie_list = serializers.serialize('json', genre_movies)
+    data = {"movie_data": movie_list, "genre_data": genre_dict}
+    return HttpResponse(json.dumps(data), content_type="application/json")
 
 
 def genre_filter(request):

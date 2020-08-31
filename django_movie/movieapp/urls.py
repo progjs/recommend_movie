@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('filter/', views.index_filter, name='index_filter'),
 
     ## 회원 계정
     path('accounts/login/', views.login, name='login'),

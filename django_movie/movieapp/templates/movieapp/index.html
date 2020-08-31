@@ -23,19 +23,27 @@
           </div>
 
           <div class="container">
-            <div id="filters" class="filters" align="right">
-              <a href="#" data-filter="*" class="active">전체</a>
-              <a href="#" data-filter=".web">드라마</a>
-              <a href="#" data-filter=".design">액션</a>
-              <a href="#" data-filter=".branding">코미디</a>
-              <a href="#" data-filter=".photography">애니메이션</a>
+            <div id="filters" class="filters" align="center">
+              <a href="#" class="filter" value="all">전체</a>
+              <a href="#" class="filter" value="드라마">드라마</a>
+              <a href="#" class="filter" value="판타지">판타지</a>
+              <a href="#" class="filter" value="공포">공포</a>
+              <a href="#" class="filter" value="멜로/로맨스">로맨스</a>
+              <a href="#" class="filter" value="모험">모험</a>
+              <a href="#" class="filter" value="스릴러">스릴러</a>
+              <a href="#" class="filter" value="코미디">코미디</a>
+              <a href="#" class="filter" value="미스터리">미스터리</a>
+              <a href="#" class="filter" value="애니메이션">애니메이션</a>
+              <a href="#" class="filter" value="범죄">범죄</a>
+              <a href="#" class="filter" value="SF">SF</a>
+              <a href="#" class="filter" value="액션">액션</a>
             </div>
           </div>
 
         <div id="portfolio-grid" class="row no-gutter" data-aos="fade-up" data-aos-delay="200">
-            {% for movie in movie_list %}
+          {% for movie in movie_list %}
           <div class="item web col-sm-6 col-md-4 col-lg-4 mb-4">
-            <a href="{% url 'movie_detail' pk=movie.pk %}" class="item-wrap fancybox">
+            <a href="{% url 'movie_detail' pk=movie.pk %}" class="item-wrap fancybox" id="movie{{forloop.counter0}}">
               <div class="work-info">
                 <h3>{{ movie.title }}</h3>
                 <span class="genre-names">
@@ -43,9 +51,10 @@
                   {{ genre.genre }}
                 {% endfor %}
                 </span><br>
-                <span>{{ movie.score }}</span>
+                <span class="score">{{ movie.score }}</span>
+                <p class="test"></p>
               </div>
-              <img class="img-fluid" src="{% static 'movieapp/img/poster/'%}{{movie.pk}}.jpg">
+              <img class="img-fluid" id="img{{forloop.counter0}}" src="{% static 'movieapp/img/poster/'%}{{movie.pk}}.jpg">
             </a>
           </div>
           {% endfor %}
@@ -53,6 +62,34 @@
       </div>
   </main>
 
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+  $(".filter").click(function(){
+    const genre = $(this).attr('value');
+    $.ajax({
+      type: "POST",
+      url: "{% url 'index_filter' %}",
+      data: {'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'genre': genre },
+      dataType: "json",
+      success: function(response){
+        const data = jQuery.parseJSON(response['movie_data']);
+        $.each(data, function(i, obj) {
+          const pk = obj['pk'];
+          const movie_obj = obj['fields'];
+          const t = $('#movie'+i+' .work-info');
+          t.children('h3').text(movie_obj['title']);
+          t.children('span.score').text(movie_obj['score']);
+          $('#movie'+i+' img').attr('src', "{% static 'movieapp/img/poster/'%}"+pk+".jpg");
+          $('#movie'+i).attr('href', "movie_detail/"+pk);
+        });
 
-
+        const data2 = jQuery.parseJSON(response);
+        console.log(data2);
+      },
+      error: function(response){
+      },
+    });
+  });
+</script>
 {% endblock %}
