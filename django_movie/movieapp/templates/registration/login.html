@@ -17,9 +17,7 @@
 
 	<div class="limiter">
 		<div class="container">
-			{% if error %}
-			<p>{{ error }}</p>
-			{% endif %}
+
 
 			<div class="wrap-login100 p-l-85 p-r-85 p-t-55 p-b-55" style="margin: 0 auto; margin-top: 5%;">
 				<form method="post" action="{% url 'login' %}" class="login100-form validate-form flex-sb flex-w">
@@ -41,6 +39,9 @@
 						<input class="input100" type="password" name="password" id="password">
 						<span class="focus-input100"></span>
 					</div>
+					{% if error %}
+					<span class="p-b-11" style="color: #DF0101;">{{ error }}</span>
+					{% endif %}
 					<div class="container-login100-form-btn" style="text-align: center; margin-top: 5%;">
 						<button type="submit" class="login100-form-btn" style="margin: 0 auto;">
 							로그인
