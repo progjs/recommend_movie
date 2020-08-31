@@ -52,7 +52,7 @@
                         </li>
                     </ul>
                     {% if movie.plot|length <= 523 %}
-                    <p>{{ movie.plot|linebreaksbr }}</p>
+                    <p class="p-longtext">{{ movie.plot|linebreaksbr }}</p>
                     <div class="sticky-content" style="margin-top: 15%;">
                     {% else %}
                     <div class="sticky-content" style="margin-top: 30%;">
@@ -78,7 +78,7 @@
           {% if movie.plot|length > 523 %}
           <div class="container" style="margin-top:3em">
               <div class="col-md-12" >
-                <p>{{ movie.plot|linebreaksbr }}</p>
+                <p class="p-longtext">{{ movie.plot|linebreaksbr }}</p>
               </div>
           </div>
           {% endif %}

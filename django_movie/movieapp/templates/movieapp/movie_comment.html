@@ -6,10 +6,10 @@
     <div class="container">
             <h3>New Comment</h3>
             {% if request.session.user_id %}
-            <form method="post" id="comment-form" action="{% url 'add_comment' pk=movie.pk %}">
+            <form method="post" id="comment-form" action="{% url 'add_comment' pk=movie.pk %}?next={{request.get_full_path|urlencode}}">
                 {% csrf_token %}
                 <div class="row">
-                    <div class="col-md-7 form-group">
+                    <div class="col-md-8 form-group">
                         <div class="star-box">
                             <span class="star star_left" value="1"></span>
                             <span class="star star_right" value="2"></span>
@@ -35,7 +35,6 @@
                     </div>
                     <div class="col-md-7 form-group">
                         <input type="text" class="form-control" id="comment" name="comment" placeholder="댓글을 작성해주세요.">
-                        <input type="hidden" name="path" id="cur-path" value="{{request.get_full_path|urlencode}}">
                     </div>
                     <button type="submit" class="btn btn-primary">완료</button>
                 </div>
@@ -61,7 +60,7 @@
                     <span>{{comment.user.username}} |</span>
                     <span>{{comment.published_date}} |</span>
                     {% if comment.user.username == request.session.user_id %}
-                        <a href="{% url 'remove_comment' pk=movie.pk comment_id=comment.id %}" class="delete-btn">삭제</a>
+                        <a href="{% url 'remove_comment' pk=movie.pk comment_id=comment.id %}?next={{request.get_full_path|urlencode}}" class="delete-btn" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</a>
                     {% endif %}
                 </div>
 
@@ -90,7 +89,7 @@
             $(".star").eq(i).addClass("on");
          };
     });
-
+    // 선택한 별점 초기화
     $("#reset-star").on('click', function (){
         $(".star").removeClass("on");
         $('#comment-score').val(0);
@@ -98,14 +97,13 @@
     })
 
     $("#comment-form").submit(function (){
-        var score_value = $("#comment-score").val();
+        const score_value = $("#comment-score").val();
         if(score_value <= 0 || score_value > 10){
             alert('평점을 입력해주세요.');
             return false;
         };
 
-        var comment = $("#comment").val();
-        var path = $("#cur-path").val();
+        const comment = $("#comment").val();
         $.ajax({
             url: "{% url 'add_comment' pk=movie.pk %}",
             type: "POST",
@@ -113,27 +111,16 @@
                 'csrfmiddlewaretoken': '{{ csrf_token }}',
                 "comment": comment,
                 "comment_score": score_value,
-                "path": path,
             },
             dataType: "json",
             success: function (response){
                 if(response.success == false){
                     alert(response.error);
-                window.location.replace(path);
+                    window.location.replace("{{request.get_full_path|urlencode}}");
                 }
             },
         })
     });
-
-    // $(".delete-btn").on('click', function (){
-    //     confirm('정말로 댓글을 삭제하시겠습니까?');
-    //     if (result) {
-    //         return true;
-    //     }
-    //     else {
-    //         return false;
-    //     }
-    // });
 </script>
 
 {% endblock comment %}

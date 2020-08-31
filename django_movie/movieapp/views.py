@@ -76,6 +76,9 @@ def movie_detail(request, pk):
 
 # ------------------- 댓글 CRUD ---------------------
 def add_comment(request, pk):
+    global redirect_path
+    redirect_path = request.GET.get('next', '')
+
     movie = get_object_or_404(Movie, pk=pk)
     user = get_object_or_404(User, username=request.session['user_id'])
 
@@ -84,26 +87,34 @@ def add_comment(request, pk):
             res_data = {'error': "이미 댓글을 작성하셨습니다.\n댓글은 영화마다 한 번만 작성할 수 있습니다.", 'success': False}
             return HttpResponse(json.dumps(res_data), content_type="application/json")
 
-        new_score = int(request.POST['comment-score'])
-        new_comment = request.POST['comment']
+        new_score = int(request.POST.get('comment_score', 0))
+        new_comment = request.POST.get('comment', 0)
+        print('평점', new_score, '댓글', new_comment)
+
         date = timezone.now()
         new_comment = Comment.objects.create(movie=movie, user=user, comment=new_comment, published_date=date,
                                              comment_score=new_score)
         new_comment.save()
+        print('원래 점수 {}, 댓글 수 {}'.format(movie.score_sum, movie.comment_count))
         movie.score_sum += new_score
         movie.comment_count += 1
         movie.calcul_score()
-    return HttpResponseRedirect(request.POST['path'])
+        movie.save()
+        print('변경후 점수 {}, 댓글 수 {}'.format(movie.score_sum, movie.comment_count))
+    return HttpResponseRedirect(redirect_path)
 
 
 def remove_comment(request, pk, comment_id):
+    global redirect_path
+    redirect_path = request.GET.get('next', '')
     del_comment = get_object_or_404(Comment, pk=comment_id)
     movie = get_object_or_404(Movie, pk=pk)
     movie.score_sum -= del_comment.comment_score
     movie.comment_count -= 1
     movie.calcul_score()
+    movie.save()
     del_comment.delete()
-    return redirect('movie_detail', pk=pk)
+    return HttpResponseRedirect(redirect_path)
 
 
 # ------------------- 회원계정 ---------------------
