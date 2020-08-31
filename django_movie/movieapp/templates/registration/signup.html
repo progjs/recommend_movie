@@ -27,6 +27,7 @@
 						회원가입
 					</span>
 
+<!--					{{ user_form.errors }}-->
 					<span class="txt1 p-b-11">
 						이름
 					</span>
@@ -38,6 +39,11 @@
 					<span class="txt1 p-b-11">
 						아이디
 					</span>
+						<span class="txt1 p-b-11" style="color: #DF0101; text-align: right;">
+							{{user_form.username.errors}}
+						</span>
+
+
 					<div class="wrap-input100 validate-input m-b-12">
 						{{user_form.username |add_class:"input-signup"}}
 						<span class="focus-input-signup"></span>
@@ -54,6 +60,10 @@
 					<span class="txt1 p-b-11">
 						비밀번호 확인
 					</span>
+					<span class="txt1 p-b-11" style="color: #DF0101; text-align: right;">
+						{{userdetail_form.password2.errors}}
+					</span>
+
 					<div class="wrap-input100 validate-input m-b-12">
 						{{userdetail_form.password2 |add_class:"input-signup"}}
 						<span class="focus-input-signup"></span>

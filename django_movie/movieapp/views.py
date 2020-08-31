@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 import json
 from random import sample
-
+from django.core import serializers
 #
 from django.db.models import F, Func, Value
 
@@ -154,30 +154,32 @@ def save_session(request, user_id, user_pw):
 
 
 def login(request):
-    if request.method == 'GET':
-        global redirect_path
-        redirect_path = request.GET.get('next', '')
-        print('이전 페이지 ', redirect_path)
-        return render(request, 'registration/login.html')
-    if request.method == 'POST':
-        user_id = request.POST['username']
-        password = request.POST['password']
-        res_data = {}
-        if not (user_id and password):
-            res_data['error'] = "모든 칸을 다 입력해주세요."
-        else:
-            try:
-                user = User.objects.get(username=user_id)
-            except User.DoesNotExist:
-                res_data['error'] = "존재하지 않는 아이디입니다."
+    if 'user_id' in request.session.keys():
+        return redirect('/')
+    else:
+        if request.method == 'GET':
+            global redirect_path
+            redirect_path = request.GET.get('next', '')
+            return render(request, 'registration/login.html')
+        if request.method == 'POST':
+            user_id = request.POST['username']
+            password = request.POST['password']
+            res_data = {}
+            if not (user_id and password):
+                res_data['error'] = "모든 칸을 다 입력해주세요."
             else:
-                if check_password(password, user.password):
-                    save_session(request, user.username, password)
-                    return HttpResponseRedirect(redirect_path)
+                try:
+                    user = User.objects.get(username=user_id)
+                except User.DoesNotExist:
+                    res_data['error'] = "존재하지 않는 아이디입니다."
                 else:
-                    res_data['error'] = '비밀번호가 틀렸습니다.'
+                    if check_password(password, user.password):
+                        save_session(request, user.username, password)
+                        return HttpResponseRedirect(redirect_path)
+                    else:
+                        res_data['error'] = '비밀번호가 틀렸습니다.'
 
-        return render(request, 'registration/login.html', res_data)
+            return render(request, 'registration/login.html', res_data)
 
 
 def logout(request):
@@ -187,28 +189,36 @@ def logout(request):
 
 
 def create_user(request):
-    if request.method == 'POST':
-        user_form = UserForm(request.POST)
-        userdetail_form = UserDetailForm(request.POST)
-        print(request.method)
+    if 'user_id' in request.session.keys():
+        return redirect('/')
+    else:
+        if request.method == 'POST':
+            user_form = UserForm(request.POST)
+            userdetail_form = UserDetailForm(request.POST)
+            print(request.method)
 
-        if user_form.is_valid() and userdetail_form.is_valid():
-            user = User.objects.create(username=user_form.cleaned_data['username'],
-                                       password=user_form.cleaned_data['password'],
-                                       first_name=user_form.cleaned_data['first_name'],
-                                       email=user_form.cleaned_data['email'],
-                                       )
+            if user_form.is_valid() and userdetail_form.is_valid():
+                print("왜왜왜왜왜왜")
+                user = User.objects.create(username=user_form.cleaned_data['username'],
+                                           password=user_form.cleaned_data['password'],
+                                           first_name=user_form.cleaned_data['first_name'],
+                                           email=user_form.cleaned_data['email'],
+                                           )
 
-            user.userdetail.sex = userdetail_form.cleaned_data['sex']
-            user.userdetail.birth = userdetail_form.cleaned_data['birth']
-            user.userdetail.favorite_genre = userdetail_form.cleaned_data['favorite_genre']
-            user.save()
+                user.userdetail.sex = userdetail_form.cleaned_data['sex']
+                user.userdetail.birth = userdetail_form.cleaned_data['birth']
+                user.userdetail.favorite_genre = userdetail_form.cleaned_data['favorite_genre']
+                user.save()
 
-            return render(request, 'registration/login.html')
-    if request.method == 'GET':
-        user_form = UserForm()
-        userdetail_form = UserDetailForm()
-        return render(request, 'registration/signup.html', {'user_form': user_form, 'userdetail_form': userdetail_form})
+                return render(request, 'registration/login.html')
+
+            else:
+                return render(request, "registration/signup.html", {'user_form': user_form, 'userdetail_form': userdetail_form})
+
+        if request.method == 'GET':
+            user_form = UserForm()
+            userdetail_form = UserDetailForm()
+            return render(request, 'registration/signup.html', {'user_form': user_form, 'userdetail_form': userdetail_form})
 
 
 # ------------------- 추가기능 ---------------------
