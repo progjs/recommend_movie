@@ -12,7 +12,7 @@
 
   <main id="main">
       <div class="container">
-          <div class="container" style="padding:3%">
+          <div class="container" style="padding-top:6%; padding-bottom:3%">
             <form class="form-inline my-2 my-lg-0" action="{% url 'search_movie' %}" method="get">
               {% csrf_token %}
               <div class="box_main">
@@ -79,7 +79,7 @@
           const movie_obj = obj['fields'];
           const t = $('#movie'+i+' .work-info');
           t.children('h3').text(movie_obj['title']);
-          t.children('span.score').text(movie_obj['score']);
+          t.children('span.score').text(movie_obj['score'].toFixed(2));
           $('#movie'+i+' img').attr('src', "{% static 'movieapp/img/poster/'%}"+pk+".jpg");
           $('#movie'+i).attr('href', "movie_detail/"+pk);
 

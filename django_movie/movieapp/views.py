@@ -20,11 +20,10 @@ redirect_path: str = ""
 
 
 def choice_movies(past_cnt, cur_cnt):
-    # past_id = Movie.objects.filter(release_year__lte=2010, score__gte=8.8).values_list('pk', flat=True)
-    # choice_id_list = sample(list(past_id), past_cnt)
-    # cur_id = Movie.objects.filter(release_year__gt=2010, score__gte=8.5).values_list('pk', flat=True)
-    cur_id = Movie.objects.filter(score__gte=8.5).values_list('pk', flat=True)
-    choice_id_list = sample(list(cur_id), cur_cnt)
+    past_id = Movie.objects.filter(release_year__lte=2010, score__gte=8.8).values_list('pk', flat=True)
+    choice_id_list = sample(list(past_id), past_cnt)
+    cur_id = Movie.objects.filter(release_year__gt=2010, score__gte=8.5).values_list('pk', flat=True)
+    choice_id_list += sample(list(cur_id), cur_cnt)
     return choice_id_list
 
 
@@ -33,9 +32,9 @@ def filter_all(request):
         user = get_object_or_404(User, username=request.session['user_id'])
         user_genre = get_object_or_404(UserDetail, user=user).favorite_genre
         genre_movie_id = Movie.objects.filter(genres__genre=user_genre, score__gte=8).values_list('pk', flat=True)
-        choice_id = sample(list(genre_movie_id), 3) + choice_movies(2, 6)
+        choice_id = sample(list(genre_movie_id), 3) + choice_movies(3, 3)
     else:
-        choice_id = choice_movies(3, 9)
+        choice_id = choice_movies(4, 5)
     movie_list = Movie.objects.filter(pk__in=choice_id)
     return movie_list
 
@@ -58,26 +57,9 @@ def index_filter(request):
     movie_list = serializers.serialize('json', genre_movies)
     data = {"movie_data": movie_list}
     for movie in genre_movies:
-        movie_genres = movie.genres.all()[:3]
+        movie_genres = movie.genres.all()[:3] # 대표 장르 3개
         data[movie.pk] = serializers.serialize('json', movie_genres)
     return HttpResponse(json.dumps(data), content_type="application/json")
-
-
-def genre_filter(request):
-    # genre_dict = {0:'드라마', 1:'액션', 2:'판타지', 3:'애니메이션', 4:'드라마'}
-    selected_genre = request.POST.get('selected_genre')
-    # selected_genre = genre_dict[g_id]
-    print('선택한 장르 :', selected_genre)
-    # filter_list = Genre.objects.filter(genre=selected_genre)
-    filter_list = Movie.objects.prefetch_related('genres').filter(genres__genre=selected_genre).order_by(
-        'score').reverse()[:6]
-    movie_list = []
-    for movie in filter_list:
-        print(movie.title, movie.score)
-        info = [movie.title, movie.score]
-        movie_list.append(info)
-    # return render(request, 'movieapp/index.html', {'movie_list':filter_list})
-    return HttpResponse(json.dumps({'genre_movies': movie_list}), content_type="application/json")
 
 
 def movie_detail(request, pk):
