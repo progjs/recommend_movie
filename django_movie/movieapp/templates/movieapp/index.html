@@ -12,7 +12,7 @@
 
   <main id="main">
       <div class="container">
-          <div class="container" style="padding:3%">
+          <div class="container" style="padding-top:6%; padding-bottom:3%">
             <form class="form-inline my-2 my-lg-0" action="{% url 'search_movie' %}" method="get">
               {% csrf_token %}
               <div class="box_main">
@@ -51,7 +51,7 @@
                   {{ genre.genre }}
                 {% endfor %}
                 </span><br>
-                <span class="score">{{ movie.score }}</span>
+                <span class="score">{{ movie.score|floatformat:2 }}</span>
                 <p class="test"></p>
               </div>
               <img class="img-fluid" id="img{{forloop.counter0}}" src="{% static 'movieapp/img/poster/'%}{{movie.pk}}.jpg">

@@ -6,7 +6,7 @@
     <div class="container">
             <h3>New Comment</h3>
             {% if request.session.user_id %}
-            <form method="post" id="comment-form" action="{% url 'add_comment' pk=movie.pk %}?next={{request.get_full_path|urlencode}}">
+            <form method="post" id="comment-form" action="{% url 'add_comment' pk=movie.pk %}">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-md-8 form-group">
@@ -36,7 +36,7 @@
                     <div class="col-md-7 form-group">
                         <input type="text" class="form-control" id="comment" name="comment" placeholder="댓글을 작성해주세요.">
                     </div>
-                    <button type="submit" class="btn btn-primary">완료</button>
+                    <button type="submit" class="btn btn-primary" style="height: 2.5rem;">완료</button>
                 </div>
             </form>
 
@@ -105,7 +105,7 @@
 
         const comment = $("#comment").val();
         $.ajax({
-            url: "{% url 'add_comment' pk=movie.pk %}",
+            url: "{% url 'add_comment' pk=movie.pk %}?next={{request.get_full_path|urlencode}}",
             type: "POST",
             data: {
                 'csrfmiddlewaretoken': '{{ csrf_token }}',
@@ -114,10 +114,10 @@
             },
             dataType: "json",
             success: function (response){
-                if(response.success == false){
-                    alert(response.error);
-                    window.location.replace("{{request.get_full_path|urlencode}}");
+                if(response['check'] == false){
+                    alert(response['error']);
                 }
+                window.location.replace(response['next_url']);
             },
         })
     });

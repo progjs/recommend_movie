@@ -14,7 +14,6 @@ urlpatterns = [
     path('movie_detail/<int:pk>/', views.movie_detail, name='movie_detail'),
     path('movie_detail/wishlist/', views.add_wishlist, name='add_wishlist'),
     path('search/', views.search_movie, name='search_movie'),
-    # path('genre/', views.genre_filter, name='genre_filter'),
     path('wishlist/', views.show_wishlist, name='show_wishlist'),
 
     ## 댓글 CRUD
