@@ -37,7 +37,7 @@
                   {{ genre.genre }}
                 {% endfor %}
                 </span><br>
-                <span>{{ movie.score }}</span>
+                <span>{{ movie.score|floatformat:2 }}</span>
               </div>
               <img class="img-fluid" src="{% static 'movieapp/img/poster/'%}{{movie.id}}.jpg">
             </a>
