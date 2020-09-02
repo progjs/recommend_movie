@@ -7,6 +7,17 @@
   <title>검색 결과 : 방구석스크린</title>
 </head>
 
+  <div class="container">
+          <div class="container" style="padding:3%">
+            <form class="form-inline my-2 my-lg-0" action="{% url 'search_movie' %}" method="get">
+              {% csrf_token %}
+              <div class="box_main">
+			    <input type="search" class="email_bt" placeholder="영화제목,배우,장르,감독 입력" name="word" value="{{word}}" style="border: 1px solid;">
+				<button class="subscribe_bt" type="submit">검색</a></button>
+		      </div>
+            </form>
+          </div>
+
     {% if not movies %}
         <div align="center" style="margin-top: 10%">
             '{{ search_word }}'에 대한 검색 결과가 없습니다.
@@ -35,5 +46,6 @@
         </div>
     {% endif %}
     </div>
+  </div>
 
 {% endblock %}
