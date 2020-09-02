@@ -3,7 +3,6 @@ from random import sample
 
 from django.core import serializers
 from django.db.models import Q
-#
 from django.db.models import Value
 from django.db.models.functions import Replace
 from django.http import HttpResponse
@@ -17,7 +16,7 @@ from .models import Movie, Comment, User, UserDetail, WishList
 
 import schedule
 import time
-from .update_data.wordcloud import main_cloud
+# from .update_data.wordcloud import main_cloud
 
 redirect_path: str = ""
 
@@ -26,11 +25,11 @@ redirect_path: str = ""
 # 월요일마다
 # schedule.every().monday.do(main_cloud)
 
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
-
+#
+# while True:
+#     schedule.run_pending()
+#     time.sleep(1)
+#
 
 def choice_movies(past_cnt, cur_cnt):
     past_id = Movie.objects.filter(release_year__lte=2010, score__gte=8.8).values_list('pk', flat=True)
