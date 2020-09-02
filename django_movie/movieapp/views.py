@@ -87,15 +87,15 @@ def movie_detail(request, pk):
 
 # ------------------- 댓글 CRUD ---------------------
 def add_comment(request, pk):
-    global redirect_path
-    redirect_path = request.GET.get('next', '')
-    res_data = {}
+    res_data = {'check': False, 'error':'error'}
     movie = get_object_or_404(Movie, pk=pk)
     user = get_object_or_404(User, username=request.session['user_id'])
 
     if request.method == 'POST':
         if Comment.objects.filter(movie=movie, user=user).exists():
-            res_data = {'error': "이미 댓글을 작성하셨습니다.\n댓글은 영화마다 한 번만 작성할 수 있습니다.", 'check': False}
+            res_data['error'] = "이미 댓글을 작성하셨습니다.\n댓글은 영화마다 한 번만 작성할 수 있습니다."
+            res_data['check'] = False
+            print(res_data)
             return HttpResponse(json.dumps(res_data), content_type="application/json")
 
         new_score = int(request.POST.get('comment_score', 0))
@@ -111,7 +111,9 @@ def add_comment(request, pk):
         movie.comment_count += 1
         movie.calcul_score()
         movie.save()
+        res_data['check'] = True
         print('변경후 점수 {}, 댓글 수 {}'.format(movie.score_sum, movie.comment_count))
+    print(res_data)
     return HttpResponse(json.dumps(res_data), content_type="application/json")
 
 
@@ -192,7 +194,6 @@ def create_user(request):
             print(request.method)
 
             if user_form.is_valid() and userdetail_form.is_valid():
-                print("왜왜왜왜왜왜")
                 user = User.objects.create(username=user_form.cleaned_data['username'],
                                            password=user_form.cleaned_data['password'],
                                            first_name=user_form.cleaned_data['first_name'],
