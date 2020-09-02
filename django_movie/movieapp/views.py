@@ -1,22 +1,35 @@
-from django.db.models import Q
-from django.db.models.functions import Replace
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect, resolve_url, reverse
-from django.http import HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
-# from django.contrib.auth.models import User
-from django.utils import timezone
 import json
 from random import sample
-from django.core import serializers
-#
-from django.db.models import F, Func, Value
 
-from .models import Movie, Actor, Genre, Comment, User, UserDetail, WishList
-from .forms import UserForm, UserDetailForm
 from django.core import serializers
+from django.db.models import Q
+#
+from django.db.models import Value
+from django.db.models.functions import Replace
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, redirect
+# from django.contrib.auth.models import User
+from django.utils import timezone
+
+from .forms import UserForm, UserDetailForm
+from .models import Movie, Comment, User, UserDetail, WishList
+
+import schedule
+import time
+from .update_data.wordcloud import main_cloud
 
 redirect_path: str = ""
+
+# 5초마다
+# schedule.every(5).seconds.do(main_cloud)
+# 월요일마다
+# schedule.every().monday.do(main_cloud)
+
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
 
 
 def choice_movies(past_cnt, cur_cnt):
@@ -276,3 +289,6 @@ def show_wishlist(request):
         wish_movies = wish_movies + wish_movie
 
     return render(request, 'movieapp/wishlist.html', {'wish_movies': wish_movies})
+
+
+
