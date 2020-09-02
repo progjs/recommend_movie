@@ -79,7 +79,7 @@
           const movie_obj = obj['fields'];
           const t = $('#movie'+i+' .work-info');
           t.children('h3').text(movie_obj['title']);
-          t.children('span.score').text(movie_obj['score']);
+          t.children('span.score').text(movie_obj['score'].toFixed(2));
           $('#movie'+i+' img').attr('src', "{% static 'movieapp/img/poster/'%}"+pk+".jpg");
           $('#movie'+i).attr('href', "movie_detail/"+pk);
 

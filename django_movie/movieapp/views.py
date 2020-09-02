@@ -40,7 +40,12 @@ def filter_all(request):
     return movie_list
 
 
+def delete_garbage_movie():
+    Movie.objets.filter(score=0).delete()
+
+
 def index(request):
+    # delete_garbage_movie()
     movie_list = filter_all(request)
     return render(request, 'movieapp/index.html', {'movie_list': movie_list})
 
@@ -220,12 +225,14 @@ def create_user(request):
                 return render(request, 'registration/login.html')
 
             else:
-                return render(request, "registration/signup.html", {'user_form': user_form, 'userdetail_form': userdetail_form})
+                return render(request, "registration/signup.html",
+                              {'user_form': user_form, 'userdetail_form': userdetail_form})
 
         if request.method == 'GET':
             user_form = UserForm()
             userdetail_form = UserDetailForm()
-            return render(request, 'registration/signup.html', {'user_form': user_form, 'userdetail_form': userdetail_form})
+            return render(request, 'registration/signup.html',
+                          {'user_form': user_form, 'userdetail_form': userdetail_form})
 
 
 # ------------------- 추가기능 ---------------------

@@ -50,7 +50,7 @@ class Movie(models.Model):
 
 
 class Genre(models.Model):
-    movie = models.ForeignKey('movieapp.Movie', on_delete=models.CASCADE, related_name='genres')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='genres')
     genre = models.CharField(max_length=200)
 
     def __str__(self):
@@ -58,7 +58,7 @@ class Genre(models.Model):
 
 
 class Actor(models.Model):
-    movie = models.ForeignKey('movieapp.Movie', on_delete=models.CASCADE, related_name='actors')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='actors')
     actor = models.CharField(max_length=200)
 
     def __str__(self):
@@ -66,7 +66,7 @@ class Actor(models.Model):
 
 
 class Comment(models.Model):
-    movie = models.ForeignKey('movieapp.Movie', on_delete=models.CASCADE, related_name='comments')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     comment = models.TextField(null=True)
     published_date = models.DateTimeField(default=timezone.now)
@@ -81,7 +81,7 @@ class Comment(models.Model):
 
 class WishList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wishlist')
-    movie = models.ForeignKey('movieapp.Movie', on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
 
     def __str__(self):
         return "위시리스트"
