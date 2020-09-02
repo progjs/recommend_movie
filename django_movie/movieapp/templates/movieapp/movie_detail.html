@@ -6,6 +6,12 @@
 <head>
   <meta charset="utf-8">
   <title>{{ movie.title }} : 방구석스크린</title>
+    <style>
+        img.like-img {
+            width: auto; height: auto;
+            max-width: 7%;
+        }
+    </style>
 </head>
 
     <div class="site-section">
@@ -63,11 +69,9 @@
                             <p class="mb-3" id="count">{{movie.count_likes_user}}명이 좋아합니다.</p>
                             <a type="button" class="like btn btn-outline-dark p mb-1 float-left" data-id="{{ movie.id }}">
                                 {% if user_status %}
-                                    <img class="like-img" src="{% static 'movieapp/img/like.png' %}" alt="Image" style="width: auto; height: auto;
-    max-width: 7%;"></img>이 영화 찜하기</a>
+                                    <img class="like-img" src="{% static 'movieapp/img/like.png' %}" alt="Image"> 이 영화 찜하기</a>
                                 {% else %}
-                                    <img class="like-img" src="{% static 'movieapp/img/dislike.png' %}" alt="Image" style="width: auto; height: auto;
-    max-width: 7%;"></img>이 영화 찜하기</a>
+                                    <img class="like-img" src="{% static 'movieapp/img/dislike.png' %}" alt="Image"> 이 영화 찜하기</a>
                                 {% endif %}
                         </p>
 
