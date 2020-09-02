@@ -39,7 +39,7 @@
                 </span><br>
                 <span>{{ movie.score|floatformat:2 }}</span>
               </div>
-              <img class="img-fluid" src="{% static 'movieapp/img/poster/'%}{{movie.id}}.jpg">
+              <img class="img-fluid" src="{% static 'movieapp/img/poster/'%}{{movie.id}}.jpg" style="max-height:518px; min-height: 500px; min-width: 350px;">
             </a>
           </div>
           {% endfor %}

@@ -40,10 +40,10 @@ h6,
   padding-top: 2.5rem;
 }
 
-.filters {
-  padding-top: 1%;
-  padding-bottom: 4%;
-}
+/*.filters {*/
+/*  padding: 1%;*/
+/*  !*padding-bottom: 4%;*!*/
+/*}*/
 
 .filters a {
   color: #000;
@@ -612,3 +612,10 @@ h6,
     background-color: GhostWhite;
 }
 
+.container hr.nav-filter {
+  background-color: GhostWhite;
+}
+#filters {
+  margin-top: 4%;
+  margin-bottom: 4%;
+}

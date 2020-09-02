@@ -22,8 +22,9 @@
             </form>
           </div>
 
-          <div class="container">
-            <div id="filters" class="filters" align="center">
+          <div class="container" id="filters">
+            <hr class="nav-filter">
+            <div  class="filters" align="center">
               <a href="#" class="filter" value="all">전체</a>
               <a href="#" class="filter" value="드라마">드라마</a>
               <a href="#" class="filter" value="판타지">판타지</a>
@@ -38,6 +39,7 @@
               <a href="#" class="filter" value="SF">SF</a>
               <a href="#" class="filter" value="액션">액션</a>
             </div>
+            <hr class="nav-filter" style="margin-bottom: 4%;">
           </div>
 
         <div id="portfolio-grid" class="row no-gutter" data-aos="fade-up" data-aos-delay="200">
@@ -54,7 +56,7 @@
                 <span class="score">{{ movie.score|floatformat:2 }}</span>
                 <p class="test"></p>
               </div>
-              <img class="img-fluid" id="img{{forloop.counter0}}" src="{% static 'movieapp/img/poster/'%}{{movie.pk}}.jpg">
+              <img class="img-fluid" src="{% static 'movieapp/img/poster/'%}{{movie.pk}}.jpg" style="max-height:518px; min-height: 500px; min-width: 350px;">
             </a>
           </div>
           {% endfor %}

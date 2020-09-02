@@ -58,7 +58,7 @@
                     </span>
                     {% endif %}
                     <span>{{comment.user.username}} |</span>
-                    <span>{{comment.published_date}} |</span>
+                    <span>{{ comment.published_date|date:"Y-m-d l A h:i" }} |</span>
                     {% if comment.user.username == request.session.user_id %}
                         <a href="{% url 'remove_comment' pk=movie.pk comment_id=comment.id %}?next={{request.get_full_path|urlencode}}" class="delete-btn" onclick="return confirm('정말로 삭제하시겠습니까?')">삭제</a>
                     {% endif %}
