@@ -1,6 +1,6 @@
 django_movie/movieapp/static/movieapp/img/poster/
 django_movie/movieapp/static/movieapp/img/wordcloud/
-*.png
+
 # Created by https://www.toptal.com/developers/gitignore/api/python,django,pycharm,jupyternotebooks,venv
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django,pycharm,jupyternotebooks,venv
 
