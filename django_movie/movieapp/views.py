@@ -1,6 +1,5 @@
 import json
 from random import sample
-
 from django.core import serializers
 from django.db.models import Q
 from django.db.models import Value
@@ -8,28 +7,17 @@ from django.db.models.functions import Replace
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
-# from django.contrib.auth.models import User
 from django.utils import timezone
-
 from .forms import UserForm, UserDetailForm
 from .models import Movie, Comment, User, UserDetail, WishList
-
 import schedule
+import threading
 import time
-# from .update_data.wordcloud import main_cloud
+from .update_data.wordcloud import main_cloud
+from .update_data.movie_scraping import main_scraping
 
 redirect_path: str = ""
 
-# 5초마다
-# schedule.every(5).seconds.do(main_cloud)
-# 월요일마다
-# schedule.every().monday.do(main_cloud)
-
-#
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
-#
 
 def choice_movies(past_cnt, cur_cnt):
     past_id = Movie.objects.filter(release_year__lte=2010, score__gte=8.8).values_list('pk', flat=True)
@@ -74,7 +62,7 @@ def index_filter(request):
     movie_list = serializers.serialize('json', genre_movies)
     data = {"movie_data": movie_list}
     for movie in genre_movies:
-        movie_genres = movie.genres.all()[:3] # 대표 장르 3개
+        movie_genres = movie.genres.all()[:3]  # 대표 장르 3개
         data[movie.pk] = serializers.serialize('json', movie_genres)
     return HttpResponse(json.dumps(data), content_type="application/json")
 
@@ -99,7 +87,7 @@ def movie_detail(request, pk):
 
 # ------------------- 댓글 CRUD ---------------------
 def add_comment(request, pk):
-    res_data = {'check': False, 'error':'error'}
+    res_data = {'check': False, 'error': 'error'}
     movie = get_object_or_404(Movie, pk=pk)
     user = get_object_or_404(User, username=request.session['user_id'])
 
@@ -290,4 +278,20 @@ def show_wishlist(request):
     return render(request, 'movieapp/wishlist.html', {'wish_movies': wish_movies})
 
 
+def update_data():
+    thread = threading.Thread(target=run_update)
+    thread.start()
 
+
+def run_update():
+    schedule.every().monday.do(main_scraping)
+    schedule.every().monday.do(main_cloud)
+    # schedule.every().day.at("22:48").do(main_scraping)
+    # schedule.every().day.at("22:48").do(main_cloud)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
+
+update_data()
