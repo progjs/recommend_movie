@@ -23,8 +23,7 @@ def get_movie_url():
     main_url = 'https://movie.naver.com/movie/sdb/rank/rmovie.nhn?sel=pnt&date=' + today
     print("TODAY : ", today)
     movie_list = []
-    # for i in [1, 2, 4, 5, 6, 7, 11, 13, 15, 16, 18, 19]:
-    for i in [1, 6]:
+    for i in [1, 2, 4, 5, 6, 7, 11, 13, 15, 16, 18, 19]:
         for page_num in [1, 2]:
             movie_genre_url = 'https://movie.naver.com/movie/sdb/rank/rmovie.nhn?sel=pnt&date=' + today \
                               + '&tg=' + str(i) + '&page=' + str(page_num)
@@ -57,8 +56,7 @@ def get_movie_id():
     movie_code_list = []
     today = str(get_date())
 
-    # for i in [1, 2, 4, 5, 6, 7, 11, 13, 15, 16, 18, 19]:
-    for i in [1, 6]:
+    for i in [1, 2, 4, 5, 6, 7, 11, 13, 15, 16, 18, 19]:
         for page_num in [1, 2]:
             movie_genre_url = 'https://movie.naver.com/movie/sdb/rank/rmovie.nhn?sel=pnt&date=' + today \
                               + '&tg=' + str(i) + '&page=' + str(page_num)
