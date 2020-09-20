@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .forms import UserForm, UserDetailForm, GenreForm
+from .forms import UserForm, UserDetailForm
 from .models import Movie, Comment, User, UserDetail, WishList
 import schedule
 import threading
@@ -17,7 +17,8 @@ from .update_data.wordcloud import main_cloud
 from .update_data.movie_scraping import main_scraping
 
 redirect_path: str = ""
-
+genre_classes = ['드라마', '판타지', '공포', '멜로/로맨스', '모험', '스릴러', '코미디', '미스터리', '애니메이션',
+                  '범죄', 'SF', '액션']
 
 def choice_movies(past_cnt, cur_cnt):
     past_id = Movie.objects.filter(release_year__lte=2010, score__gte=8.5).values_list('pk', flat=True)
@@ -44,9 +45,10 @@ def delete_garbage_movie():
 
 
 def index(request):
+    global genre_classes
     # delete_garbage_movie()
     movie_list = filter_all(request)
-    return render(request, 'movieapp/index.html', {'movie_list': movie_list})
+    return render(request, 'movieapp/index.html', {'movie_list': movie_list, 'genre_list': genre_classes })
 
 
 def index_filter(request):
@@ -244,6 +246,43 @@ def update_password(request):
             return render(request, 'registration/update_pwd.html', res_data)
 
 
+def update_email(request):
+    global redirect_path
+    redirect_path = request.GET.get('next', '')
+
+    res_data = {}
+    if request.session['user_id']:
+        user = get_object_or_404(User, username=request.session['user_id'])
+    if request.method == 'POST':
+        pw = request.POST['password']
+        if check_password(user.password, pw):
+            new_email = request.POST['new_email']
+            user.email = new_email
+            user.save()
+            return HttpResponseRedirect(redirect_path)
+    else:
+        res_data['error'] = '비밀번호가 일치하지 않습니다.'
+        return HttpResponseRedirect(redirect_path)
+
+def update_genre(request):
+    global redirect_path
+    redirect_path = request.GET.get('next', '')
+
+    res_data = {}
+    if request.session['user_id']:
+        user = get_object_or_404(User, username=request.session['user_id'])
+    if request.method == 'POST':
+        pw = request.POST['password']
+        if check_password(user.password, pw):
+            new_genre = request.POST['new_genre']
+            user.userdetail.favorite_genre = new_genre
+            user.save()
+            return HttpResponseRedirect(redirect_path)
+    else:
+        res_data['error'] = '비밀번호가 일치하지 않습니다.'
+        return HttpResponseRedirect(redirect_path)
+
+
 # ------------------- 추가기능 ---------------------
 def add_wishlist(request):
     if request.session['user_id']:
@@ -306,9 +345,8 @@ def show_wishlist(request):
 
 
 def show_mypage(request):
-    genre_form = GenreForm()
     user = get_object_or_404(User, username=request.session['user_id'])
-    return render(request, 'registration/mypage.html', {'user_info': user, 'some_flag': True})
+    return render(request, 'registration/mypage.html', {'user_info': user, 'genre_list': genre_classes})
 
 def update_data():
     thread = threading.Thread(target=run_update)

@@ -26,7 +26,7 @@
 
   <!-- Template Main CSS File -->
   <link href="{% static 'movieapp/css/style.css' %}" rel="stylesheet">
-
+  <link href="{% static 'movieapp/css/modal.css' %}" rel="stylesheet">
   <!-- =======================================================
     Template Name: MyPortfolio
     Template URL: https://bootstrapmade.com/myportfolio-bootstrap-portfolio-website-template/
@@ -38,9 +38,7 @@
       line-height: 1.8;
       text-align: justify;
     }
-
   </style>
-
 </head>
 
 <body>
@@ -54,8 +52,7 @@
       {% if request.session.user_id %}
         <span id="user-id" data-id="{{ request.session.user_id }}">{{ request.session.user_id }}님</span>
         <a class="mb-0" href="{% url 'logout' %}">로그아웃</a>
-<!--        <p style="text-align: center"> <a class="mb-0" href="{% url 'show_wishlist' %}">찜한 영화</a></p>-->
-        <p style="text-align: center"> <a class="mb-0" href="#modal-mypage" class="trigger-btn" data-toggle="modal">마이페이지</a></p>
+        <p style="text-align: center"> <a class="mb-0" href="#mypageModal" class="trigger-btn" data-toggle="modal">마이페이지</a></p>
 
       {% else %}
         <a class="mb-0" href="{% url 'login' %}?next={{request.get_full_path|urlencode}}">로그인 및 회원가입</a>
@@ -71,25 +68,24 @@
         {% block contents %}
         {% endblock %}
 
-  <div id="modal-mypage" class="modal fade">
-	<div class="modal-dialog modal-pwd">
+  <div id="mypageModal" class="modal fade">
+	<div class="modal-dialog modal-black">
 		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">비밀번호 변경</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			</div>
-			<div class="modal-body">
-                <div >
-                    <a href="{% url 'show_wishlist' %}" type="button" class="btn btn-primary btn-block btn-lg">찜한 영화</a>
-                </div>
-                <div>
-                    <a href="{% url 'password' %}" type="button" class="btn btn-primary btn-block btn-lg">비밀번호 변경</a>
-                </div>
-			</div>
+				<div class="modal-header">
+					<h4>마이페이지로 이동</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span>&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+                      <a href="{% url 'show_wishlist' %}" type="button" class="btn btn-primary btn-block">내가 찜한 영화</a>
+                      <a href="{% url 'show_mypage' %}" type="button" class="btn btn-primary btn-block">회원 정보 조회/수정</a>
+					</div>
 
-          </div>
-      </div>
+				</div>
+		</div>
+	</div>
   </div>
+
   <!-- Vendor JS Files -->
   <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
   <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -108,5 +104,4 @@
   <script src="{% static 'movieapp/js/main.js' %}"></script>
 
 </body>
-modal-mypage
 </html>

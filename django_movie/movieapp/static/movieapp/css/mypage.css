@@ -1,0 +1,59 @@
+.table-wrapper {
+  width: 700px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.table-title {
+  padding-bottom: 10px;
+  margin: 0 0 10px;
+}
+.table-title .edit-pwd {
+  float: right;
+  height: 40px;
+  font-weight: bold;
+  text-shadow: none;
+  min-width: 100px;
+  border-radius: 50px;
+  line-height: 13px;
+}
+table.table {
+  table-layout: fixed;
+}
+table.table tr th, table.table tr td {
+  border-color: #FFFFFF;
+}
+table.table th i {
+  font-size: 13px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+table.table td a {
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 5px;
+  min-width: 24px;
+}
+table.table td a.edit {
+  color: #FFC107;
+}
+table.table {
+  height: 32px;
+  line-height: 32px;
+  box-shadow: none;
+}
+
+.submit-btn .btn, .submit-btn .btn:active {
+	font-size: 16px;
+	font-weight: bold;
+	background: #70c5c0 !important;
+	border: none;
+    margin-top: 2.5rem;
+    width: 9rem;
+    border-radius: 1.5rem;
+}
+.submit-btn .btn:hover, .submit-btn .btn:focus {
+	background: #50b8b3 !important;
+    border-radius: 1.5rem;
+}
