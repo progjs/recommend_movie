@@ -278,6 +278,10 @@ def show_wishlist(request):
     return render(request, 'movieapp/wishlist.html', {'wish_movies': wish_movies})
 
 
+def show_mypage(request):
+    user = get_object_or_404(User, username=request.session['user_id'])
+    return render(request, 'registration/mypage.html', {'user_info': user})
+
 def update_data():
     thread = threading.Thread(target=run_update)
     thread.start()
@@ -294,4 +298,4 @@ def run_update():
         time.sleep(1)
 
 
-update_data()
+# update_data()
