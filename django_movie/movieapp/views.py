@@ -8,7 +8,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
-from .forms import UserForm, UserDetailForm
+from .forms import UserForm, UserDetailForm, GenreForm
 from .models import Movie, Comment, User, UserDetail, WishList
 import schedule
 import threading
@@ -20,9 +20,9 @@ redirect_path: str = ""
 
 
 def choice_movies(past_cnt, cur_cnt):
-    past_id = Movie.objects.filter(release_year__lte=2010, score__gte=8.8).values_list('pk', flat=True)
+    past_id = Movie.objects.filter(release_year__lte=2010, score__gte=8.5).values_list('pk', flat=True)
     choice_id_list = sample(list(past_id), past_cnt)
-    cur_id = Movie.objects.filter(release_year__gt=2010, score__gte=8.5).values_list('pk', flat=True)
+    cur_id = Movie.objects.filter(release_year__gt=2010, score__gte=7.5).values_list('pk', flat=True)
     choice_id_list += sample(list(cur_id), cur_cnt)
     return choice_id_list
 
@@ -55,7 +55,7 @@ def index_filter(request):
         genre_movies = filter_all(request)
     else:
         print('선택한 장르', genre)
-        genre_movie_id = Movie.objects.filter(genres__genre=genre, score__gte=8).values_list('pk', flat=True)
+        genre_movie_id = Movie.objects.filter(genres__genre=genre, score__gte=7).values_list('pk', flat=True)
         choice_id = sample(list(genre_movie_id), 9)
         genre_movies = Movie.objects.filter(pk__in=choice_id)
 
@@ -72,7 +72,6 @@ def movie_detail(request, pk):
     user_status = 0
     comment_list = Comment.objects.filter(movie__pk=pk).order_by('-published_date')
     # comment_list = Comment.objects.filter(movie__pk=pk).exclude(comment="").order_by('-published_date')
-    # print(request.session.items())
     # user_id가 있는지 확인
     if 'user_id' in request.session.keys():
         user = get_object_or_404(User, username=request.session['user_id'])
@@ -82,7 +81,6 @@ def movie_detail(request, pk):
             user_status = 1
     return render(request, 'movieapp/movie_comment.html',
                   {'movie': movie, 'user_status': user_status, 'comments': comment_list})
-    # return render(request, 'movieapp/movie_detail.html', {'movie': movie, 'user_status': user_status, 'comments': comment_list})
 
 
 # ------------------- 댓글 CRUD ---------------------
@@ -218,6 +216,34 @@ def create_user(request):
                           {'user_form': user_form, 'userdetail_form': userdetail_form})
 
 
+def password(request):
+    return render(request, 'registration/update_pwd.html')
+
+
+def update_password(request):
+    global redirect_path
+    redirect_path = request.GET.get('next', '')
+
+    res_data = {}
+    if request.session['user_id']:
+        user = get_object_or_404(User, username=request.session['user_id'])
+    if request.method == 'POST':
+        pw = request.POST['password']
+        if check_password(user.password, pw):
+            new_pw = request.POST['new_password']
+            new_pw2 = request.POST['new_password2']
+            if check_password(new_pw, new_pw2):
+                user.password = new_pw
+                user.save()
+                return HttpResponseRedirect(redirect_path)
+            else:
+                res_data['error'] = '새 비밀번호가 일치하지 않습니다.'
+                return render(request, 'registration/update_pwd.html', res_data)
+        else:
+            res_data['error'] = '비밀번호가 틀렸습니다.'
+            return render(request, 'registration/update_pwd.html', res_data)
+
+
 # ------------------- 추가기능 ---------------------
 def add_wishlist(request):
     if request.session['user_id']:
@@ -267,7 +293,8 @@ def search_movie(request):
 
 
 def show_wishlist(request):
-    user = get_object_or_404(User, username=request.session['user_id'])
+    if request.session['user_id']:
+        user = get_object_or_404(User, username=request.session['user_id'])
     wishlist = WishList.objects.filter(user_id=user.id).values()
 
     wish_movies = []
@@ -279,8 +306,9 @@ def show_wishlist(request):
 
 
 def show_mypage(request):
+    genre_form = GenreForm()
     user = get_object_or_404(User, username=request.session['user_id'])
-    return render(request, 'registration/mypage.html', {'user_info': user})
+    return render(request, 'registration/mypage.html', {'user_info': user, 'some_flag': True})
 
 def update_data():
     thread = threading.Thread(target=run_update)

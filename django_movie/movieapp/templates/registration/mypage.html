@@ -1,17 +1,167 @@
 {% extends 'movieapp/base.html' %}
 {% block contents %}
 {% load static %}
-
 <head>
   <meta charset="utf-8">
-  <title>방구석스크린</title>
+  <title>방구석스크린: 마이페이지</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="" name="keywords">
   <meta content="" name="description">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{% static 'movieapp/css/style.css' %}" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <style>
+    .table-wrapper {
+      width: 700px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  }
+  .table-title {
+      padding-bottom: 10px;
+      margin: 0 0 10px;
+  }
+  .table-title .edit-pwd {
+      float: right;
+      height: 40px;
+      font-weight: bold;
+      text-shadow: none;
+      min-width: 100px;
+      border-radius: 50px;
+      line-height: 13px;
+  }
+  table.table {
+      table-layout: fixed;
+  }
+  table.table tr th, table.table tr td {
+      border-color: #FFFFFF;
+  }
+  table.table th i {
+      font-size: 13px;
+      margin: 0 5px;
+      cursor: pointer;
+  }
+  table.table td a {
+      cursor: pointer;
+      display: inline-block;
+      margin: 0 5px;
+      min-width: 24px;
+  }
+  table.table td a.edit {
+      color: #FFC107;
+  }
+  table.table {
+      height: 32px;
+      line-height: 32px;
+      box-shadow: none;
+  }
+  </style>
+
 </head>
 
+<main>
+<div class="site-section">
+
+  <div class="container-lg">
+    <div class="table-responsive">
+        <div class="table-wrapper">
+            <div class="table-title" >
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h2>My Page</h2><br>
+                        <div>{{ user_info.username }}님의 회원 정보입니다.</div>
+                    </div>
+                    <div class="col-sm-4">
+<!--                        trigger-btn-->
+                        <a type="button" class="btn btn-info edit-pwd" href="#modal-mypage" data-toggle="modal">비밀번호 변경</a>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered" >
+                <tbody>
+                    <tr>
+                        <th>이름</th>
+                        <td>{{ user_info.first_name }}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>이메일 주소</th>
+                        <td>{{ user_info.email }}</td>
+                        <td>
+                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>성별</th>
+                        <td>{{ user_info.userdetail.sex }}</td><td></td>
+                    </tr>
+                    <tr>
+                        <th>좋아하는 장르</th>
+                        <td>{{ user_info.userdetail.favorite_genre }}</td>
+                        <td>
+                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+  </div>
+</main>
+
+<div id="modal-mypage" class="modal fade">
+	<div class="modal-dialog modal-pwd">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">비밀번호 변경</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form action="/examples/actions/confirmation.php" method="post">
+					<div class="form-group">
+						<i class="fa fa-lock"></i>
+						<input type="text" class="form-control" placeholder="새 비밀번호" required="required">
+					</div>
+					<div class="form-group">
+
+						<input type="password" class="form-control" placeholder="비밀번호 확인" required="required">
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-primary btn-block btn-lg" value="변경">
+					</div>
+				</form>
+			</div>
+
+          </div>
+      </div>
+  </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script type="text/javascript">
+<script>
+$(document).ready(function(){
+	$('[data-toggle="tooltip"]').tooltip();
+	var actions = $("table td:last-child").html();
+
+	// Edit row on edit button click
+	$(document).on("click", ".edit", function(){
+        $(this).parents("tr").find("td:not(:last-child)").each(function(){
+			$(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+		});
+		$(this).parents("tr").find(".add, .edit").toggle();
+		$(".edit-pwd").attr("disabled", "disabled");
+    });
+
+});
 </script>
 {% endblock %}

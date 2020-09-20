@@ -9,6 +9,8 @@ urlpatterns = [
     path('accounts/login/', views.login, name='login'),
     path('accounts/logout/', views.logout, name='logout'),
     path('accounts/signup/', views.create_user, name='create_user'),
+    path('accounts/password/', views.password, name='password'),
+    path('accounts/password/update/', views.update_password, name='update_password'),
 
     ## 추가기능
     path('movie_detail/<int:pk>/', views.movie_detail, name='movie_detail'),
