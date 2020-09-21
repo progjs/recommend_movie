@@ -16,11 +16,13 @@ import time
 from .update_data.wordcloud import main_cloud
 from .update_data.movie_scraping import main_scraping
 from django.contrib import messages
+import bcrypt
 
 redirect_path: str = ""
 genre_classes = ['드라마', '판타지', '공포', '멜로/로맨스', '모험', '스릴러', '코미디', '미스터리', '애니메이션',
                   '범죄', 'SF', '액션']
 res_data = {}
+
 
 def choice_movies(past_cnt, cur_cnt):
     past_id = Movie.objects.filter(release_year__lte=2010, score__gte=8.5).values_list('pk', flat=True)
@@ -171,7 +173,8 @@ def login(request):
                 except User.DoesNotExist:
                     messages.add_message(request, messages.WARNING, "존재하지 않는 아이디입니다.")
                 else:
-                    if check_password(password, user.password):
+                    # if check_password(password, user.password):
+                    if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
                         save_session(request, user.username, password)
                         return HttpResponseRedirect(redirect_path)
                     else:
@@ -195,8 +198,16 @@ def create_user(request):
             print(request.method)
 
             if user_form.is_valid() and userdetail_form.is_valid():
+                password = user_form.cleaned_data['password'].encode('utf-8')  # 입력된 패스워드를 바이트 형태로 인코딩
+                print(password)
+                password_crypt = bcrypt.hashpw(password, bcrypt.gensalt())  # 암호화된 비밀번호 생성
+                print(password_crypt)
+                password_crypt = password_crypt.decode('utf-8')
+                print(password_crypt)
+
                 user = User.objects.create(username=user_form.cleaned_data['username'],
-                                           password=user_form.cleaned_data['password'],
+                                           password=password_crypt,
+                                           # password=user_form.cleaned_data['password'],
                                            first_name=user_form.cleaned_data['first_name'],
                                            email=user_form.cleaned_data['email'],
                                            )
