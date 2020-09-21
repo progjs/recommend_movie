@@ -15,14 +15,20 @@
 </head>
 <body>
 <div class="pw-form">
-    <form method="post" action="{% url 'update_password' %}?next={% url 'index' %}">
+    <form method="post" action="{% url 'update_password' %}">
 					{% csrf_token %}
 		<div class="avatar">
 			<img src="{% static 'movieapp/img/lock.png' %}">
 		</div>
         <h2 class="text-center">비밀번호 변경</h2>
-        {% if error %}
-            <span style="color: #DF0101;">{{ error }}</span>
+        {% if messages %}
+            <div class="container">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                    [알림] {{ message.message }}
+                    </div>
+            {% endfor %}
+            </div>
         {% endif %}
         <div class="form-group">
         	<input type="password" class="form-control" name="password" placeholder="현재 비밀번호" required="required">

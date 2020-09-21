@@ -29,9 +29,17 @@
                         <div style="padding-bottom: 2rem">{{ user_info.username }}님의 회원 정보입니다.</div>
                     </div>
                     <div class="col-sm-4 submit-btn">
-                        <a type="button" class="btn btn-primary btn-lg btn-block" href="{% url 'update_password' %}">비밀번호 변경</a>
+                        <a type="button" class="btn btn-primary btn-lg btn-block" href="{% url 'update_password' %}?next={% url 'login' %}">비밀번호 변경</a>
                     </div>
-                    <span style="color: #DF0101;">{{ message }}</span>
+                    {% if messages %}
+                        <div class="container">
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                [알림] {{ message.message }}
+                                </div>
+                        {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
             <table class="table table-bordered" >
@@ -76,7 +84,7 @@
 <div id="emailModal" class="modal fade">
 <div class="modal-dialog modal-black">
     <div class="modal-content">
-        <form method="post" action="{% url 'update_email' %}">
+        <form method="post" action="{% url 'update_email' %}?next={% url 'mypage' %}">
             {% csrf_token %}
             <div class="modal-header">
                 <h4>이메일 변경</h4>
@@ -99,27 +107,21 @@
 <div id="genreModal" class="modal fade">
 <div class="modal-dialog modal-black">
     <div class="modal-content">
-        <form method="post" action="{% url 'update_genre' %}">
+        <form  method="post" action="{% url 'update_genre' %}?next={% url 'mypage' %}">
             {% csrf_token %}
             <div class="modal-header">
                 <h4>좋아하는 장르 변경</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span>&times;</span></button>
             </div>
             <div class="modal-body">
-
                 <div class="form-group">
                     <input type="password" name="password" class="form-control" placeholder="현재 비밀번호" required>
-                </div>
-                <div class="form-group">
-                    <div style="display:none;">
-                        <input type="text" name="new_genre" class="form-control" required>
-                    </div>
-                    <label for="cars">좋아하는 장르</label>
-                      <select id="cars" name="genres">
-                          {% for genre in genre_list %}
-                            <option value="{{genre}}">{{genre}}</option>
-                          {% endfor %}
-                      </select>
+                    <select class="custom-select my-1 mr-sm-2" id="genre-select" name="new_genre">
+                      <option selected value="{{user_info.userdetail.favorite_genre}}">{{user_info.userdetail.favorite_genre}}</option>
+                      {% for genre in genre_list %}
+                        <option value="{{genre}}">{{genre}}</option>
+                      {% endfor %}
+                    </select>
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary btn-block" value="변경">

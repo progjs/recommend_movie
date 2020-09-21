@@ -15,6 +15,7 @@ import threading
 import time
 from .update_data.wordcloud import main_cloud
 from .update_data.movie_scraping import main_scraping
+from django.contrib import messages
 
 redirect_path: str = ""
 genre_classes = ['드라마', '판타지', '공포', '멜로/로맨스', '모험', '스릴러', '코미디', '미스터리', '애니메이션',
@@ -149,30 +150,32 @@ def save_session(request, user_id, user_pw):
 
 
 def login(request):
-    global redirect_path, res_data
+    global redirect_path
+    redirect_path = request.GET.get('next', '/')
+
     if 'user_id' in request.session.keys():
-        return redirect('/')
+        return HttpResponseRedirect(redirect_path)
     else:
         if request.method == 'GET':
-            redirect_path = request.GET.get('next', '')
             return render(request, 'registration/login.html')
         if request.method == 'POST':
             user_id = request.POST['username']
             password = request.POST['password']
+
             if not (user_id and password):
-                res_data['error'] = "모든 칸을 다 입력해주세요."
+                messages.add_message(request, messages.WARNING, "모든 칸을 다 입력해주세요.")
+                request.session['next_url'] = redirect_path
             else:
                 try:
                     user = User.objects.get(username=user_id)
                 except User.DoesNotExist:
-                    res_data['error'] = "존재하지 않는 아이디입니다."
+                    messages.add_message(request, messages.WARNING, "존재하지 않는 아이디입니다.")
                 else:
                     if check_password(password, user.password):
                         save_session(request, user.username, password)
                         return HttpResponseRedirect(redirect_path)
                     else:
-                        res_data['error'] = '잘못된 비밀번호입니다.'
-
+                        messages.add_message(request, messages.WARNING, '잘못된 비밀번호입니다.')
             return render(request, 'registration/login.html', res_data)
 
 
@@ -217,8 +220,6 @@ def create_user(request):
 
 
 def update_password(request):
-    global redirect_path, res_data
-
     if request.method == 'GET':
         return render(request, 'registration/update_pwd.html')
 
@@ -232,17 +233,28 @@ def update_password(request):
             if check_password(new_pw, new_pw2):
                 user.password = new_pw
                 user.save()
-                redirect_path = request.GET.get('next', '')
-                return HttpResponseRedirect(redirect_path)
+                messages.add_message(request, messages.SUCCESS, '비밀번호 변경: 다시 로그인해주세요.')
+                del (request.session['user_id'])
+                return HttpResponseRedirect('/accounts/login/?next=/')
             else:
-                res_data['error'] = '새 비밀번호가 서로 다릅니다.'
-                return render(request, 'registration/update_pwd.html', res_data)
+                messages.add_message(request, messages.WARNING, '새 비밀번호가 서로 다릅니다.')
+                return render(request, 'registration/update_pwd.html')
         else:
-            res_data['error'] = '잘못된 비밀번호입니다.'
-            return render(request, 'registration/update_pwd.html', res_data)
+            messages.add_message(request, messages.WARNING, '잘못된 비밀번호입니다.')
+            return render(request, 'registration/update_pwd.html')
+
+
+def show_mypage(request):
+    global genre_classes
+    user = get_object_or_404(User, username=request.session['user_id'])
+    genre_list = set(genre_classes) - {user.userdetail.favorite_genre}
+    return render(request, 'registration/mypage.html', {'user_info': user, 'genre_list': genre_list})
 
 
 def update_email(request):
+    global redirect_path
+    redirect_path = request.GET.get('next', '')
+
     if request.session['user_id']:
         user = get_object_or_404(User, username=request.session['user_id'])
         if request.method == 'POST':
@@ -251,15 +263,17 @@ def update_email(request):
                 new_email = request.POST['new_email']
                 user.email = new_email
                 user.save()
-                message = '이메일이 변경되었습니다.'
-                return render(request, 'registration/mypage.html', {'user_info': user, 'message': message })
+                messages.add_message(request, messages.SUCCESS, '이메일이 변경되었습니다.')
+                return HttpResponseRedirect(redirect_path)
             else:
-                message = '이메일 변경 실패: 잘못된 비밀번호입니다.'
-                return render(request, 'registration/mypage.html', {'user_info': user, 'message': message })
-    return HttpResponseRedirect('/accounts/mypage/')
+                messages.add_message(request, messages.WARNING, '이메일 변경 실패: 잘못된 비밀번호입니다.')
+                return HttpResponseRedirect(redirect_path)
+    return HttpResponseRedirect(redirect_path)
 
 def update_genre(request):
-    global genre_classes
+    global redirect_path
+    redirect_path = request.GET.get('next', '')
+
     if request.session['user_id']:
         user = get_object_or_404(User, username=request.session['user_id'])
         if request.method == 'POST':
@@ -268,12 +282,12 @@ def update_genre(request):
                 new_genre = request.POST['new_genre']
                 user.userdetail.favorite_genre = new_genre
                 user.save()
-                message = '좋아하는 장르가 변경되었습니다.'
-                return render(request, 'registration/mypage.html', {'user_info': user, 'genre_list': genre_classes, 'message': message})
+                messages.add_message(request, messages.SUCCESS, '좋아하는 장르가 변경되었습니다.')
+                return HttpResponseRedirect(redirect_path)
             else:
-                message = '좋아하는 장르 변경 실패: 잘못된 비밀번호입니다.'
-                return render(request, 'registration/mypage.html', {'user_info': user, 'genre_list': genre_classes, 'message': message})
-    return HttpResponseRedirect()
+                messages.add_message(request, messages.WARNING, '좋아하는 장르 변경 실패: 잘못된 비밀번호입니다.')
+                return HttpResponseRedirect(redirect_path)
+    return HttpResponseRedirect(redirect_path)
 
 
 # ------------------- 추가기능 ---------------------
@@ -336,10 +350,6 @@ def show_wishlist(request):
 
     return render(request, 'movieapp/wishlist.html', {'wish_movies': wish_movies})
 
-
-def show_mypage(request):
-    user = get_object_or_404(User, username=request.session['user_id'])
-    return render(request, 'registration/mypage.html', {'user_info': user, 'genre_list': genre_classes, 'message': message})
 
 def update_data():
     thread = threading.Thread(target=run_update)
