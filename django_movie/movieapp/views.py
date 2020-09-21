@@ -23,6 +23,19 @@ genre_classes = ['드라마', '판타지', '공포', '멜로/로맨스', '모험
                   '범죄', 'SF', '액션']
 res_data = {}
 
+def hash_pw():
+    user_list = User.objects.all()
+    for user in user_list:
+        # if user.password[0] == 'b':
+        #     user.password = user.password[4:-2]
+        if len(user.password) < 20:
+            pw = user.password.encode('utf-8')
+            pw_crypt = bcrypt.hashpw(pw, bcrypt.gensalt())
+            user.password = pw_crypt.decode('utf-8')
+            user.save()
+
+# hash_pw()
+
 
 def choice_movies(past_cnt, cur_cnt):
     past_id = Movie.objects.filter(release_year__lte=2010, score__gte=8.5).values_list('pk', flat=True)
@@ -199,11 +212,8 @@ def create_user(request):
 
             if user_form.is_valid() and userdetail_form.is_valid():
                 password = user_form.cleaned_data['password'].encode('utf-8')  # 입력된 패스워드를 바이트 형태로 인코딩
-                print(password)
                 password_crypt = bcrypt.hashpw(password, bcrypt.gensalt())  # 암호화된 비밀번호 생성
-                print(password_crypt)
                 password_crypt = password_crypt.decode('utf-8')
-                print(password_crypt)
 
                 user = User.objects.create(username=user_form.cleaned_data['username'],
                                            password=password_crypt,
