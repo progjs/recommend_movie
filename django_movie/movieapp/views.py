@@ -294,4 +294,4 @@ def run_update():
         time.sleep(1)
 
 
-update_data()
+# update_data()
