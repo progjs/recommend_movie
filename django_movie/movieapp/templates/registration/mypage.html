@@ -29,11 +29,9 @@
                         <div style="padding-bottom: 2rem">{{ user_info.username }}님의 회원 정보입니다.</div>
                     </div>
                     <div class="col-sm-4 submit-btn">
-                        <a type="button" class="btn btn-primary btn-lg btn-block" href="{% url 'password' %}">비밀번호 변경</a>
+                        <a type="button" class="btn btn-primary btn-lg btn-block" href="{% url 'update_password' %}">비밀번호 변경</a>
                     </div>
-                    {% if error %}
-                    <span style="color: #DF0101;">{{ error }}</span>
-                    {% endif %}
+                    <span style="color: #DF0101;">{{ message }}</span>
                 </div>
             </div>
             <table class="table table-bordered" >
@@ -78,7 +76,7 @@
 <div id="emailModal" class="modal fade">
 <div class="modal-dialog modal-black">
     <div class="modal-content">
-        <form method="post" action="{% url 'update_email' %}?next={{request.get_full_path|urlencode}}">
+        <form method="post" action="{% url 'update_email' %}">
             {% csrf_token %}
             <div class="modal-header">
                 <h4>이메일 변경</h4>
@@ -101,7 +99,7 @@
 <div id="genreModal" class="modal fade">
 <div class="modal-dialog modal-black">
     <div class="modal-content">
-        <form method="post" action="{% url 'update_genre' %}?next={{request.get_full_path|urlencode}}">
+        <form method="post" action="{% url 'update_genre' %}">
             {% csrf_token %}
             <div class="modal-header">
                 <h4>좋아하는 장르 변경</h4>
