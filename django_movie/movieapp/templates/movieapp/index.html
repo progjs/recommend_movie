@@ -26,18 +26,9 @@
             <hr class="nav-filter">
             <div  class="filters" align="center">
               <a href="#" class="filter" value="all">전체</a>
-              <a href="#" class="filter" value="드라마">드라마</a>
-              <a href="#" class="filter" value="판타지">판타지</a>
-              <a href="#" class="filter" value="공포">공포</a>
-              <a href="#" class="filter" value="멜로/로맨스">로맨스</a>
-              <a href="#" class="filter" value="모험">모험</a>
-              <a href="#" class="filter" value="스릴러">스릴러</a>
-              <a href="#" class="filter" value="코미디">코미디</a>
-              <a href="#" class="filter" value="미스터리">미스터리</a>
-              <a href="#" class="filter" value="애니메이션">애니메이션</a>
-              <a href="#" class="filter" value="범죄">범죄</a>
-              <a href="#" class="filter" value="SF">SF</a>
-              <a href="#" class="filter" value="액션">액션</a>
+              {% for genre in genre_list %}
+              <a href="#" class="filter" value="{{genre}}">{{genre}}</a>
+              {% endfor %}
             </div>
             <hr class="nav-filter" style="margin-bottom: 4%;">
           </div>

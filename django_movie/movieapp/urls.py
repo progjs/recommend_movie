@@ -9,12 +9,15 @@ urlpatterns = [
     path('accounts/login/', views.login, name='login'),
     path('accounts/logout/', views.logout, name='logout'),
     path('accounts/signup/', views.create_user, name='create_user'),
+    path('accounts/mypage/', views.show_mypage, name='mypage'),
+    path('accounts/update/password/', views.update_password, name='update_password'),
+    path('accounts/update/email', views.update_email, name='update_email'),
+    path('accounts/update/favorite_genre/', views.update_genre, name='update_genre'),
 
     ## 추가기능
     path('movie_detail/<int:pk>/', views.movie_detail, name='movie_detail'),
     path('movie_detail/wishlist/', views.add_wishlist, name='add_wishlist'),
     path('search/', views.search_movie, name='search_movie'),
-    path('mypage/', views.show_mypage, name='show_mypage'),
     path('wishlist/', views.show_wishlist, name='show_wishlist'),
 
     ## 댓글 CRUD
