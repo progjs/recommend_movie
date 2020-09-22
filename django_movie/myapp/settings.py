@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import pymysql
+from django.contrib.messages import constants as messages_constants
 pymysql.version_info = (1,3,13,"final",0)
 # pymysql.install_as_MySQLdb()
 pass
@@ -86,9 +87,9 @@ DATABASES = {
     # }
     'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'recommend_db',
-            'USER': 'young',  # 데이터베이스 계정
-            'PASSWORD': '1234',  # 계정 비밀번호
+            'NAME': 'project_db',
+            'USER': 'python',  # 데이터베이스 계정
+            'PASSWORD': 'python',  # 계정 비밀번호
             'HOST': 'localhost',  # 데이테베이스 주소(IP)
             'PORT': '3306',  # 데이터베이스 포트
         }
@@ -133,3 +134,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, STATIC_URL)
 LOGIN_REDIRECT_URL = '/'  # 최상위에서 로그인
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+MESSAGE_LEVEL = messages_constants.DEBUG
