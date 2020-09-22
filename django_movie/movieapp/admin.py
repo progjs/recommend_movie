@@ -1,6 +1,5 @@
 from django.contrib import admin
-from django.contrib.auth.models import User
-
+from rangefilter.filter import DateRangeFilter, DateTimeRangeFilter
 from .models import Movie, Genre, Actor, Comment, UserDetail, WishList
 
 
@@ -12,12 +11,29 @@ class ActorInline(admin.TabularInline):
     model = Actor
 
 
+class YearListFilter(admin.SimpleListFilter):
+    title = '개봉년도로 분류'
+    parameter_name = 'release_year'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('1900s', '2000년도 이전'),
+            ('2000s', '2000년도 이후'),
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == '1900s':
+            return queryset.filter(release_year__lte=1999)
+        if self.value() == '2000s':
+            return queryset.filter(release_year__gte=2000)
+
+
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
     inlines = [GenreInline, ActorInline, ]
     list_display = ['id', 'title', 'score', 'nation', 'director', 'audience', 'release_year']
     list_display_links = ['id', 'title']
-    list_filter = ['genres__genre']
+    list_filter = ['genres__genre', YearListFilter,]
     list_per_page = 50
     search_fields = ['title', 'nation', 'release_year', 'genres__genre', 'actors__actor']
     ordering = ['id']
