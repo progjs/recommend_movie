@@ -49,6 +49,8 @@ class Movie(models.Model):
         return self.likes_user.count()
 
 
+
+
 class Genre(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='genres')
     genre = models.CharField(max_length=200)
