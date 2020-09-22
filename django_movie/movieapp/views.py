@@ -34,7 +34,7 @@ def hash_pw():
             user.password = pw_crypt.decode('utf-8')
             user.save()
 
-hash_pw()
+# hash_pw()
 
 
 def choice_movies(past_cnt, cur_cnt):
@@ -387,5 +387,6 @@ def run_update():
         schedule.run_pending()
         time.sleep(1)
 
-
+thread = threading.Thread(target=main_cloud)
+thread.start()
 # update_data()

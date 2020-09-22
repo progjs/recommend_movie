@@ -14,6 +14,8 @@
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700|Raleway:400,700&display=swap"
     rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 
   <!-- Bootstrap CSS File -->
   <link href="{% static 'movieapp/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -46,7 +48,7 @@
   <nav class="navbar navbar-light custom-navbar">
     <div class="container">
         <a href="{% url 'index' %}" class="font-heading" style="color: #212529"><h4>Home</h4></a>
-      <div class="float-left"><h2>방구석 스크린</h2></div>
+      <div class="float-left"><h1 style="font-family: 'Black Han Sans', sans-serif">방구석 스크린</h1></div>
 
       <div>
       {% if request.session.user_id %}
@@ -61,7 +63,7 @@
         </div>
     </div>
   </nav>
-  <div style="text-align: center">
+  <div style="text-align: center; font-family: 'Jua', sans-serif; font-size: 20px;">
     <span>장르별, 감독/배우별 방구석에서 볼만한 영화를 추천해드립니다.</span>
   </div>
 
