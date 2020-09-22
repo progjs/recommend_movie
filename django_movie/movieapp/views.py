@@ -34,7 +34,7 @@ def hash_pw():
             user.password = pw_crypt.decode('utf-8')
             user.save()
 
-hash_pw()
+# hash_pw()
 
 
 def choice_movies(past_cnt, cur_cnt):
@@ -165,33 +165,33 @@ def save_session(request, user_id, user_pw):
 
 
 def login(request):
-    global redirect_path
-    redirect_path = request.GET.get('next', '/')
+    global redirect_path, res_data
 
     if 'user_id' in request.session.keys():
         return HttpResponseRedirect(redirect_path)
     else:
         if request.method == 'GET':
+            redirect_path = request.GET.get('next', '/')
             return render(request, 'registration/login.html')
+
         if request.method == 'POST':
             user_id = request.POST['username']
             password = request.POST['password']
-
             if not (user_id and password):
-                messages.add_message(request, messages.WARNING, "모든 칸을 다 입력해주세요.")
-                request.session['next_url'] = redirect_path
+                res_data['error'] = "모든 칸을 다 입력해주세요."
             else:
                 try:
                     user = User.objects.get(username=user_id)
                 except User.DoesNotExist:
-                    messages.add_message(request, messages.WARNING, "존재하지 않는 아이디입니다.")
+                    res_data['error'] = "존재하지 않는 아이디입니다."
                 else:
                     # if check_password(password, user.password):
                     if bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
                         save_session(request, user.username, password)
                         return HttpResponseRedirect(redirect_path)
                     else:
-                        messages.add_message(request, messages.WARNING, '잘못된 비밀번호입니다.')
+                        res_data['error'] = '비밀번호가 틀렸습니다.'
+                        res_data['error'] = '잘못된 비밀번호입니다.'
             return render(request, 'registration/login.html', res_data)
 
 
@@ -387,5 +387,6 @@ def run_update():
         schedule.run_pending()
         time.sleep(1)
 
-
+thread = threading.Thread(target=main_cloud)
+thread.start()
 # update_data()

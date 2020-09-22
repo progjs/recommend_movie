@@ -1,9 +1,13 @@
 asgiref==3.2.10
+bcrypt==3.2.0
 beautifulsoup4==4.9.1
 certifi==2020.6.20
+cffi==1.14.3
 chardet==3.0.4
 cycler==0.10.0
 Django==3.1
+django-admin-rangefilter==0.6.2
+django-grappelli==2.14.2
 django-scheduler==0.9.3
 django-widget-tweaks==1.4.8
 future==0.18.2
@@ -19,6 +23,7 @@ numpy==1.19.1
 palettable==3.3.0
 pandas==1.1.1
 Pillow==7.2.0
+pycparser==2.20
 PyMySQL==0.10.0
 pyparsing==2.4.7
 python-dateutil==2.8.1
@@ -34,4 +39,3 @@ sqlparse==0.3.1
 threadpoolctl==2.1.0
 urllib3==1.25.10
 wordcloud==1.8.0
-bcrypt==3.2.0
