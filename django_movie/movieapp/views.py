@@ -387,6 +387,4 @@ def run_update():
         schedule.run_pending()
         time.sleep(1)
 
-thread = threading.Thread(target=main_cloud)
-thread.start()
 # update_data()

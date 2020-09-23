@@ -10,7 +10,7 @@
 --------------------------------------------------------------*/
 
 body {
-  font-family: "Inconsolata", monosapce;
+  font-family: 'Jua', sans-serif;
   color: #0d1e2d;
 }
 
@@ -29,15 +29,17 @@ h4,
 h5,
 h6,
 .font-heading {
-  font-family: "Raleway", sans-serif;
+  font-family: 'Jua', sans-serif;
 }
 
 .site-section {
   padding: 7rem 0;
+  font-family: NanumSquare-RoundB;
 }
 
 .movie-session {
   padding-top: 2.5rem;
+  font-family: NanumSquare-RoundB;
 }
 
 /*.filters {*/
@@ -283,6 +285,10 @@ h6,
   outline: none;
   box-shadow: none;
   border: 1px solid transparent;
+}
+
+.btn.btn-primary {
+    background-color: black;
 }
 
 .custom-progress {
@@ -558,10 +564,21 @@ h6,
     text-align: left;
     padding-left: 15px;
     height: 50px;
-    border: 1px;
+    border: 3px solid;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
+
 }
+.email_bt::before {
+    border: 3px solid;
+    border-top=left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+.email_bt:focus {
+    box-shadow: 0 0 0 3px;
+}
+
 
 .subscribe_bt {
     width: 30%;
@@ -570,9 +587,10 @@ h6,
     padding: 9px 14px;
     color: #fff;
     height: 50px;
-    font-size: 16px;
+    font-size: 20px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+    font-family: 'Jua', sans-serif;
 }
 
 .subscribe_bt a {
@@ -591,18 +609,19 @@ h6,
 *{margin:0; padding:0;}
 .star{
   display:inline-block;
-  width: 30px;height: 60px;
+  width: 30px;
+  height: 60px;
   cursor: pointer;
 }
 .star_left{
   background: url("star_empty.png") no-repeat 0 0;
   background-size: 60px;
-  margin-right: -4px;
+  margin-right: -2px;
 }
 .star_right{
   background: url("star_empty.png") no-repeat -30px 0;
   background-size: 60px;
-  margin-left: -3px;
+  margin-left: -2px;
 }
 .star.on{
   background-image: url("star.png");
@@ -615,7 +634,16 @@ h6,
 .container hr.nav-filter {
   background-color: GhostWhite;
 }
-#filters {
-  margin-top: 4%;
-  margin-bottom: 4%;
+.filters {
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.genre {
+    font-size: 1.3em;
+    font-family: 'Jua', sans-serif;
+}
+
+.btn.btn-outline-dark {
+    border: 2px solid;
 }
