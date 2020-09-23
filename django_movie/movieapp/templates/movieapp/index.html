@@ -4,30 +4,29 @@
 
 <head>
   <meta charset="utf-8">
-  <title>방구석스크린</title>
+  <title>방에서 즐기자 방구석스크린</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <meta content="" name="keywords">
   <meta content="" name="description">
 </head>
 
-  <main id="main">
-      <div class="container">
-          <div class="container" style="padding-top:6%; padding-bottom:3%">
+  <main id="main" style="font-family: TmoneyRoundWindExtraBold; font-size: 20px;">
+           <div class="container">
+          <div class="container" style="padding:3%">
             <form class="form-inline my-2 my-lg-0" action="{% url 'search_movie' %}" method="get">
               {% csrf_token %}
-              <div class="box_main">
-			    <input type="search" class="email_bt" placeholder="영화제목,배우,장르,감독 입력" name="word" value="{{word}}" style="border: 1px solid;">
+              <div class="box_main" style="font-family: NanumSquare-RoundB;">
+			    <input type="search" class="email_bt" placeholder="영화제목,배우,장르,감독 입력" name="word" value="{{word}}">
 				<button class="subscribe_bt" type="submit">검색</a></button>
 		      </div>
             </form>
           </div>
-
           <div class="container" id="filters">
             <hr class="nav-filter">
             <div  class="filters" align="center">
-              <a href="#" class="filter" value="all">전체</a>
+              <a href="#" class="filter" value="all"><font class="genre">전체</font></a>
               {% for genre in genre_list %}
-              <a href="#" class="filter" value="{{genre}}">{{genre}}</a>
+              <a href="#" class="filter" value="{{genre}}" style="margin-left: 1%"><font class="genre">{{genre}}</font></a>
               {% endfor %}
             </div>
             <hr class="nav-filter" style="margin-bottom: 4%;">

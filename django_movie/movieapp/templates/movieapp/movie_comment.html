@@ -2,14 +2,14 @@
 {% block comment %}
 {% load static %} {% load humanize %}
 
-<div class="site-section" data-aos="fade-up">
+<div class="site-section"data-aos="fade-up">
     <div class="container">
             <h3>New Comment</h3>
             {% if request.session.user_id %}
             <form method="post" id="comment-form" >
                 {% csrf_token %}
                 <div class="row">
-                    <div class="col-md-8 form-group">
+                    <div class="col-md-8 form-group" style="padding:0;">
                         <div class="star-box">
                             <span class="star star_left" value="1"></span>
                             <span class="star star_right" value="2"></span>
@@ -33,10 +33,10 @@
                             <input type="range" class="form-control" id="comment-score" name="comment-score">
                         </div>
                     </div>
-                    <div class="col-md-7 form-group">
+                    <div class="col-md-7 form-group" style="padding:0;">
                         <input type="text" class="form-control" id="comment" name="comment" placeholder="댓글을 작성해주세요.">
                     </div>
-                    <button type="submit" class="btn btn-primary" style="height: 2.5rem;">완료</button>
+                    <button type="submit" class="btn btn-primary" style="height: 2.5rem;">등록</button>
                 </div>
             </form>
 
@@ -49,7 +49,7 @@
             <hr>
             {% for comment in comments %}
             <div class="comment">
-                <p>{{comment.comment|linebreaksbr}}</p>
+                <p style="font-family: NanumSquare-RoundR;">{{comment.comment|linebreaksbr}}</p>
                 <div class="date" style="font-size: small;">
                     {% if comment.comment_score != 0 %}
                     <span>
