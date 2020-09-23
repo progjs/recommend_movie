@@ -88,9 +88,9 @@ DATABASES = {
     # }
     'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'recommend_db',
-            'USER': 'young',  # 데이터베이스 계정
-            'PASSWORD': '1234',  # 계정 비밀번호
+            'NAME': 'project_db',
+            'USER': 'python',  # 데이터베이스 계정
+            'PASSWORD': 'python',  # 계정 비밀번호
             'HOST': 'localhost',  # 데이테베이스 주소(IP)
             'PORT': '3306',  # 데이터베이스 포트
         }
