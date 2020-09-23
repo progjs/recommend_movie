@@ -27,6 +27,7 @@
   <link href="{% static 'movieapp/vendor/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
 
   <!-- Template Main CSS File -->
+  <link href="{% static 'movieapp/css/main.css' %}" rel="stylesheet">
   <link href="{% static 'movieapp/css/style.css' %}" rel="stylesheet">
   <link href="{% static 'movieapp/css/modal.css' %}" rel="stylesheet">
   <!-- =======================================================
@@ -46,15 +47,17 @@
 <body>
 
   <nav class="navbar navbar-light custom-navbar">
-    <div class="container">
-        <a href="{% url 'index' %}" class="font-heading" style="color: #212529"><h4>Home</h4></a>
-      <div class="float-left"><h1 style="font-family: 'Black Han Sans', sans-serif">방구석 스크린</h1></div>
+    <div class="container" style="display: flex;">
+      <div style="flex: 1;">
+        <a href="{% url 'index' %}" class="font-heading" style="color: #212529"><h4 style="font-family: NanumSquare-RoundB;">Home</h4></a>
+        </div>
+      <div class="float-left" style="flex: 1; padding-left: 10%;"><h1 style="font-family: 'Black Han Sans', sans-serif;">방구석 스크린</h1></div>
 
-      <div>
+      <div style="flex: 1; text-align: right;">
       {% if request.session.user_id %}
-        <span id="user-id" data-id="{{ request.session.user_id }}">{{ request.session.user_id }}님</span>
+        <span class="mb-0" id="user-id" data-id="{{ request.session.user_id }}">{{ request.session.user_id }}님</span>
         <a class="mb-0" href="{% url 'logout' %}">로그아웃</a>
-        <p style="text-align: center"> <a class="mb-0" href="#mypageModal" class="trigger-btn" data-toggle="modal">마이페이지</a></p>
+        <a class="mb-0" href="#mypageModal" class="trigger-btn" data-toggle="modal">마이페이지</a></p>
 
       {% else %}
         <a class="mb-0" href="{% url 'login' %}?next={{request.get_full_path|urlencode}}">로그인 및 회원가입</a>
@@ -64,7 +67,8 @@
     </div>
   </nav>
   <div style="text-align: center; font-family: 'Jua', sans-serif; font-size: 20px;">
-    <span>장르별, 감독/배우별 방구석에서 볼만한 영화를 추천해드립니다.</span>
+    <span>방구석에서 즐기는 영화 추천 서비스</span>
+<!--장르별, 감독/배우별 방구석에서 볼만한 영화를 추천해드립니다. -->
   </div>
 
         {% block contents %}

@@ -15,9 +15,9 @@
 </head>
 
     <div class="site-section">
-      <div class="container" data-aos="fade-up">
+      <div class="container" data-aos="fade-up" >
         <div>
-            <h2>{{ movie.title }}</h2>
+            <h2 style="font-family: NanumSquare-RoundB;">{{ movie.title }}</h2>
             <div>
                 평점 {{ movie.score|floatformat:2 }}점 ({{ movie.comment_count|intcomma }}명 참여)
           </div>
@@ -31,7 +31,7 @@
                     <img src="{% static 'movieapp/img/poster/'%}{{movie.pk}}.jpg" alt="Image" class="img-fluid">
                 </div>
                 <div class="col-md-6 ml-auto" data-aos="fade-up" data-aos-delay="100">
-                    <b><h3 class="h3 md-5 mb-5" style="margin-top: 2rem;">영화 상세정보</h3></b>
+                    <b><h3 class="h3 md-5 mb-5" style="margin-top: 2rem; font-family: NanumSquare-RoundB;">영화 상세정보</h3></b>
                     <ul class="list-unstyled list-line mb-5">
                         {% if movie.audience %}
                         <li class="mb-3">{{ movie.release_year }}년 개봉 (누적관객 {{ movie.audience|intcomma }}명)</li>
@@ -65,24 +65,22 @@
                     {% endif %}
 
 
-                        <p class="p mb-3"><span class="text-muted"></span>
-                            <p class="mb-3" id="count">{{movie.count_likes_user}}명이 좋아합니다.</p>
-                            <a type="button" class="like btn btn-outline-dark p mb-1 float-left" data-id="{{ movie.id }}">
+                        <p class="mb-3" id="count" style="font-family: NanumSquare-RoundB;">{{movie.count_likes_user}}명이 좋아합니다.</p>
+                            <a type="button" class="like btn btn-outline-dark p mb-1 float-left" style="font-family: 'Jua', sans-serif; font-size:1.2em;" data-id="{{ movie.id }}">
                                 {% if user_status %}
                                     <img class="like-img" src="{% static 'movieapp/img/like.png' %}" alt="Image"> 이 영화 찜하기</a>
                                 {% else %}
                                     <img class="like-img" src="{% static 'movieapp/img/dislike.png' %}" alt="Image"> 이 영화 찜하기</a>
                                 {% endif %}
-                        </p>
 
                     </div>
                 </div>
             </div>
         </div>
           {% if movie.plot|length > 523 %}
-          <div class="container" style="margin-top:3em">
+          <div class="container" style="margin-top:3em;">
               <div class="col-md-12" >
-                <p class="p-longtext">{{ movie.plot|linebreaksbr }}</p>
+                  <p class="p-longtext">{{ movie.plot|linebreaksbr }}</p>
               </div>
           </div>
           {% endif %}
