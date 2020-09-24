@@ -248,11 +248,15 @@ def update_password(request):
         if request.session['user_id']:
             user = get_object_or_404(User, username=request.session['user_id'])
         pw = request.POST['password']
-        if check_password(user.password, pw):
+        # if check_password(user.password, pw):
+        if bcrypt.checkpw(pw.encode('utf-8'), user.password.encode('utf-8')):
             new_pw = request.POST['new_password']
             new_pw2 = request.POST['new_password2']
             if check_password(new_pw, new_pw2):
-                user.password = new_pw
+                password = new_pw.encode('utf-8')  # 입력된 패스워드를 바이트 형태로 인코딩
+                password_crypt = bcrypt.hashpw(password, bcrypt.gensalt())  # 암호화된 비밀번호 생성
+                password_crypt = password_crypt.decode('utf-8')
+                user.password = password_crypt
                 user.save()
                 messages.add_message(request, messages.SUCCESS, '비밀번호 변경: 다시 로그인해주세요.')
                 del (request.session['user_id'])
@@ -280,7 +284,8 @@ def update_email(request):
         user = get_object_or_404(User, username=request.session['user_id'])
         if request.method == 'POST':
             pw = request.POST['password']
-            if check_password(user.password, pw):
+            # if check_password(user.password, pw):
+            if bcrypt.checkpw(pw.encode('utf-8'), user.password.encode('utf-8')):
                 new_email = request.POST['new_email']
                 user.email = new_email
                 user.save()
@@ -299,7 +304,8 @@ def update_genre(request):
         user = get_object_or_404(User, username=request.session['user_id'])
         if request.method == 'POST':
             pw = request.POST['password']
-            if check_password(user.password, pw):
+            # if check_password(user.password, pw):
+            if bcrypt.checkpw(pw.encode('utf-8'), user.password.encode('utf-8')):
                 new_genre = request.POST['new_genre']
                 user.userdetail.favorite_genre = new_genre
                 user.save()
